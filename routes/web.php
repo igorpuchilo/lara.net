@@ -18,6 +18,15 @@ Route::group(['middleware'=> ['status','auth']], function (){
     Route::group($groupData, function (){
         Route::resource('index', 'MainController')->names('shop.admin.index');
 
+        Route::resource('orders', 'OrderController')->names('shop.admin.orders');
+
+        Route::get('/orders/change/{id}', 'OrderController@change')
+            ->name('shop.admin.orders.change');
+        Route::post('/orders/save/{id}','OrderController@save')
+            ->name('shop.admin.orders.save');
+        Route::get('/orders/forcedelete/{id}','OrderController@forcedelete')
+            ->name('shop.admin.orders.forcedelete');
+
     });
 });
 

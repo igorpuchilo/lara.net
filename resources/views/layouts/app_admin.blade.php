@@ -75,7 +75,7 @@
                                 <div class="pull-right">
                                     <a href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();"
-                                       class="btn btn-default btn-flat">Выход</a>
+                                       class="btn btn-default btn-flat">Logout</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
                                     </form>
@@ -107,11 +107,11 @@
 
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">
-                <li class="header">Меню</li>
+                <li class="header">Control Panel</li>
                 <!-- Optionally, you can add icons to the links -->
                 <li><a href="/"><i class="fa fa-home"></i> <span>To Store</span></a></li>
-                <li><a href=""><i class="fa fa-user"></i> <span>Main</span></a></li>
-                <li><a href=""><i class="fa fa-shopping-cart"></i> <span>Oders</span></a></li>
+                <li><a href="{{route('shop.admin.index.index')}}"><i class="fa fa-user"></i> <span>Main</span></a></li>
+                <li><a href="{{route('shop.admin.orders.index')}}"><i class="fa fa-shopping-cart"></i> <span>Orders</span></a></li>
 
 
 
@@ -177,7 +177,7 @@
 
             <form action="" method="get" autocomplete="off"  style="position: absolute;">
                 <div class="input-group">
-                    <input id="search" name="search" type="text" class="form-control" placeholder="Живой поиск...." style="color: whitesmoke; background-color:#20262a; border: none;">
+                    <input id="search" name="search" type="text" class="form-control" placeholder="Live Search...." style="color: whitesmoke; background-color:#20262a; border: none;">
                     <span class="input-group-btn">
                         <button type="submit" value="" class="btn btn-flat" style="background-color: #ebeff4;"><i class="fa fa-search"></i></button>
                     </span>
@@ -195,7 +195,7 @@
     <div class="content-wrapper">
 
         <main id="app">
-{{--            @include('shop.admin.components.result_messages')--}}
+            @include('shop.admin.components.result_messages')
             @yield('content')
         </main>
     </div>
@@ -230,7 +230,8 @@
 <!-- AdminLTE App -->
 <script src="{{asset('adminlte/dist/js/adminlte.min.js')}}"></script>
 
-<!-- === = ===  -->
+<!-- === Custom= ===  -->
+<script src="{{asset('js/shop.js')}}"></script>
 
 </body>
 </html>

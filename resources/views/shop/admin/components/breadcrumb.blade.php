@@ -32,7 +32,7 @@
 <ol class="breadcrumb">
     <li><a href="{{route('shop.admin.index.index')}}"><i class="fa fa-dashboard"></i>{{$parent}}</a></li>
     @if (isset($order))
-        <li><a href=""><i></i>{{$orders}}</a> </li>
+        <li><a href="{{route('shop.admin.orders.index')}}"><i></i>{{$order}}</a> </li>
     @endif
     @if (isset($category))
         <li><a href=""><i></i>{{$category}}</a> </li>
