@@ -10,6 +10,8 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="{{asset('adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
+    <!-- App -->
+    <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{asset('adminlte/bower_components/font-awesome/css/font-awesome.min.css')}}">
     <!-- Ionicons -->
@@ -20,7 +22,7 @@
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{asset('adminlte/dist/css/skins/_all-skins.min.css')}}">
 
-    <link rel="stylesheet" href="{{asset('css/my.css')}}">
+{{--    <link rel="stylesheet" href="{{asset('css/my.css')}}">--}}
 
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -122,8 +124,8 @@
               </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="">Category List</a></li>
-                        <li><a href="">Add Category</a></li>
+                        <li><a href="{{route('shop.admin.categories.index')}}">Category List</a></li>
+                        <li><a href="{{route('shop.admin.categories.create')}}">Add Category</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
@@ -229,9 +231,8 @@
 
 <!-- AdminLTE App -->
 <script src="{{asset('adminlte/dist/js/adminlte.min.js')}}"></script>
-
-<!-- === Custom= ===  -->
-<script src="{{asset('js/shop.js')}}"></script>
+<!-- App -->
+<script src="{{asset('js/app.js')}}"></script>
 
 </body>
 </html>
