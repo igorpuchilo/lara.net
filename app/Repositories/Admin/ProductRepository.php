@@ -19,12 +19,12 @@ class ProductRepository extends CoreRepository
         return Model::class;
     }
 
-    public function getLastProducts($paginatepages)
+    public function getLastProducts($paginate)
     {
         $last = $this->startConditions()
             ->orderBy('id', 'desc')
-            ->limit($paginatepages)
-            ->paginate($paginatepages);
+            ->limit($paginate)
+            ->paginate($paginate);
         return $last;
     }
 

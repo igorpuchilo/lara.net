@@ -51,7 +51,8 @@
                                             <a href="{{route('shop.admin.orders.edit',$order->id)}}" title="Edit">
                                                 <i class="fa fa-fw fa-eye"></i>
                                             </a>
-                                            <a href="{{route('shop.admin.orders.forcedelete',$order->id)}}" title="Delete">
+                                            <a href="{{route('shop.admin.orders.forcedelete',$order->id)}}"
+                                               title="Delete">
                                                 <i class="fa fa-fw fa-close text-danger deletedb"></i>
                                             </a>
                                         </td>
@@ -66,8 +67,6 @@
                             </table>
                         </div>
                         <div class="text-center">
-                            <p>Orders {{count($orders)}} of {{$countOrders}}</p>
-
                             @if ($orders->total() > $orders->count())
                                 <br>
                                 <div class="row justify-content-center">

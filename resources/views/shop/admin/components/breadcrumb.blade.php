@@ -38,7 +38,7 @@
         <li><a href="{{route('shop.admin.categories.index')}}"><i></i>{{$category}}</a> </li>
     @endif
     @if (isset($user))
-        <li><a href=""><i></i>{{$user}}</a> </li>
+        <li><a href="{{route('shop.admin.users.index')}}"><i></i>{{$user}}</a> </li>
     @endif
     @if (isset($products))
         <li><a href=""><i></i>{{$products}}</a> </li>

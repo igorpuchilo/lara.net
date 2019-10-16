@@ -20,7 +20,7 @@ class OrderRepository extends CoreRepository
         return Order::class;
     }
 
-    public function getAllOrders($paginatepages)
+    public function getAllOrders($paginate)
     {
         $orders = $this->startConditions()::withTrashed()
             ->join('users','orders.user_id','=','users.id')
@@ -32,7 +32,7 @@ class OrderRepository extends CoreRepository
             ->orderBy('orders.status')
             ->orderBy('orders.id')
             ->toBase()
-            ->paginate($paginatepages);
+            ->paginate($paginate);
         return $orders;
     }
 

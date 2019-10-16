@@ -31,6 +31,8 @@ Route::group(['middleware'=> ['status','auth']], function (){
             ->names('shop.admin.categories');
         Route::get('categories.mdel','CategoryController@mdel')
             ->name('shop.admin.categories.mdel');
+
+        Route::resource('users', 'UserController')->names('shop.admin.users');
     });
 });
 
