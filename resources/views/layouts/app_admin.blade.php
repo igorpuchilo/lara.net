@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="shortcut icon" href="" type="image/png" />
+    <link rel="shortcut icon" href="#" type="image/png" />
     <title>{!! MetaTag::tag('title') !!}</title>
 	<!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -21,6 +21,7 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{asset('adminlte/dist/css/skins/_all-skins.min.css')}}">
+    <link rel="stylesheet" href="{{asset('adminlte/bower_components/select2/dist/css/select2.css')}}">
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
@@ -132,11 +133,11 @@
               </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="">Product List</a></li>
-                        <li><a href="">Add Product</a></li>
+                        <li><a href="{{route('shop.admin.products.index')}}">Product List</a></li>
+                        <li><a href="{{route('shop.admin.products.create')}}">Add Product</a></li>
                     </ul>
                 </li>
-                <li><a href=""><i class="fa fa-database"></i> <span>Cache</span></a></li>
+                <li><a href="#"><i class="fa fa-database"></i> <span>Cache</span></a></li>
                 <li class="treeview">
                     <a href="#"><i class="fa fa-users"></i> <span>Users</span>
                         <span class="pull-right-container">
@@ -155,8 +156,8 @@
 </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="">Currency List</a></li>
-                        <li><a href="">Add Currency</a></li>
+                        <li><a href="#">Currency List</a></li>
+                        <li><a href="#">Add Currency</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
@@ -166,8 +167,8 @@
 </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="">Filter Groups</a></li>
-                        <li><a href="">Filter</a></li>
+                        <li><a href="#">Filter Groups</a></li>
+                        <li><a href="#">Filter</a></li>
                     </ul>
                 </li>
             </ul>
@@ -226,10 +227,19 @@
 <script src="{{asset('js/validator.js')}}"></script>
 <!-- Search -->
 
+
 <!-- AdminLTE App -->
 <script src="{{asset('adminlte/dist/js/adminlte.min.js')}}"></script>
+<!-- Add product content editor -->
+<script src="{{asset('adminlte/bower_components/ckeditor/ckeditor.js')}}"></script>
+<script src="{{asset('adminlte/bower_components/ckeditor/adapters/jquery.js')}}"></script>
+<script src="{{asset('adminlte/bower_components/select2/dist/js/select2.full.js')}}"></script>
 <!-- App -->
 <script src="{{asset('js/app.js')}}"></script>
-
+<script src="{{asset('js/ajaxupload.js')}}"></script>
+<!-- Script select2 -->
+@include('shop.admin.product.include.script_related_prod')
+@include('shop.admin.product.include.script_img')
+@include('shop.admin.product.include.script_gallery')
 </body>
 </html>

@@ -19,24 +19,24 @@
                             <div class="form-group has-feedback">
                                 <label for="name">Login</label>
                                 <input type="text" class="form-control" name="name" id="name"
-                                       value="@if(old('name')){{old('name')}}@else @endif" required>
+                                       @if(old('name'))value="{{old('name')}}" @endif required>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
                                 <input type="password" class="form-control" name="password"
-                                       value="@if(old('password')){{old('password')}}@else @endif" required>
+                                       @if(old('password'))value="{{old('password')}}" @endif required>
                             </div>
                             <div class="form-group">
                                 <label for="password_confirmation">Confirm password</label>
                                 <input type="password" class="form-control" name="password_confirmation"
-                                       value="@if(old('password_confirmation')){{old('password_confirmation')}}
-                                       @else @endif" required>
+                                       @if(old('password_confirmation'))value="{{old('password_confirmation')}}
+                                       " @endif required>
                             </div>
                             <div class="form-group has-feedback">
                                 <label for="email">Email</label>
                                 <input type="email" class="form-control" name="email" id="email"
-                                       value="@if(old('email')){{old('email')}}@else @endif" required>
+                                       @if(old('email'))value="{{old('email')}}" @endif required>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
                             <div class="form-group has-feedback">

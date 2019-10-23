@@ -5,7 +5,8 @@ namespace App\Repositories\Admin;
 
 
 use App\Repositories\CoreRepository;
-use App\Models\Admin\Product as Model;
+use App\Models\Admin\Product;
+use DB;
 
 class ProductRepository extends CoreRepository
 {
@@ -16,7 +17,7 @@ class ProductRepository extends CoreRepository
 
     protected function getModelClass()
     {
-        return Model::class;
+        return Product::class;
     }
 
     public function getLastProducts($paginate)
@@ -28,4 +29,307 @@ class ProductRepository extends CoreRepository
         return $last;
     }
 
+    public function getAllProducts($paginate)
+    {
+        $res = $this->startConditions()
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->select('products.*', 'categories.title as category')
+            ->orderBy(DB::raw('LENGTH(products.title)', 'products.title'))
+            ->limit($paginate)
+            ->paginate($paginate);
+        return $res;
+    }
+
+    public function getCountProducts()
+    {
+        $res = $this->startConditions()
+            ->count();
+        return $res;
+    }
+
+    public function getProducts($q)
+    {
+        $products = DB::table('products')
+            ->select('id', 'title')
+            ->where('title', 'LIKE', ["%{$q}%"])
+            ->limit(8)
+            ->get();
+        return $products;
+    }
+
+    public function uploadImg($filename, $wmax, $hmax)
+    {
+        $uplad_dir = 'uploads/single/';
+        $ext = strtolower(preg_replace("#.+\.([a-z]+)$#i", "$1", $filename));
+        $uploadfile = $uplad_dir . $filename;
+        \Session::put('single', $filename);
+        self::resize($uploadfile, $uploadfile, $wmax, $hmax, $ext);
+    }
+
+    public function uploadGallery($filename, $wmax, $hmax)
+    {
+        $uplad_dir = 'uploads/gallery/';
+        $ext = strtolower(preg_replace("#.+\.([a-z]+)$#i", "$1", $_FILES[$filename]['name']));
+        $new_name = md5(time()) . ".$ext";
+        $uploadfile = $uplad_dir . $new_name;
+        \Session::push('gallery', $new_name);
+        if (@move_uploaded_file($_FILES[$filename]['tmp_name'], $uploadfile)) {
+            self::resize($uploadfile, $uploadfile, $wmax, $hmax, $ext);
+            $res = array("file" => $new_name);
+            echo json_encode($res);
+        }
+    }
+
+    public function getImg(Product $product)
+    {
+        clearstatcache();
+        if (!empty(\Session::get('single'))) {
+            $name = \Session::get('single');
+            $product->img = $name;
+            \Session::forget('single');
+            return;
+        }
+        if (empty(\Session::get('single')) && !is_file(WWW . '/uploads/single/' . $product->img)) {
+            $product->img = null;
+        }
+        return;
+    }
+
+    public function editFilter($id, $data)
+    {
+        $filter = DB::table('attribute_products')
+            ->where('product_id', '=', $id)
+            ->pluck('attr_id')
+            ->toArray();
+//        If Reset Filters
+        if (empty($data['attrs']) && !empty($filter)) {
+            DB::table('attribute_products')
+                ->where('product_id', '=', $id)
+                ->delete();
+            return;
+        }
+//        If added Filters
+        if (!empty($data['attrs']) && empty($filter)) {
+            $sql_part = '';
+            foreach ($data['attrs'] as $val) {
+                $sql_part .= "($val, $id),";
+            }
+            $sql_part = rtrim($sql_part, ',');
+            DB::insert("insert into attribute_products (attr_id, product_id) values $sql_part");
+            return;
+        }
+//        Change Filters
+        if (!empty($data['attrs'])) {
+            $res = array_diff($filter, $data['attrs']);
+            if ($res) {
+                DB::table('attribute_products')
+                    ->where('product_id', '=', $id)
+                    ->delete();
+                $sql_part = '';
+                foreach ($data['attrs'] as $val) {
+                    $sql_part .= "($val, $id),";
+                }
+                $sql_part = rtrim($sql_part, ',');
+                DB::insert("insert into attribute_products (attr_id, product_id) values $sql_part");
+                return;
+            }
+        }
+    }
+
+    public function editRelatedProduct($id, $data)
+    {
+        $related_product = DB::table('related_products')
+            ->select('related_id')
+            ->where('product_id', '=', $id)
+            ->pluck('related_id')
+            ->toArray();
+//        Reset related
+        if (empty($data['related']) && !empty($related_product)) {
+            DB::table('related_product')
+                ->where('product_id', '=', $id)
+                ->delete();
+            return;
+        }
+//        Add related
+        if (empty($related_product) && !empty($data['related'])) {
+            $sql_part = '';
+            foreach ($data['related'] as $val) {
+                $val = (int)$val;
+                $sql_part .= "($id, $val),";
+                $sql_part = rtrim($sql_part, ',');
+                DB::insert("insert into related_products (product_id, related_id) VALUES $sql_part");
+                return;
+            }
+        }
+//        If changed related
+        if (!empty($data['related'])) {
+            $res = array_diff($related_product, $data['related']);
+            if (!(empty($res)) || count($related_product) != count($data['related'])) {
+                DB::table('related_products')
+                    ->where('product_id', '=', $id)
+                    ->delete();
+                $sql_part = '';
+                foreach ($data['related'] as $val) {
+                    $sql_part .= "($id, $val),";
+                }
+                $sql_part = rtrim($sql_part, ',');
+                DB::insert("insert into related_products (product_id, related_id) values $sql_part");
+            }
+        }
+    }
+
+    public function saveGallery($id)
+    {
+        if (!empty(\Session::get('gallery'))) {
+            $sql_part = '';
+            foreach (\Session::get('gallery') as $val) {
+                $sql_part .= "($id, '$val'),";
+            }
+            $sql_part = rtrim($sql_part, ',');
+            DB::insert("insert into galleries (product_id, img) values $sql_part");
+            \Session::forget('gallery');
+        }
+    }
+
+    public function getInfoProduct($id)
+    {
+        $product = $this->startConditions()
+            ->find($id);
+        return $product;
+    }
+
+    public function getFiltersProduct($id)
+    {
+        $filter = DB::table('attribute_products')
+            ->select('attr_id')
+            ->where('product_id', $id)
+            ->pluck('attr_id')
+            ->all();
+        return $filter;
+    }
+
+    public function getRelatedProducts($id)
+    {
+        $related = $this->startConditions()
+            ->join('related_products', 'products.id', '=', 'related_products.related_id')
+            ->select('products.title', 'related_products.related_id')
+            ->where('related_products.product_id', $id)
+            ->get();
+        return $related;
+    }
+
+    public function getGallery($id)
+    {
+        $gallery = DB::table('galleries')
+            ->where('product_id', $id)
+            ->pluck('img')
+            ->all();
+        return $gallery;
+    }
+
+    public function getStatusOne($id)
+    {
+        if (isset($id)) {
+            $status = DB::update("UPDATE products SET status = '1' WHERE id = ?", [$id]);
+            if ($status) {
+                return true;
+            } else return false;
+        }
+    }
+
+    public function deleteStatusOne($id)
+    {
+        if (isset($id)) {
+            $status = DB::update("UPDATE products SET status = '0' WHERE id = ?", [$id]);
+            if ($status) {
+                return true;
+            } else return false;
+        }
+    }
+
+    public function deleteImgGalleryFromPath($id)
+    {
+        if (isset($id)) {
+            $gallery = DB::table('galleries')
+                ->select('img')
+                ->where('product_id', '=', $id)
+                ->pluck('img')
+                ->all();
+            $singleImg = DB::table('products')
+                ->select('img')
+                ->where('id', '=', $id)
+                ->pluck('img')
+                ->all();
+            if (!empty($gallery)){
+                foreach ($gallery as $img){
+                    @unlink("uploads/gallery/$img");
+                }
+            }
+            if (!empty($singleImg)){
+                @unlink("uploads/single/" . $singleImg[0]);
+            }
+        }
+    }
+    public function deleteFromDB($id){
+        if (isset($id)) {
+            DB::delete('DELETE FROM related_products WHERE product_id = ?', [$id]);
+            DB::delete('DELETE FROM attribute_products WHERE product_id = ?', [$id]);
+            DB::delete('DELETE FROM galleries WHERE product_id = ?', [$id]);
+            return DB::delete('DELETE FROM products WHERE id = ?', [$id]);
+        }
+}
+
+//Others Function
+
+//Image Resize
+    public static function resize($target, $dist, $widthMax, $heightMax, $expansion)
+    {
+        list($width_original, $height_original) = getimagesize($target);
+
+        // $ratio = 1 — square, < 1 — vertic, > 1 — horiz
+        $ratio = $width_original / $height_original;
+
+        if (($widthMax / $heightMax) > $ratio) {
+            $widthMax = $heightMax * $ratio;
+        } else {
+            $heightMax = $widthMax / $ratio;
+        }
+        $img = "";
+        switch ($expansion) {
+            case("gif") :
+                $img = imagecreatefromgif($target);
+                break;
+            case("png") :
+                $img = imagecreatefrompng($target);
+                break;
+            default:
+                $img = imagecreatefromjpeg($target);
+        }
+
+        $newImg = imagecreatetruecolor($widthMax, $heightMax);
+
+        if ($expansion == "png") {
+            imagesavealpha($newImg, true); // Сохранение альфа-канала
+
+            // Прозрачность для полотна
+            $transPng = imagecolorallocatealpha($newImg, 0, 0, 0, 127);
+
+            imagefill($newImg, 0, 0, $transPng); // заливка
+        }
+
+        imagecopyresampled($newImg, $img, 0, 0, 0, 0, $widthMax, $heightMax, $width_original, $height_original); // копируем и ресайзим изображение
+
+        switch ($expansion) {
+            case("gif"):
+                imagegif($newImg, $dist);
+                break;
+            case("png"):
+                imagepng($newImg, $dist);
+                break;
+            default:
+                imagejpeg($newImg, $dist);
+        }
+
+        imagedestroy($newImg);
+    }
 }

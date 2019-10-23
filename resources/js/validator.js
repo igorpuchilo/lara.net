@@ -135,14 +135,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     this.$element = $(element);
     this.$btn = $('button[type="submit"], input[type="submit"]').filter('[form="' + this.$element.attr('id') + '"]').add(this.$element.find('input[type="submit"], button[type="submit"]'));
     this.update();
-    this.$element.on('input.bs.validator change.bs.validator focusout.bs.validator', $.proxy(this.onInput, this));
-    this.$element.on('submit.bs.validator', $.proxy(this.onSubmit, this));
-    this.$element.on('reset.bs.validator', $.proxy(this.reset, this));
+    this.$element.on('validator', $.proxy(this.onInput, this));
+    this.$element.on('validator', $.proxy(this.onSubmit, this));
+    this.$element.on('validator', $.proxy(this.reset, this));
     this.$element.find('[data-match]').each(function () {
       var $this = $(this);
       var target = $this.attr('data-match');
-      $(target).on('input.bs.validator', function (e) {
-        getValue($this) && $this.trigger('input.bs.validator');
+      $(target).on('validator', function (e) {
+        getValue($this) && $this.trigger('validator');
       });
     }); // run validators for fields with values, but don't clobber server-side errors
 
@@ -209,23 +209,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   Validator.prototype.validateInput = function ($el, deferErrors) {
     var value = getValue($el);
-    var prevErrors = $el.data('bs.validator.errors');
+    var prevErrors = $el.data('validator.errors');
     if ($el.is('[type="radio"]')) $el = this.$element.find('input[name="' + $el.attr('name') + '"]');
-    var e = $.Event('validate.bs.validator', {
+    var e = $.Event('validator', {
       relatedTarget: $el[0]
     });
     this.$element.trigger(e);
     if (e.isDefaultPrevented()) return;
     var self = this;
     return this.runValidators($el).done(function (errors) {
-      $el.data('bs.validator.errors', errors);
+      $el.data('validator.errors', errors);
       errors.length ? deferErrors ? self.defer($el, self.showErrors) : self.showErrors($el) : self.clearErrors($el);
 
       if (!prevErrors || errors.toString() !== prevErrors.toString()) {
-        e = errors.length ? $.Event('invalid.bs.validator', {
+        e = errors.length ? $.Event('validator', {
           relatedTarget: $el[0],
           detail: errors
-        }) : $.Event('valid.bs.validator', {
+        }) : $.Event('validator', {
           relatedTarget: $el[0],
           detail: prevErrors
         });
@@ -233,7 +233,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       self.toggleSubmit();
-      self.$element.trigger($.Event('validated.bs.validator', {
+      self.$element.trigger($.Event('validator', {
         relatedTarget: $el[0]
       }));
     });
@@ -242,8 +242,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   Validator.prototype.runValidators = function ($el) {
     var errors = [];
     var deferred = $.Deferred();
-    $el.data('bs.validator.deferred') && $el.data('bs.validator.deferred').reject();
-    $el.data('bs.validator.deferred', deferred);
+    $el.data('validator.deferred') && $el.data('validator.deferred').reject();
+    $el.data('validator.deferred', deferred);
 
     function getValidatorSpecificError(key) {
       return $el.attr('data-' + key + '-error');
@@ -309,7 +309,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   Validator.prototype.showErrors = function ($el) {
     var method = this.options.html ? 'html' : 'text';
-    var errors = $el.data('bs.validator.errors');
+    var errors = $el.data('validator.errors');
     var $group = $el.closest('.form-group');
     var $block = $group.find('.help-block.with-errors');
     var $feedback = $group.find('.form-control-feedback');
@@ -317,7 +317,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     errors = $('<ul/>').addClass('list-unstyled').append($.map(errors, function (error) {
       return $('<li/>')[method](error);
     }));
-    $block.data('bs.validator.originalContent') === undefined && $block.data('bs.validator.originalContent', $block.html());
+    $block.data('validator.originalContent') === undefined && $block.data('validator.originalContent', $block.html());
     $block.empty().append(errors);
     $group.addClass('has-error has-danger');
     $group.hasClass('has-feedback') && $feedback.removeClass(this.options.feedback.success) && $feedback.addClass(this.options.feedback.error) && $group.removeClass('has-success');
@@ -327,14 +327,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     var $group = $el.closest('.form-group');
     var $block = $group.find('.help-block.with-errors');
     var $feedback = $group.find('.form-control-feedback');
-    $block.html($block.data('bs.validator.originalContent'));
+    $block.html($block.data('validator.originalContent'));
     $group.removeClass('has-error has-danger has-success');
     $group.hasClass('has-feedback') && $feedback.removeClass(this.options.feedback.error) && $feedback.removeClass(this.options.feedback.success) && getValue($el) && $feedback.addClass(this.options.feedback.success) && $group.addClass('has-success');
   };
 
   Validator.prototype.hasErrors = function () {
     function fieldErrors() {
-      return !!($(this).data('bs.validator.errors') || []).length;
+      return !!($(this).data('validator.errors') || []).length;
     }
 
     return !!this.$inputs.filter(fieldErrors).length;
@@ -362,21 +362,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   Validator.prototype.defer = function ($el, callback) {
     callback = $.proxy(callback, this, $el);
     if (!this.options.delay) return callback();
-    window.clearTimeout($el.data('bs.validator.timeout'));
-    $el.data('bs.validator.timeout', window.setTimeout(callback, this.options.delay));
+    window.clearTimeout($el.data('validator.timeout'));
+    $el.data('validator.timeout', window.setTimeout(callback, this.options.delay));
   };
 
   Validator.prototype.reset = function () {
     this.$element.find('.form-control-feedback').removeClass(this.options.feedback.error).removeClass(this.options.feedback.success);
-    this.$inputs.removeData(['bs.validator.errors', 'bs.validator.deferred']).each(function () {
+    this.$inputs.removeData(['validator.errors', 'validator.deferred']).each(function () {
       var $this = $(this);
-      var timeout = $this.data('bs.validator.timeout');
-      window.clearTimeout(timeout) && $this.removeData('bs.validator.timeout');
+      var timeout = $this.data('validator.timeout');
+      window.clearTimeout(timeout) && $this.removeData('validator.timeout');
     });
     this.$element.find('.help-block.with-errors').each(function () {
       var $this = $(this);
-      var originalContent = $this.data('bs.validator.originalContent');
-      $this.removeData('bs.validator.originalContent').html(originalContent);
+      var originalContent = $this.data('validator.originalContent');
+      $this.removeData('validator.originalContent').html(originalContent);
     });
     this.$btn.removeClass('disabled');
     this.$element.find('.has-error, .has-danger, .has-success').removeClass('has-error has-danger has-success');
@@ -385,8 +385,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   Validator.prototype.destroy = function () {
     this.reset();
-    this.$element.removeAttr('novalidate').removeData('bs.validator').off('.bs.validator');
-    this.$inputs.off('.bs.validator');
+    this.$element.removeAttr('novalidate').removeData('validator').off('.validator');
+    this.$inputs.off('.validator');
     this.options = null;
     this.validators = null;
     this.$element = null;
@@ -401,9 +401,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     return this.each(function () {
       var $this = $(this);
       var options = $.extend({}, Validator.DEFAULTS, $this.data(), _typeof(option) == 'object' && option);
-      var data = $this.data('bs.validator');
+      var data = $this.data('validator');
       if (!data && option == 'destroy') return;
-      if (!data) $this.data('bs.validator', data = new Validator(this, options));
+      if (!data) $this.data('validator', data = new Validator(this, options));
       if (typeof option == 'string') data[option]();
     });
   }

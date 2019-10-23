@@ -24,7 +24,7 @@
                             @endif
                         </div>
                         <div class="product-info">
-                            <a href="" class="product-title">
+                            <a href="{{route('shop.admin.products.edit', $product->id)}}" class="product-title">
                                 {{$product->title}}
                                 <span class="label label-warning pull-right">{{$product->price}}</span>
                             </a>
@@ -35,7 +35,7 @@
         </div>
 
         <div class="box-footer clearfix">
-            <a href="" class="btn btn-sm btn-info btn-flat pull-left">All products</a>
+            <a href="{{route('shop.admin.products.index')}}" class="btn btn-sm btn-info btn-flat pull-left">All products</a>
         </div>
 
     </div>

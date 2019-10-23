@@ -20,7 +20,8 @@
                             <div class="form-group has-feedback">
                                 <label for="name">Login</label>
                                 <input type="text" class="form-control" name="name" id="name"
-                                       value=" @if (old('name')){{old('name')}} @else {{$item->name ?? ""}} @endif ">
+                                       @if (old('name'))value="{{old('name')}}"
+                                       @else value="{{$item->name ?? ""}}" @endif>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
                             <div class="form-group">
@@ -36,7 +37,8 @@
                             <div class="form-group has-feedback">
                                 <label for="email">E-mail</label>
                                 <input type="email" class="form-control" name="email" id="email"
-                                       value=" @if (old('email')){{old('email')}} @else {{$item->email ?? ""}} @endif "
+                                       @if (old('email'))value="{{old('email')}}" @else value="{{$item->email ?? ""}}"
+                                       @endif
                                        required>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>

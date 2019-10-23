@@ -1,9 +1,5 @@
 <?php
-
-    use App\Patterns\Fundamental\BlogContainer;
-
-
-    /** This file is part of KCFinder project
+/** This file is part of KCFinder project
   *
   *      @desc Base configuration file
   *   @package KCFinder
@@ -19,10 +15,32 @@
    even if you are using session configuration.
    See http://kcfinder.sunhater.com/install for setting descriptions */
 
-    require __DIR__ . '/../../../../../vendor/autoload.php';
+
+require  $_SERVER['DOCUMENT_ROOT'] . '/../vendor/autoload.php';
+$app = require_once  $_SERVER['DOCUMENT_ROOT']. '/../bootstrap/app.php';
+$response = $app->make('Illuminate\Contracts\Http\Kernel')->handle(Illuminate\Http\Request::capture());
+$cookie = $_COOKIE[$app['config']['session']['cookie']] ?? false;
+if ($cookie) {
+    $id = $app['encrypter']->decrypt($cookie, false);
+    $session = $app['session']->driver();
+    $session->setId($id);
+    $session->start();
+}
+
+if (!$app['auth']->check()){
+    header('HTTP/1.0 403 Forbidden'); exit();
+}elseif (!$app['auth']->user()->isAdministrator()){
+    header('HTTP/1.0 403 Forbidden'); exit();
+}
 
 
-    $_CONFIG = array(
+
+
+
+$_CONFIG = array(
+
+
+// GENERAL SETTINGS
 
     'disabled' => false,
     'uploadURL' => "../../../images",
@@ -66,6 +84,7 @@
 
 
 // PERMISSION SETTINGS
+
 
     'dirPerms' => 0755,
     'filePerms' => 0644,

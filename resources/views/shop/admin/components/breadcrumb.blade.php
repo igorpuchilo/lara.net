@@ -41,7 +41,7 @@
         <li><a href="{{route('shop.admin.users.index')}}"><i></i>{{$user}}</a> </li>
     @endif
     @if (isset($products))
-        <li><a href=""><i></i>{{$products}}</a> </li>
+        <li><a href="{{route('shop.admin.products.index')}}"><i></i>{{$products}}</a> </li>
     @endif
     @if (isset($group_filter))
         <li><a href=""><i></i>{{$group_filter}}</a> </li>

@@ -75,7 +75,7 @@ class AdminCategoryObserver
     public function setAlias(Category $category)
     {
         if (empty($category->alias)) {
-            $category->alias = \Str::slug($category->title) . rand(10, 999);
+            $category->alias = \Str::slug($category->title) . time();
         }
     }
 }

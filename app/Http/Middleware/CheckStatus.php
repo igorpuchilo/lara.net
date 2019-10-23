@@ -2,11 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
-use Auth;
-
 class CheckStatus
 {
+
     /**
      * Handle an incoming request.
      *
@@ -16,7 +16,7 @@ class CheckStatus
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::user()->isAdministrator()) {//
+        if (\Auth::user()->isAdministrator()) {//
             return $next($request);
         } else {
             return redirect('/');
