@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 abstract class BaseController extends Controller
 {
-    public function index(){
-        return view('shop.admin.main.index');
-    }
+//    public function index(){
+//        return view('shop.admin.main.index');
+//    }
 }

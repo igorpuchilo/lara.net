@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers\Shop\Admin;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Shop\BaseController as MainBaseController;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Shop\BaseController;
 
-abstract class AdminBaseController extends MainBaseController
+abstract class AdminBaseController extends BaseController
 {
     public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('status');
 
-//        MetaTag::setTags([
-//
-//        ]);
     }
 }
