@@ -1,6 +1,3 @@
-
-{{--        <li><a href="{{url('/admin/currency/index')}}"><i></i>{{$currency}}</a> </li>--}}
-
 <h1>
     @if (isset($title)) {{$title}}@endif
 </h1>
@@ -25,7 +22,7 @@
         <li><a href="{{route('shop.admin.filter.attribute-filter')}}"><i></i>{{$attrs_filter}}</a> </li>
     @endif
     @if (isset($currency))
-        <li><a href=""><i></i>{{$currency}}</a> </li>
+        <li><a href="{{route('shop.admin.currency.index')}}"><i></i>{{$currency}}</a> </li>
     @endif
     <li><i class="active"></i>{{$active}}</li>
 </ol>

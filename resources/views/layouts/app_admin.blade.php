@@ -146,7 +146,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="{{route('shop.admin.users.index')}}">Users List</a></li>
-                        <li><a href="{{route('shop.admin.users.create')}}">Add User</a></li>
+                        <li><a href="{{url('shop.admin.users.create')}}">Add User</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
@@ -156,8 +156,8 @@
 </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="#">Currency List</a></li>
-                        <li><a href="#">Add Currency</a></li>
+                        <li><a href="{{route('shop.admin.currency.index')}}">Currency List</a></li>
+                        <li><a href="{{url('/admin/currency/add')}}">Add Currency</a></li>
                     </ul>
                 </li>
                 <li class="treeview">

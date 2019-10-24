@@ -62,7 +62,7 @@ class FilterController extends AdminBaseController
                 return redirect('/admin/filter/group-filter')->with(['success' => 'Saved']);
             } else return back()->withErrors(['msg' => 'Error on change'])->withInput();
         } else {
-            $group = $this->filterGroupRepository->getInfoProduct($id);
+            $group = $this->filterGroupRepository->getInfoGroup($id);
             MetaTag::setTags(['title' => 'Edit Group']);
             return view('shop.admin.filter.group-edit', compact('group'));
         }
@@ -127,7 +127,7 @@ class FilterController extends AdminBaseController
                     ->with(['success' => 'Attribute has been Changed']);
             } else return back()->withErrors(['msg' => 'Error on change!'])->withInput();
         } else {
-            $attr = $this->filterAttrsRepository->getInfoProduct($id);
+            $attr = $this->filterAttrsRepository->getInfoAttribute($id);
             $group = $this->filterGroupRepository->getAllGroupsFilter();
 
             MetaTag::setTags(['title' => 'Edit Attribute']);

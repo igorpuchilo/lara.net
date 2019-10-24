@@ -21,7 +21,7 @@ class FilterGroupRepository extends CoreRepository
     public function getAllGroupsFilter(){
         return DB::table('attribute_groups')->get()->all();
     }
-    public function getInfoProduct($id){
+    public function getInfoGroup($id){
         return $this->startConditions()->find($id);
     }
     public function deleteGroupFilter($id){

@@ -14,7 +14,7 @@ class CurrenciesSeeder extends Seeder
         $data = [
             [
                 'id' => '1',
-                'title' => 'белорусский рубль',
+                'title' => 'Belarussian Ruble',
                 'code' => 'BYN',
                 'symbol_left' => '',
                 'symbol_right' => 'бел.руб.',
@@ -23,7 +23,7 @@ class CurrenciesSeeder extends Seeder
             ],
             [
                 'id' => '2',
-                'title' => 'доллар',
+                'title' => 'Dollar',
                 'code' => 'USD',
                 'symbol_left' => '$',
                 'symbol_right' => '',
@@ -32,7 +32,7 @@ class CurrenciesSeeder extends Seeder
             ],
             [
                 'id' => '3',
-                'title' => 'евро',
+                'title' => 'Euro',
                 'code' => 'EUR',
                 'symbol_left' => '€',
                 'symbol_right' => '',

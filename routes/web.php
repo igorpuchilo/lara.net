@@ -62,8 +62,13 @@ Route::group(['middleware' => ['status', 'auth']], function () {
             ->name('shop.admin.filter.attribute-filter');
         Route::match(['get','post'],'/filter/attr-add', 'FilterController@attributeAdd');
         Route::match(['get','post'],'/filter/attr-edit/{id}', 'FilterController@attrEdit');
-        Route::get('/filter/attr-delete/{id}','FilterController@attrDelete')
-            ->name('shop.admin.filter.attr-delete');
+        Route::get('/filter/attr-delete/{id}','FilterController@attrDelete');
+
+        Route::get('/currency/index','CurrencyController@index')
+            ->name('shop.admin.currency.index');
+        Route::match(['get','post'],'/currency/add', 'CurrencyController@add');
+        Route::match(['get','post'],'/currency/edit/{id}', 'CurrencyController@edit');
+        Route::get('/currency/delete/{id}','CurrencyController@delete');
     });
 });
 

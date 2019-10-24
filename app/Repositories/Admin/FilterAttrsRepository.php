@@ -31,7 +31,7 @@ class FilterAttrsRepository extends CoreRepository
     public function checkUnique($name){
         return $this->startConditions()->where('value', $name)->count();
     }
-    public function getInfoProduct($id){
+    public function getInfoAttribute($id){
         return $this->startConditions()->find($id);
     }
     public function deleteAttrFilter($id){
