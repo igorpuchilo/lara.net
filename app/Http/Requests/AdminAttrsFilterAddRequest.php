@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ShopCategoryUpdateRequest extends FormRequest
+class AdminAttrsFilterAddRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,7 @@ class ShopCategoryUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|min:4|max:200',
-            'slug' => 'max:200',
-            'description' => 'min:3|string|max:500',
-            'parent_id' => 'integer',
+            'attr_group_id' => 'integer',
         ];
     }
 }

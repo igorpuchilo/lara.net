@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers\Shop\Admin;
 
-use App\Http\Controllers\Shop\BaseController;
-use App\Http\Requests\ShopCategoryUpdateRequest;
+use App\Http\Requests\AdminCategoryUpdateRequest;
 use App\Models\Admin\Category;
 use App\Repositories\Admin\CategoryRepository;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use MetaTag;
 
 class CategoryController extends AdminBaseController
@@ -80,7 +77,7 @@ class CategoryController extends AdminBaseController
         }
     }
 
-    public function store(ShopCategoryUpdateRequest $request)
+    public function store(AdminCategoryUpdateRequest $request)
     {
         $title = $this->categoryRepository->checkUniqueName($request->title, $request->parent_id);
         if ($title){
@@ -135,7 +132,7 @@ class CategoryController extends AdminBaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ShopCategoryUpdateRequest $request, $id)
+    public function update(AdminCategoryUpdateRequest $request, $id)
     {
         $item = $this->categoryRepository->getId($id);
         if (empty($item)){

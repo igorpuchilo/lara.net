@@ -167,8 +167,8 @@
 </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="#">Filter Groups</a></li>
-                        <li><a href="#">Filter</a></li>
+                        <li><a href="{{route('shop.admin.filter.group-filter')}}">Filter Groups</a></li>
+                        <li><a href="{{route('shop.admin.filter.attribute-filter')}}">Filter</a></li>
                     </ul>
                 </li>
             </ul>

@@ -50,6 +50,20 @@ Route::group(['middleware' => ['status', 'auth']], function () {
             ->name('shop.admin.products.deletestatus');
         Route::get('/products/delete-product/{id}','ProductController@deleteProduct')
             ->name('shop.admin.products.deleteproduct');
+
+        Route::get('/filter/group-filter','FilterController@attributeGroup')
+            ->name('shop.admin.filter.group-filter');
+        Route::match(['get','post'],'/filter/group-add', 'FilterController@groupAdd');
+        Route::match(['get','post'],'/filter/group-edit/{id}','FilterController@groupEdit');
+        Route::get('/filter/group-delete/{id}','FilterController@groupDelete')
+            ->name('shop.admin.filter.group-delete');
+
+        Route::get('/filter/attribute-filter','FilterController@attributeFilter')
+            ->name('shop.admin.filter.attribute-filter');
+        Route::match(['get','post'],'/filter/attr-add', 'FilterController@attributeAdd');
+        Route::match(['get','post'],'/filter/attr-edit/{id}', 'FilterController@attrEdit');
+        Route::get('/filter/attr-delete/{id}','FilterController@attrDelete')
+            ->name('shop.admin.filter.attr-delete');
     });
 });
 
