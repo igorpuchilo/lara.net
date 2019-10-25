@@ -42,7 +42,11 @@ class Filter extends AbstractWidget
         ]);
     }
     protected function getGroups(){
-        $data = DB::table('attribute_groups')->get();
+        $data = DB::table('attribute_groups')
+            ->join('attribute_values', 'attribute_groups.id', '=',
+                'attribute_values.attr_group_id')
+            ->select('attribute_groups.*')
+            ->get();
         $groups = [];
         foreach ($data as $key => $value){
             $groups[$value->id] = $value->title;

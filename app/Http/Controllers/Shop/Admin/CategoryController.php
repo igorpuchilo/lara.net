@@ -19,9 +19,7 @@ class CategoryController extends AdminBaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Display a listing of the categories.
      */
     public function index()
     {
@@ -33,25 +31,20 @@ class CategoryController extends AdminBaseController
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Show the form for creating a new menu item.
      */
     public function create()
     {
         MetaTag::setTags(['title'=>'Create New Category']);
 
         $item = new Category();
-        $categoryList = $this->categoryRepository->getImplodeCategories();
+        $this->categoryRepository->getImplodeCategories();
         return view('shop.admin.category.create',['categories'=>Category::with('children')
             ->where('parent_id','=','0')->get(),'delimiter' => '-','item'=>$item]);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * Delete menu item if dont have childrens
      */
 
     public function mdel(){
@@ -76,7 +69,7 @@ class CategoryController extends AdminBaseController
             return back()->withErrors(['msg'=>'Error on delete!']);
         }
     }
-
+//    Save item menu, whose filling in create action
     public function store(AdminCategoryUpdateRequest $request)
     {
         $title = $this->categoryRepository->checkUniqueName($request->title, $request->parent_id);
@@ -99,9 +92,6 @@ class CategoryController extends AdminBaseController
 
     /**
      * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -109,10 +99,7 @@ class CategoryController extends AdminBaseController
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Show the form for editing the item menu
      */
     public function edit($id, CategoryRepository $categoryRepository)
     {
@@ -126,11 +113,7 @@ class CategoryController extends AdminBaseController
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Update the specified menu item
      */
     public function update(AdminCategoryUpdateRequest $request, $id)
     {

@@ -23,14 +23,14 @@ class FilterController extends AdminBaseController
         $this->filterAttrsRepository = app(FilterAttrsRepository::class);
         $this->filterGroupRepository = app(FilterGroupRepository::class);
     }
-
+    //show filter groups list
     public function attributeGroup()
     {
         $attrs_group = $this->filterGroupRepository->getAllGroupsFilter();
         MetaTag::setTags(['title' => 'Filter Groups']);
         return view('shop.admin.filter.attribute-group', compact('attrs_group'));
     }
-
+    // show filter group create form and save action
     public function groupAdd(AdminGroupFilterAddRequest $request)
     {
         if ($request->isMethod('POST')) {
@@ -48,7 +48,7 @@ class FilterController extends AdminBaseController
             return view('shop.admin.filter.group-add');
         }
     }
-
+    //edit filter group form and save action
     public function groupEdit(AdminGroupFilterAddRequest $request, $id)
     {
         if (empty($id)) {
@@ -67,7 +67,7 @@ class FilterController extends AdminBaseController
             return view('shop.admin.filter.group-edit', compact('group'));
         }
     }
-
+    //delete filter group without attributes
     public function groupDelete($id)
     {
         if (empty($id)) {
@@ -82,7 +82,7 @@ class FilterController extends AdminBaseController
             return back()->with(['success' => 'Group has been deleted']);
         } else return back()->withErrors(['msg' => 'Error on delete!']);
     }
-
+    //show groups attributes list
     public function attributeFilter()
     {
         MetaTag::setTags(['title' => 'Group Attributes']);
@@ -90,11 +90,11 @@ class FilterController extends AdminBaseController
         $count = $this->filterGroupRepository->getCountGroupFilter();
         return view('shop.admin.filter.attribute', compact('attrs', 'count'));
     }
-
+    //show form for adding attribute to groups and save action
     public function attributeAdd(AdminAttrsFilterAddRequest $request)
     {
         if ($request->isMethod('POST')) {
-            $uniqName = $this->filterAttrsRepository->checkUnique($request->value);
+            $uniqName = $this->filterAttrsRepository->checkUnique($request->value, $request->attr_group_id);
 
             if ($uniqName) return redirect('/admin/filter/attr-add')
                 ->withErrors(['msg' => 'This Name Already Exist!'])
@@ -113,6 +113,7 @@ class FilterController extends AdminBaseController
             return view('shop.admin.filter.attrs-add', compact('group'));
         }
     }
+    //show attribute edit form and save action
     public function attrEdit(AdminAttrsFilterAddRequest $request, $id){
         if (empty($id)) {
             return back()->withErrors(['msg' => 'Item Not found!']);
@@ -134,6 +135,7 @@ class FilterController extends AdminBaseController
             return view('shop.admin.filter.attrs-edit', compact('attr', 'group'));
         }
     }
+    //delete attribute from group
     public function attrDelete($id){
         if (empty($id)) {
             return back()->withErrors(['msg' => 'Item Not found!']);

@@ -21,17 +21,16 @@ class UserRepository extends CoreRepository
     }
 
     public function getAllUsers($paginate){
-        $users = $this->startConditions()
+        return $this->startConditions()
             ->join('user_roles','user_roles.user_id', '=','users.id')
             ->join('roles','user_roles.role_id','=','roles.id')
             ->select('users.id','users.name','users.email','roles.name as role')
             ->orderBy('users.id')
             ->toBase()
             ->paginate($paginate);
-        return $users;
     }
     public function getUserOrders($id, $paginate){
-        $res = $this->startConditions()::withTrashed()
+        return $this->startConditions()::withTrashed()
             ->join('orders','orders.user_id','=','users.id')
             ->join('order_products','order_products.order_id','=','orders.id')
             ->select('orders.id','orders.user_id','orders.status','orders.created_at',
@@ -41,27 +40,23 @@ class UserRepository extends CoreRepository
             ->orderBy('orders.status')
             ->orderBy('orders.id')
             ->paginate($paginate);
-        return $res;
     }
     public function getUserRole($id){
-        $res = $this->startConditions()
+        return $this->startConditions()
             ->find($id)
             ->roles()
             ->first();
-        return $res;
     }
     public function getCountOrders($id){
-        $res = DB::table('orders')
+        return DB::table('orders')
             ->where('user_id','=',$id)
             ->count();
-        return $res;
     }
     public function getCountOrdersPaginate($id,$paginate){
-        $res = DB::table('orders')
+        return DB::table('orders')
             ->where('user_id','=',$id)
             ->limit($paginate)
             ->get();
-        return $res;
     }
 
 }

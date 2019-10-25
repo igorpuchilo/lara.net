@@ -20,7 +20,7 @@ class MainController extends AdminBaseController
         $this->orderRepository = app(OrderRepository::class);
         $this->productRepository = app(ProductRepository::class);
     }
-
+    //admin panel index page with widgets
     public function index()
     {
         $countOrders = MainRepository::getCountOrders();

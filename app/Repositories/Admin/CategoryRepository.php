@@ -15,12 +15,14 @@ class CategoryRepository extends CoreRepository
     {
         parent::__construct();
     }
+
     protected function getModelClass()
     {
         return Category::class;
     }
+
     public function buildMenu($arr){
-        $mBuilder = Menu::make('Nav', function ($m) use ($arr){
+        return Menu::make('Nav', function ($m) use ($arr){
            foreach ($arr as $item){
                if ($item->parent_id == 0){
                    $m->add($item->title,$item->id)->id($item->id);
@@ -33,42 +35,36 @@ class CategoryRepository extends CoreRepository
                }
            }
         });
-        return $mBuilder;
     }
 
     public function checkChildren($id){
-        $child = $this->startConditions()
+        return $this->startConditions()
             ->where('parent_id', $id)
             ->count();
-        return $child;
     }
 
     public function checkParentsProducts($id){
-        $parent = DB::table('products')
+        return DB::table('products')
             ->where('category_id', $id)
             ->count();
-        return $parent;
     }
     public function delCategory($id){
-        $del = $this->startConditions()
+        return $this->startConditions()
             ->find($id)
             ->forceDelete();
-        return $del;
     }
     public function getImplodeCategories(){
         $col = implode(',', ['id','parent_id','title','CONCAT (id, ". ", title) AS combo_title',]);
-        $res = $this->startConditions()
+        return $this->startConditions()
             ->selectRaw($col)
             ->toBase()
             ->get();
-        return $res;
     }
 
     public function checkUniqueName($title,$id){
-        $name = $this->startConditions()
+        return $this->startConditions()
             ->where('title','=',$title)
             ->where('parent_id','=',$id)
             ->exists();
-        return $name;
     }
 }

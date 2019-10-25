@@ -15,7 +15,7 @@
                     @foreach($products as $product)
                         <div class="col-md-4 product-left p-left">
                             <div class="product-main simpleCart_shelfItem">
-                                <a href="#" class="mask">
+                                <a href="{{url("admin/products/$product->id".'/edit')}}" class="mask">
                                     @if (empty($product->img))
                                         <img class="img-responsive zoom-img" src="{{asset('/images/no_image.jpg')}}"
                                              alt=""/>
@@ -26,10 +26,11 @@
                                     @endif
                                 </a>
                                 <div class="product-bottom">
-                                    <a href="#" class="mask"><h3>{{$product->title}}</h3></a>
+                                    <a href="{{url("admin/products/$product->id".'/edit')}}" class="mask"><h3>{{$product->title}}</h3></a>
                                     <p>Explore Now</p>
                                     <h4>
-                                        <a data-id="{{$product->id}}" class="add-to-cart-link" href="#"><i></i></a>
+                                        <a data-id="{{$product->id}}" class="add-to-cart-link"
+                                           href="#"><i></i></a>
                                         <span class="item_price">{{$currency->symbol_left}}
                                             {{$product->price * $currency->value}} {{$currency->symbol_right}}</span>
                                         @if($product->old_price)

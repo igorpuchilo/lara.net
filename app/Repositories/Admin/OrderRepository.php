@@ -22,7 +22,7 @@ class OrderRepository extends CoreRepository
 
     public function getAllOrders($paginate)
     {
-        $orders = $this->startConditions()::withTrashed()
+        return $this->startConditions()::withTrashed()
             ->join('users','orders.user_id','=','users.id')
             ->join('order_products','order_products.order_id','=','orders.id')
             ->select('orders.id','orders.user_id','orders.status','orders.created_at',
@@ -33,7 +33,6 @@ class OrderRepository extends CoreRepository
             ->orderBy('orders.id')
             ->toBase()
             ->paginate($paginate);
-        return $orders;
     }
 
     public function getOneOrder($id){
@@ -55,23 +54,20 @@ class OrderRepository extends CoreRepository
         $item = $this->getId($id);
         if (!$item) abort(404);
         $item->note = !empty($_POST['comment']) ? $_POST['comment'] : null;
-        $result = $item->update();
-        return $result;
+        return $item->update();
     }
 
     public  function getAllOrderProductsId($id){
-        $order_prod = DB::table('order_products')
+        return DB::table('order_products')
             ->where('order_id','=',$id)
             ->get();
-        return $order_prod;
     }
 
     public function changeStatusOrder($id){
         $item = $this->getId($id);
         if (!$item) abort(404);
         $item->status = !empty($_GET['status']) ? '1' : '0';
-        $res = $item->update();
-        return $res;
+        return $item->update();
     }
     public function changeStatusOnDelete($id){
         $item = $this->getId($id);
@@ -79,8 +75,7 @@ class OrderRepository extends CoreRepository
             abort(404);
         }
         $item->status = '2';
-        $result = $item->update();
-        return $result;
+        return $item->update();
     }
 
 }

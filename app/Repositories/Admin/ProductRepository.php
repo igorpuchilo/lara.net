@@ -22,39 +22,35 @@ class ProductRepository extends CoreRepository
 
     public function getLastProducts($paginate)
     {
-        $last = $this->startConditions()
+        return $this->startConditions()
             ->orderBy('id', 'desc')
             ->limit($paginate)
             ->paginate($paginate);
-        return $last;
     }
 
     public function getAllProducts($paginate)
     {
-        $res = $this->startConditions()
+        return $this->startConditions()
             ->join('categories', 'products.category_id', '=', 'categories.id')
             ->select('products.*', 'categories.title as category')
             ->orderBy(DB::raw('LENGTH(products.title)', 'products.title'))
             ->limit($paginate)
             ->paginate($paginate);
-        return $res;
     }
 
     public function getCountProducts()
     {
-        $res = $this->startConditions()
+        return $this->startConditions()
             ->count();
-        return $res;
     }
 
     public function getProducts($q)
     {
-        $products = DB::table('products')
+        return DB::table('products')
             ->select('id', 'title')
             ->where('title', 'LIKE', ["%{$q}%"])
             ->limit(8)
             ->get();
-        return $products;
     }
 
     public function uploadImg($filename, $wmax, $hmax)
@@ -193,38 +189,34 @@ class ProductRepository extends CoreRepository
 
     public function getInfoProduct($id)
     {
-        $product = $this->startConditions()
+        return $this->startConditions()
             ->find($id);
-        return $product;
     }
 
     public function getFiltersProduct($id)
     {
-        $filter = DB::table('attribute_products')
+        return DB::table('attribute_products')
             ->select('attr_id')
             ->where('product_id', $id)
             ->pluck('attr_id')
             ->all();
-        return $filter;
     }
 
     public function getRelatedProducts($id)
     {
-        $related = $this->startConditions()
+        return $this->startConditions()
             ->join('related_products', 'products.id', '=', 'related_products.related_id')
             ->select('products.title', 'related_products.related_id')
             ->where('related_products.product_id', $id)
             ->get();
-        return $related;
     }
 
     public function getGallery($id)
     {
-        $gallery = DB::table('galleries')
+        return DB::table('galleries')
             ->where('product_id', $id)
             ->pluck('img')
             ->all();
-        return $gallery;
     }
 
     public function getStatusOne($id)

@@ -7,7 +7,6 @@ use App\Repositories\Admin\MainRepository;
 use App\Repositories\Admin\OrderRepository;
 use Illuminate\Http\Request;
 use App\Http\Requests\AdminOrderSaveRequest;
-use App\Http\Controllers\Controller;
 use DB;
 class OrderController extends AdminBaseController
 {
@@ -20,9 +19,7 @@ class OrderController extends AdminBaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Orders List index
      */
     public function index()
     {
@@ -33,7 +30,7 @@ class OrderController extends AdminBaseController
         return view('shop.admin.order.index',compact('countOrders','orders'));
     }
 
-
+    // delete order from DB action
     public function forceDelete($id){
         if (empty($id)){
             return back()->withErrors(['msg'=>'This order not found!']);
@@ -57,6 +54,7 @@ class OrderController extends AdminBaseController
     {
         //
     }
+    //edit order (Add comment)
     public function save(AdminOrderSaveRequest $request,$id){
         $result = $this->orderRepository->saveOrderComment($id);
         if ($result){
@@ -68,6 +66,7 @@ class OrderController extends AdminBaseController
                 ->withErrors(['msg'=>'Save Failed!']);
         }
     }
+    //Edit order status
     public function change($id){
         $res = $this->orderRepository->changeStatusOrder($id);
 
@@ -103,12 +102,7 @@ class OrderController extends AdminBaseController
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //order details action -> show edit view
     public function edit($id)
     {
         $item = $this->orderRepository->getId($id);
@@ -140,12 +134,7 @@ class OrderController extends AdminBaseController
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //disable order action
     public function destroy($id)
     {
         $st = $this->orderRepository->changeStatusOnDelete($id);

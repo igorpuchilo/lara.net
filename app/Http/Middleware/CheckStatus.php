@@ -8,11 +8,7 @@ class CheckStatus
 {
 
     /**
-     * Handle an incoming request.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure $next
-     * @return mixed
+     * Check user role for Admin
      */
     public function handle($request, Closure $next)
     {

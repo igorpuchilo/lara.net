@@ -7,7 +7,6 @@ use App\Models\Admin\User;
 use App\Models\UserRole;
 use App\Repositories\Admin\MainRepository;
 use App\Repositories\Admin\UserRepository;
-use Illuminate\Http\Request;
 use MetaTag;
 
 class UserController extends AdminBaseController
@@ -21,9 +20,7 @@ class UserController extends AdminBaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Display a listing of users
      */
     public function index()
     {
@@ -36,9 +33,7 @@ class UserController extends AdminBaseController
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * return user create form
      */
     public function create()
     {
@@ -47,10 +42,7 @@ class UserController extends AdminBaseController
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * Store a newly created user
      */
     public function store(AdminUserEditRequest $request)
     {
@@ -86,10 +78,7 @@ class UserController extends AdminBaseController
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * Show the form for editing user
      */
     public function edit($id)
     {
@@ -106,7 +95,7 @@ class UserController extends AdminBaseController
             'countOrders', 'countOrdersPaginate'));
     }
 
-
+    // Save user data after change
     public function update(AdminUserEditRequest $request, User $user, UserRole $role)
     {
         $user->name = $request['name'];
@@ -122,10 +111,7 @@ class UserController extends AdminBaseController
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * Remove user from DB
      */
     public function destroy(User $user)
     {

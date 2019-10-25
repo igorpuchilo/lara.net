@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Shop\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Shop\BaseController;
 
-abstract class AdminBaseController extends BaseController
+//Base for future controllers include admin auth
+abstract class AdminBaseController extends Controller
 {
     public function __construct()
     {

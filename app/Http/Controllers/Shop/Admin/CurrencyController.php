@@ -16,7 +16,7 @@ class CurrencyController extends AdminBaseController
         parent::__construct();
         $this->currencyRepository = app(CurrencyRepository::class);
     }
-
+    //show currency list
     public function index()
     {
         $curr = $this->currencyRepository->getAllCurrency();
@@ -24,6 +24,7 @@ class CurrencyController extends AdminBaseController
         MetaTag::setTags(['title' => 'Currency']);
         return view('shop.admin.currency.index',compact('curr'));
     }
+    //add form and save to base action
     public function add(AdminCurrencyRequest $request){
         if($request->isMethod('POST')){
             $data = $request->input();
@@ -44,6 +45,7 @@ class CurrencyController extends AdminBaseController
             return view('shop.admin.currency.add');
         }
     }
+    //edit currency form and save action
     public function edit(AdminCurrencyRequest $request, $id){
         if (empty($id)) {
             return back()->withErrors(['msg' => 'Item Not found!']);
@@ -66,6 +68,7 @@ class CurrencyController extends AdminBaseController
             return view('shop.admin.currency.edit', compact('curr'));
         }
     }
+    //delete currency action
     public function delete($id){
         if (empty($id)) {
             return back()->withErrors(['msg' => 'Item Not found!']);

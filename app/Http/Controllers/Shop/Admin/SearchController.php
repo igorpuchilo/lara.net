@@ -11,7 +11,7 @@ class SearchController extends AdminBaseController
     {
         parent::__construct();
     }
-
+    //result page
     public function index(Request $request){
         MetaTag::setTags(['title' => 'Search Results']);
         $query = !empty(trim($request->search)) ? trim($request->search) : null;
@@ -25,7 +25,7 @@ class SearchController extends AdminBaseController
 
         return view('shop.admin.search.result',compact('query','products','currency'));
     }
-
+    //autocomplete
     public function search(Request $request)
     {
         $search = $request->get('term');

@@ -8,6 +8,6 @@ use App\Http\Controllers\Controller;
 abstract class BaseController extends Controller
 {
 //    public function index(){
-//        return view('shop.admin.main.index');
+//        return view('shop.store.main.index');
 //    }
 }

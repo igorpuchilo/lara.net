@@ -18,23 +18,34 @@ class FilterAttrsRepository extends CoreRepository
     {
         return AttributeValue::class;
     }
-    public function getCountFilterAttrsById($id){
+
+    public function getCountFilterAttrsById($id)
+    {
         return DB::table('attribute_values')->where('attr_group_id', '=', $id)->count();
     }
-    public function getAllAttrsFilter(){
-        return  DB::table('attribute_values')
+
+    public function getAllAttrsFilter()
+    {
+        return DB::table('attribute_values')
             ->join('attribute_groups', 'attribute_groups.id', '=',
                 'attribute_values.attr_group_id')
-            ->select('attribute_values.*','attribute_groups.title')
+            ->select('attribute_values.*', 'attribute_groups.title')
             ->paginate(10);
     }
-    public function checkUnique($name){
-        return $this->startConditions()->where('value', $name)->count();
+
+    public function checkUnique($name, $attr_group_id)
+    {
+        return $this->startConditions()
+            ->where([['value', '=', $name], ['attr_group_id', '=', $attr_group_id],])->count();
     }
-    public function getInfoAttribute($id){
+
+    public function getInfoAttribute($id)
+    {
         return $this->startConditions()->find($id);
     }
-    public function deleteAttrFilter($id){
-        return $this->startConditions()->where('id','=',$id)->forceDelete();
+
+    public function deleteAttrFilter($id)
+    {
+        return $this->startConditions()->where('id', '=', $id)->forceDelete();
     }
 }

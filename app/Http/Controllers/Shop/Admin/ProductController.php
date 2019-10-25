@@ -21,9 +21,7 @@ class ProductController extends AdminBaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Products List
      */
     public function index()
     {
@@ -35,9 +33,7 @@ class ProductController extends AdminBaseController
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Create new product form
      */
     public function create()
     {
@@ -50,10 +46,7 @@ class ProductController extends AdminBaseController
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * Store a newly created product
      */
     public function store(AdminProductsCreateRequest $request)
     {
@@ -91,10 +84,7 @@ class ProductController extends AdminBaseController
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * Show the form for editing product
      */
     public function edit($id)
     {
@@ -112,11 +102,7 @@ class ProductController extends AdminBaseController
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * Update the specified product
      */
     public function update(AdminProductsCreateRequest $request, $id)
     {
@@ -157,7 +143,7 @@ class ProductController extends AdminBaseController
     {
         //
     }
-
+    // change status product to OFF
     public function deleteStatus($id)
     {
         if($id){
@@ -172,7 +158,7 @@ class ProductController extends AdminBaseController
             }
         }
     }
-
+    // Get status current product On/Off
     public function getStatus($id)
     {
         if($id){
@@ -187,6 +173,7 @@ class ProductController extends AdminBaseController
             }
         }
     }
+    //delete product with all path
     public function deleteProduct($id){
         if($id) {
             $this->productRepository->deleteImgGalleryFromPath($id);
@@ -218,7 +205,7 @@ class ProductController extends AdminBaseController
         echo json_encode($data);
         die;
     }
-
+    //upload image to storage
     public function ajaxImage(Request $request)
     {
         if ($request->isMethod('get')) {
@@ -241,12 +228,12 @@ class ProductController extends AdminBaseController
         $this->productRepository->uploadImg($filename, $wmax, $hmax);
         return $filename;
     }
-
+    //delete image from storage
     public function deleteImage($filename)
     {
         \File::delete('uploads/single/' . $filename);
     }
-
+    // upload to gallery
     public function gallery(Request $request)
     {
         $valid = \Validator::make($request->all(),
@@ -263,7 +250,7 @@ class ProductController extends AdminBaseController
             $this->productRepository->uploadGallery($name, $wmax, $hmax);
         }
     }
-
+    //delete all files from gallery
     public function deleteGallery()
     {
         $id = isset($_POST['id']) ? $_POST['id'] : null;
