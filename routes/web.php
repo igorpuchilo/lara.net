@@ -1,12 +1,10 @@
 <?php
-Route::get('/', function () {
-    return view('welcome');
-});
 
+//User&Guest
+Route::get('/cart', 'Shop\User\UserController@index')->name('shop.user.cart.index');
+Route::get('/changePassword','Shop\User\UserController@showChangePasswordForm');
+Route::any('/{url}', 'Shop\MainController@index' )->where('url', '(home|)');
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
 
 //Admin Panel rotes group **Only for admins//
 Route::group(['middleware' => ['status', 'auth']], function () {
@@ -77,6 +75,6 @@ Route::group(['middleware' => ['status', 'auth']], function () {
         Route::get('/autocomplete', 'SearchController@search');
     });
 });
-//User
-Route::get('/user/index', 'Shop\User\MainController@index');
+
+
 

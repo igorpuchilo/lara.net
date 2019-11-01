@@ -2,7 +2,7 @@
     <p class="item-p">
         <a class="list-group list-group-item" href="{{route('shop.admin.categories.edit',$item->id)}}">{{$item->title}}</a>
         <span>
-            @if (!$item->hasChildren())
+            @if (!($item->hasChildren()))
                     <a href="{{url("/admin/categories.mdel?id=$item->id")}}" class="delete">
                         <i class="fa fa-fw fa-close"></i>
                     </a>

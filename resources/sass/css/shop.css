@@ -29,6 +29,18 @@
 .list-group.list-group-root > .list-group > .list-group > p > .list-group-item {
     padding-left: 45px;
 }
+.list-group.list-group-root > .list-group > .list-group > p > .list-group-item {
+    padding-left: 60px;
+}
+.list-group.list-group-root > .list-group > .list-group > .list-group > p > .list-group-item {
+    padding-left: 75px;
+}
+.list-group.list-group-root > .list-group > .list-group > .list-group > .list-group > p > .list-group-item {
+    padding-left: 90px;
+}
+.list-group.list-group-root > .list-group > .list-group > .list-group > .list-group > .list-group > p > .list-group-item {
+    padding-left: 105px;
+}
 .item-p{
     margin: 0;
     position: relative;
@@ -48,5 +60,47 @@
 /*product.add gallery spinner*/
 .overlay {
     display: none;
+}
+/*Store product style*/
+
+/*
+*
+* ==========================================
+* DropDown menu CLASSES
+* ==========================================
+*
+*/
+
+.dropdown-submenu {
+    position: relative;
+    width: max-content;
+}
+
+.dropdown-submenu>a:after {
+    content: "\f0da";
+    float: right;
+    border: none;
+    font-family: 'FontAwesome';
+}
+
+.dropdown-submenu>.dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: 0px;
+    margin-left: 0px;
+}
+/*full size*/
+html,
+body {
+    height: 100%;
+}
+.footerapp {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: currentColor;
+    color: white;
+    text-align: center;
 }
 

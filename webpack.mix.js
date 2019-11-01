@@ -14,5 +14,6 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
 mix.js('resources/js/ajaxupload.js', 'public/js').version();
+mix.js('resources/js/app_main.js', 'public/js').version();
 mix.js('resources/js/validator.js', 'public/js').version();
 mix.js('resources/js/bootstrap-validate.js', 'public/js').version();
