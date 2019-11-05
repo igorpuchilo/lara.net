@@ -14,12 +14,9 @@
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-body">
-                        <div width="100%">
-                            <small style="margin-left: 70px">Click to edit</small>
-                        </div>
-                        <br>
+                        <small><i class="fa fa-warning"></i> Click to edit</small>
                         @if($menu)
-                            <div class="list-group list-group-root well">
+                            <div class="list-group list-group-root">
                                 @include('shop.admin.category.menu.customMenuItems', ['items'=>$menu->roots()])
                             </div>
                         @endif

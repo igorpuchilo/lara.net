@@ -23,4 +23,36 @@ $( document ).ready( function () {
 
         return false;
     } );
+
+    responsiveFooter();
+
+    window.onresize = function() {
+        responsiveFooter();
+    };
+
+    function responsiveFooter() {
+        if ($(window).height() >= $('body').height() + $('.footerapp').height()) {
+            $('.footerapp').addClass('footer-fixed');
+        } else {
+            $('.footerapp').removeClass('footer-fixed');
+        }
+    }
+
+    function increaseValue() {
+        var value = parseInt(document.getElementById('product-quantity').value, 10);
+        value = isNaN(value) ? 0 : value;
+        value++;
+        document.getElementById('product-quantity').value = value;
+    }
+
+    function decreaseValue() {
+        var value = parseInt(document.getElementById('product-quantity').value, 10);
+        value = isNaN(value) ? 1 : value;
+        value--;
+        value < 1 ? value = 1 : '';
+        document.getElementById('product-quantity').value = value;
+    }
+
+    $('#productQuanIncrease').on('click', increaseValue);
+    $('#productQuanDecrease').on('click', decreaseValue);
 } );

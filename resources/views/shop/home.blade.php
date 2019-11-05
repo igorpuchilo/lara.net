@@ -1,23 +1,31 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="content m-4">
-        <h2 class="text-left text-monospace">Recently added:</h2>
+    <header>
+        <div class="container">
+            <h1>Laravel Shop</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid architecto cum cumque dolor error, eveniet facilis fugit iusto magnam nam officiis quaerat recusandae veniam. Dignissimos ipsa iusto nulla quisquam tenetur?</p>
+        </div>
+    </header>
+    <section class="content container mt-4">
+        <h2 class="text-center">Recently added</h2>
         <div class="row align-content-stretch">
             @foreach($last_products as $product)
-                <div class="m-2">
-                    <div class="card h-100 "  style="width: 200px">
-                        <a class="text-center" href="{{route('shop.admin.products.edit', $product->id)}}">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
+                    <div class="card h-100">
+                        <a class="text-center product-link" href="{{route('shop.getproduct', $product->id)}}">
                             @if(!empty($product->img))
                                 <img class="card-img-top" style="height: 165px;width: 125px;"
                                      src="{{asset('uploads/single/'.$product->img)}}" alt="image">
                             @else
                                 <img class="card-img-top"
                                      src="{{asset('images/no_image.png')}}" alt="image">
-                            @endif</a>
+                            @endif
+                             <div class="corner-ribbon top-right sticky red small">Hit!</div>
+                        </a>
                         <div class="card-body p-1">
 
-                                <a href="{{route('shop.admin.products.edit', $product->id)}}"
+                                <a href="{{route('shop.getproduct', $product->id)}}"
                                    class="btn btn-linkedin">{{$product->title}}
                                 </a>
                         </div>

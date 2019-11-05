@@ -246,8 +246,12 @@ class ProductController extends AdminBaseController
         if (isset($_GET['upload'])) {
             $wmax = ShopApp::get_Instance()->getProperty('gallery_width');
             $hmax = ShopApp::get_Instance()->getProperty('gallery_height');
+            $thumb_wmax = ShopApp::get_Instance()->getProperty('thumb_gallery_width');
+            $thumb_hmax = ShopApp::get_Instance()->getProperty('thumb_gallery_height');
+            $preview_wmax = ShopApp::get_Instance()->getProperty('preview_gallery_width');
+            $preview_hmax = ShopApp::get_Instance()->getProperty('preview_gallery_height');
             $name = $_POST['name'];
-            $this->productRepository->uploadGallery($name, $wmax, $hmax);
+            $this->productRepository->uploadGallery($name, $wmax, $hmax, $thumb_wmax, $thumb_hmax, $preview_wmax, $preview_hmax);
         }
     }
     //delete all files from gallery
@@ -260,6 +264,8 @@ class ProductController extends AdminBaseController
         }
         if (\DB::delete("DELETE FROM galleries WHERE product_id = ? AND img = ?", [$id, $src])) {
             @unlink("uploads/gallery/$src");
+            @unlink("uploads/gallery/thumb_$src");
+            @unlink("uploads/gallery/preview_$src");
             exit('1');
         }
         return;

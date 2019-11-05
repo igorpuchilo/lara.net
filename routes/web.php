@@ -4,6 +4,7 @@
 Route::get('/cart', 'Shop\User\UserController@index')->name('shop.user.cart.index');
 Route::get('/changePassword','Shop\User\UserController@showChangePasswordForm');
 Route::any('/{url}', 'Shop\MainController@index' )->where('url', '(home|)');
+Route::get('/product/{id}', 'Shop\MainController@getProduct')->name('shop.getproduct');
 Auth::routes();
 
 //Admin Panel rotes group **Only for admins//

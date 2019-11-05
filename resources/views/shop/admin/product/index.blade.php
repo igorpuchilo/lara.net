@@ -37,13 +37,11 @@
                                                 <i class="fa fa-fw fa-eye"></i>
                                             </a>
                                             @if ($product->status == 0)
-                                                <a class="delete"
-                                                   href="{{route('shop.admin.products.getstatus',$product->id)}}"
+                                                <a href="{{route('shop.admin.products.getstatus',$product->id)}}"
                                                    title="Switch on"><i
                                                             class="fa fa-fw fa-refresh"></i></a>
                                             @else
-                                                <a class="delete"
-                                                   href="{{route('shop.admin.products.deletestatus',$product->id)}}"
+                                                <a href="{{route('shop.admin.products.deletestatus',$product->id)}}"
                                                    title="Turn Off"><i class="fa fa-fw fa-close"></i></a>
                                             @endif
 

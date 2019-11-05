@@ -32,6 +32,22 @@ class MainController extends Controller
         }
         return view('shop.home',['menu' => $menu], compact('last_products'));
     }
-
+    public function getProduct($id){
+        $product = $this->mainRepository->getProductById($id);
+        $curr = $this->mainRepository->getBaseCurr();
+        MetaTag::setTags(['title' => $product->title]);
+        $filter = $this->mainRepository->getAttributesProduct($id);
+        $groupfilter = $this->mainRepository->getAllFilterGroups();
+        $related = $this->mainRepository->getRelatedProducts($id);
+        $images = $this->mainRepository->getGallery($id);
+        $arrmenu = Category::all();
+        $menu = $this->mainRepository->buildMenu($arrmenu);
+        if (Auth::check()) {
+            $id =\Auth::user()->id;
+            $countOrders = $this->mainRepository->getUserCountOrders($id);
+            return view('shop.product',['menu' => $menu], compact('countOrders','product', 'filter', 'related', 'images', 'id', 'curr', 'groupfilter') );
+        }
+        return view('shop.product',['menu' => $menu], compact('product', 'filter', 'related', 'images', 'id', 'curr', 'groupfilter'));
+    }
 
 }

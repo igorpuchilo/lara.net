@@ -1,20 +1,22 @@
 @foreach($items as $item)
-    <p class="item-p">
-        <a class="list-group list-group-item" href="{{route('shop.admin.categories.edit',$item->id)}}">{{$item->title}}</a>
-        <span>
-            @if (!($item->hasChildren()))
-                    <a href="{{url("/admin/categories.mdel?id=$item->id")}}" class="delete">
-                        <i class="fa fa-fw fa-close"></i>
-                    </a>
-                @else
+        <div class="list-group-item">
+            <a href="{{route('shop.admin.categories.edit',$item->id)}}">{{$item->title}}</a>
+            <span>
+                @if (!($item->hasChildren()))
+                <button onclick="location.href='{{url("/admin/categories.mdel?id=$item->id")}}'" class="delete">
                     <i class="fa fa-fw fa-close"></i>
+                </button>
+                @else
+                    <button class="delete disabled" disabled>
+                        <i class="fa fa-fw fa-close"></i>
+                    </button>
                 @endif
-        </span>
-    </p>
-
-    @if ($item->hasChildren())
-        <div class="list-group list-group-root">
-            @include(env('THEME').'shop.admin.category.menu.customMenuItems',['items'=>$item->children()])
+            </span>
         </div>
-    @endif
+        @if ($item->hasChildren())
+            <div class="list-group">
+                @include(env('THEME').'shop.admin.category.menu.customMenuItems',['items'=>$item->children()])
+            </div>
+        @endif
+
 @endforeach

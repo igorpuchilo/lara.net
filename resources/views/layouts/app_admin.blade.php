@@ -36,7 +36,7 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
-    <header class="main-header">
+    <div class="main-header">
         <!-- Logo -->
         <a href="{{route('shop.admin.index.index')}}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
@@ -109,7 +109,7 @@
                 </ul>
             </div>
         </nav>
-    </header>
+    </div>
     <!-- Left side column. contains the logo and sidebar -->
     <aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->

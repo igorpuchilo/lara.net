@@ -18,7 +18,9 @@ class CurrencyRepository extends CoreRepository
     {
         return Currency::class;
     }
-
+    public function getBaseCurrency(){
+        return DB::table('currencies')->where('base', '=', '1')->get()->first();
+    }
     public function getAllCurrency()
     {
         return $this->startConditions()::all();

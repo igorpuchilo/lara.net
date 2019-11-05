@@ -14,4 +14,8 @@ return [
     'img_height' => 200,
     'gallery_width' => 700,
     'gallery_height' => 1000,
+    'preview_gallery_width' => 450,
+    'preview_gallery_height' => 600,
+    'thumb_gallery_width' => 50,
+    'thumb_gallery_height' => 100,
 ];

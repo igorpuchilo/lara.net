@@ -43,7 +43,13 @@ class FilterAttrsRepository extends CoreRepository
     {
         return $this->startConditions()->find($id);
     }
-
+    public function getProductAttributeValues($attrs){
+        $res = array();
+        foreach ($attrs as $attr){
+            array_push($res, $this->startConditions()->find($attr)->select('attribute_values.value'));
+        }
+        return $res;
+    }
     public function deleteAttrFilter($id)
     {
         return $this->startConditions()->where('id', '=', $id)->forceDelete();

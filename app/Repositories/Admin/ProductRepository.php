@@ -27,13 +27,19 @@ class ProductRepository extends CoreRepository
             ->limit($paginate)
             ->paginate($paginate);
     }
-
+    public function getLastAvailableProducts($paginate){
+        return $this->startConditions()
+            ->where('status', '1')
+            ->orderBy('id', 'desc')
+            ->limit($paginate)
+            ->paginate($paginate);
+    }
     public function getAllProducts($paginate)
     {
         return $this->startConditions()
             ->join('categories', 'products.category_id', '=', 'categories.id')
             ->select('products.*', 'categories.title as category')
-            ->orderBy(DB::raw('LENGTH(products.title)', 'products.title'))
+            ->orderBy('id', 'desc')
             ->limit($paginate)
             ->paginate($paginate);
     }
@@ -62,15 +68,21 @@ class ProductRepository extends CoreRepository
         self::resize($uploadfile, $uploadfile, $wmax, $hmax, $ext);
     }
 
-    public function uploadGallery($filename, $wmax, $hmax)
+    public function uploadGallery($filename, $wmax, $hmax, $thumb_wmax, $thumb_hmax, $preview_wmax, $preview_hmax)
     {
         $uplad_dir = 'uploads/gallery/';
         $ext = strtolower(preg_replace("#.+\.([a-z]+)$#i", "$1", $_FILES[$filename]['name']));
         $new_name = md5(time()) . ".$ext";
+        $new_name_thumb = 'thumb_'.md5(time()) . ".$ext";
+        $new_name_preview = 'preview_'.md5(time()) . ".$ext";
         $uploadfile = $uplad_dir . $new_name;
+        $uploadfile_thumb = $uplad_dir . $new_name_thumb;
+        $uploadfile_thumb_preview = $uplad_dir . $new_name_preview;
         \Session::push('gallery', $new_name);
         if (@move_uploaded_file($_FILES[$filename]['tmp_name'], $uploadfile)) {
             self::resize($uploadfile, $uploadfile, $wmax, $hmax, $ext);
+            self::resize($uploadfile, $uploadfile_thumb, $thumb_wmax, $thumb_hmax, $ext);
+            self::resize($uploadfile, $uploadfile_thumb_preview, $preview_wmax, $preview_hmax, $ext);
             $res = array("file" => $new_name);
             echo json_encode($res);
         }
