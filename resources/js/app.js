@@ -84,3 +84,17 @@ $('#add').on('submit',function () {
 function isNum(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
+//Search
+var route = "http://lara.net/admin/autocomplete";
+$('#search').typeahead({
+    source: function (term, process) {
+        return $.get(route, {term: term}, function (data) {
+            return process(data);
+        });
+    },
+    minLength: 1,
+    items: 5,
+    delay: 400,
+    autoSelect: false,
+
+});

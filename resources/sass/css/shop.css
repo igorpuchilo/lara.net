@@ -1,6 +1,17 @@
 @charset "UTF-8";
 /*category list*/
-
+.product-card{
+}
+.typeahead {
+    overflow: hidden;
+    margin-left: 100px;
+}
+.search{
+    border-top: 0 !important;
+    border-right: 0 !important;
+    border-left: 0 !important;
+    outline: none !important;
+}
 .list-group {
     margin: 0;
     background-color: #fff;
@@ -171,4 +182,9 @@ main h2 {
 .select2-container {
     max-width: 100%;
 }
-
+.dropdown-menu {
+    margin: 0 !important;
+}
+.dropdown:hover>.dropdown-menu {
+    display: block !important;
+}

@@ -1,8 +1,12 @@
 {
     "/js/ajaxupload.js": "/js/ajaxupload.js?id=6b6adaa75f0b29342ada",
-    "/js/app.js": "/js/app.js?id=da99ac2cac47c4ccd70e",
-    "/css/app.css": "/css/app.css?id=c000703e7489a57d2fcb",
-    "/js/app_main.js": "/js/app_main.js?id=e47f3e9d97a7b2b12a79",
+    "/js/app.js": "/js/app.js?id=bbecdf584531bf9430a7",
+    "/css/app.css": "/css/app.css?id=c337c26ed4fee858096e",
+    "/js/app_main.js": "/js/app_main.js?id=01d301d7c1e0922e7c55",
     "/js/bootstrap-validate.js": "/js/bootstrap-validate.js?id=a8b3be9e46d2a061d51d",
+    "/js/bootstrap.min.js": "/js/bootstrap.min.js?id=65a779e954350c77b70f",
+    "/js/jquery.js": "/js/jquery.js?id=baffc90696556d284de3",
+    "/js/jquery.fancybox.min.js": "/js/jquery.fancybox.min.js?id=e6a53860579ffc2ca26f",
+    "/js/popper.min.js": "/js/popper.min.js?id=436fa3491d3825deccf9",
     "/js/validator.js": "/js/validator.js?id=093613f69d82b6412051"
 }

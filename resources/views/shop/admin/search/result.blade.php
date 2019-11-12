@@ -9,49 +9,42 @@
         @endcomponent
     </section>
     <section class="content">
-        <div class="container">
-            <div class="prdt-top">
-                <div class="col-md-9 prdt-left">
+        <div class="row">
+            <div class="col-md-12">
+                @if(isset($products)&&isset($curr))
                     @foreach($products as $product)
-                        <div class="col-md-4 product-left p-left">
-                            <div class="product-main simpleCart_shelfItem">
-                                <a href="{{url("admin/products/$product->id".'/edit')}}" class="mask">
-                                    @if (empty($product->img))
-                                        <img class="img-responsive zoom-img" src="{{asset('/images/no_image.jpg')}}"
-                                             alt=""/>
-                                    @else
-                                        <img class="img-responsive zoom-img"
-                                             src="{{asset("/uploads/single/$product->img")}}"
-                                             alt=""/>
-                                    @endif
-                                </a>
-                                <div class="product-bottom">
-                                    <a href="{{url("admin/products/$product->id".'/edit')}}" class="mask"><h3>{{$product->title}}</h3></a>
-                                    <p>Explore Now</p>
-                                    <h4>
-                                        <a data-id="{{$product->id}}" class="add-to-cart-link"
-                                           href="#"><i></i></a>
-                                        <span class="item_price">{{$currency->symbol_left}}
-                                            {{$product->price * $currency->value}} {{$currency->symbol_right}}</span>
-                                        @if($product->old_price)
-                                            <small>
-                                                <del>{{$currency->symbol_left}}
-                                                    {{$product->old_price * $currency->value}}
-                                                    {{$currency->symbol_right}}</del>
-                                            </small>
+                        <div class="col-lg-3 col-md-4 col-sm-6 product-card">
+                            <div class="panel panel-primary">
+                                <div class="panel-body text-center">
+                                    <a href="{{url("admin/products/$product->id".'/edit')}}">
+                                        @if(!empty($product->img))
+                                            <img class="text-center product-img" style="height: 165px;width: 125px;"
+                                                 src="{{asset('uploads/single/'.$product->img)}}" alt="image">
+                                        @else
+                                            <img class="text-center product-img"
+                                                 src="{{asset('images/no_image.png')}}" alt="image">
                                         @endif
-                                    </h4>
+                                    </a>
                                 </div>
-                                <div class="srch srch1">
-                                    <span>{{$product->description}}</span>
+                                <div class="panel-footer text-center" style="height: 70px; overflow: hidden;">
+                                    <a class="link-black" href="{{url("admin/products/$product->id".'/edit')}}">
+                                        {{$product->title}}
+                                    </a>
                                 </div>
                             </div>
                         </div>
+                        <!-- /.row -->
                     @endforeach
-                    <div class="clearfix"></div>
-                </div>
+                @endif
             </div>
-            <div class="clearfix"></div>
+        </div>
+        <div class="container text-center">
+            @if ($products->total() > $products->count())
+                <br>
+                <div class="col-md-12 d-flex align-items-center justify-content-center">
+                    {{$products->links()}}
+                </div>
+            @endif
         </div>
     </section>
 @endsection

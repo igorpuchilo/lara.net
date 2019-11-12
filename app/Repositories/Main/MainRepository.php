@@ -13,6 +13,7 @@ class MainRepository
     private $currencyRepository;
     private $filterAttrsRepository;
     private $filterGroupRepository;
+    private $productOrdersRepository;
 
 
     public function __construct()
@@ -24,6 +25,7 @@ class MainRepository
         $this->currencyRepository = app(\App\Repositories\Admin\CurrencyRepository::class);
         $this->filterAttrsRepository = app(\App\Repositories\Admin\FilterAttrsRepository::class);
         $this->filterGroupRepository = app(\App\Repositories\Admin\FilterGroupRepository::class);
+        $this->productOrdersRepository = app(\App\Repositories\Admin\ProductOrdersRepository::class);
     }
     public function getUserCountOrders($id){
        return $this->userRepository->getCountOrders($id);
@@ -40,8 +42,8 @@ class MainRepository
     public function getFiltersProduct($id){
        return $this->productRepository->getFiltersProduct($id);
     }
-    public function getRelatedProducts($id){
-        return $this->productRepository->getRelatedProducts($id);
+    public function getRelatedProducts($id,$lim){
+        return $this->productRepository->getRelatedProductsList($id,$lim);
     }
     public function getGallery($id){
         return $this->productRepository->getGallery($id);
@@ -50,11 +52,25 @@ class MainRepository
         return $this->currencyRepository->getBaseCurrency();
     }
     public function getAttributesProduct($id){
-        $attr = $this->productRepository->getFiltersProduct($id);
-        $filters = $this->filterAttrsRepository->getProductAttributeValues($attr);
-        return $filters;
+        $attr = $this->productRepository->getFiltersProductRaw($id);
+        return $attr;
+    }
+    public function getAllAttributes(){
+        return $this->filterAttrsRepository->getAllAttrsValues();
     }
     public function getAllFilterGroups(){
         return $this->filterGroupRepository->getAllGroupsFilter();
+    }
+    public function getProductsByCategoryId($id,$paginate){
+        return $this->productRepository->getProductsByCatId($id,$paginate);
+    }
+    public function getCategoryById($id){
+        return $this->categoryRepository->getId($id);
+    }
+    public function getSearchResult($query,$paginate){
+        return $this->productRepository->getSearchResult($query,$paginate);
+    }
+    public function getAutocompleteByTerms($term){
+        return $this->productRepository->getAutocompleteByTerms($term);
     }
 }

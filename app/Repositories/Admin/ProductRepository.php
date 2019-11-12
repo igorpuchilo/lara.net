@@ -20,6 +20,15 @@ class ProductRepository extends CoreRepository
         return Product::class;
     }
 
+    public function getProductsByCatId($id, $paginate)
+    {
+        return $this->startConditions()
+            ->where('category_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->limit($paginate)
+            ->paginate($paginate);
+    }
+
     public function getLastProducts($paginate)
     {
         return $this->startConditions()
@@ -27,13 +36,16 @@ class ProductRepository extends CoreRepository
             ->limit($paginate)
             ->paginate($paginate);
     }
-    public function getLastAvailableProducts($paginate){
+
+    public function getLastAvailableProducts($paginate)
+    {
         return $this->startConditions()
             ->where('status', '1')
             ->orderBy('id', 'desc')
             ->limit($paginate)
             ->paginate($paginate);
     }
+
     public function getAllProducts($paginate)
     {
         return $this->startConditions()
@@ -73,8 +85,8 @@ class ProductRepository extends CoreRepository
         $uplad_dir = 'uploads/gallery/';
         $ext = strtolower(preg_replace("#.+\.([a-z]+)$#i", "$1", $_FILES[$filename]['name']));
         $new_name = md5(time()) . ".$ext";
-        $new_name_thumb = 'thumb_'.md5(time()) . ".$ext";
-        $new_name_preview = 'preview_'.md5(time()) . ".$ext";
+        $new_name_thumb = 'thumb-' . md5(time()) . ".$ext";
+        $new_name_preview = 'preview-' . md5(time()) . ".$ext";
         $uploadfile = $uplad_dir . $new_name;
         $uploadfile_thumb = $uplad_dir . $new_name_thumb;
         $uploadfile_thumb_preview = $uplad_dir . $new_name_preview;
@@ -214,12 +226,30 @@ class ProductRepository extends CoreRepository
             ->all();
     }
 
+    public function getFiltersProductRaw($id)
+    {
+        return DB::table('attribute_products')
+            ->select('attribute_products.*')
+            ->where('product_id', $id)
+            ->get();
+    }
+
     public function getRelatedProducts($id)
     {
         return $this->startConditions()
             ->join('related_products', 'products.id', '=', 'related_products.related_id')
             ->select('products.title', 'related_products.related_id')
             ->where('related_products.product_id', $id)
+            ->get();
+    }
+
+    public function getRelatedProductsList($id,$lim)
+    {
+        return $this->startConditions()
+            ->join('related_products', 'products.id', '=', 'related_products.related_id')
+            ->select('products.*')
+            ->where('related_products.product_id', $id)
+            ->limit($lim)
             ->get();
     }
 
@@ -264,24 +294,40 @@ class ProductRepository extends CoreRepository
                 ->where('id', '=', $id)
                 ->pluck('img')
                 ->all();
-            if (!empty($gallery)){
-                foreach ($gallery as $img){
+            if (!empty($gallery)) {
+                foreach ($gallery as $img) {
                     @unlink("uploads/gallery/$img");
                 }
             }
-            if (!empty($singleImg)){
+            if (!empty($singleImg)) {
                 @unlink("uploads/single/" . $singleImg[0]);
             }
         }
     }
-    public function deleteFromDB($id){
+
+    public function deleteFromDB($id)
+    {
         if (isset($id)) {
             DB::delete('DELETE FROM related_products WHERE product_id = ?', [$id]);
             DB::delete('DELETE FROM attribute_products WHERE product_id = ?', [$id]);
             DB::delete('DELETE FROM galleries WHERE product_id = ?', [$id]);
             return DB::delete('DELETE FROM products WHERE id = ?', [$id]);
         }
-}
+    }
+
+    public function getSearchResult($query, $paginate)
+    {
+        return $this->startConditions()
+            ->where([['title', 'LIKE', '%' . $query . '%'], ['status', '=', '1'],])
+            ->limit($paginate)
+            ->paginate($paginate);
+    }
+    public function getAutocompleteByTerms($term){
+       return $this->startConditions()
+            ->select('title')
+            ->where('title', 'LIKE','%' . $term . '%')
+            ->pluck('title');
+    }
 
 //Others Function
 

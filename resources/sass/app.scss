@@ -1,10 +1,7 @@
 //// Variables
 //@import 'variables';
-//
-//// Bootstrap
-//@import '~bootstrap/scss/bootstrap';
-// Shop css
+
 @import 'css/shop.css';
 @import 'css/product.scss';
-// Bootstrap
-//@import '~bootstrap/scss/bootstrap';
+@import 'css/category.scss';
+@import 'css/cart.scss';

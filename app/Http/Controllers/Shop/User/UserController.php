@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Shop\User;
 
 use App\Models\User;
 use App\Repositories\User\UserRepository;
+use Auth;
 use Illuminate\Http\Request;
 use MetaTag;
 
@@ -26,7 +27,7 @@ class UserController extends UserBaseController
 
         $order = $this->userRepository->getUserOrder($id);
         if (!$order){
-            abort(404);
+            return view('shop.user.index', compact(  'countOrders'));
         }
         $order_prod = $this->userRepository->getAllUserOrderProducts($id);
 
@@ -72,20 +73,6 @@ class UserController extends UserBaseController
      */
     public function edit(Request $request, User $user)
     {
-        if ($request->isMethod('POST')) {
-            $user->email = $request['email'];
-            $request['password'] == null ?: $user->password = bcrypt($request['password']);
-            $res = $user->save();
-            if (!$res) {
-                return back()->withErrors(['msg' => 'Error on update!'])->withInput();
-            } else {
-                return redirect()->route('shop.user.profile.edit', $user->id)->with(['success' => 'Saved']);
-            }
-        }else{
-            $item = $this->userRepository->getId(\Auth::user()->id);
-            if (empty($item)) abort(404);
-            return view('shop.user.edit', compact('item'));
-        }
 
     }
 
@@ -98,7 +85,14 @@ class UserController extends UserBaseController
      */
     public function update(Request $request, $id)
     {
-        //
+        if (Auth::check()) {
+            if ($this->userRepository->saveOrder($id)){
+                return back()->withInput();
+            }else
+            {
+                return back()->withErrors(['msg'=>'Error on save!'])->withInput();
+            }
+        }
     }
 
     /**
@@ -109,9 +103,28 @@ class UserController extends UserBaseController
      */
     public function destroy($id)
     {
-        //
+        if (Auth::check()) {
+            if ($this->userRepository->deleteProductFromOrder($id)){
+                return back()->withInput();
+            }else
+            {
+                return back()->withErrors(['msg'=>'Error on delete!'])->withInput();
+            }
+        }
     }
     public function showChangePasswordForm(){
         return view('auth.passwords.email');
+    }
+
+    public function addOrder(Request $request, $id){
+        if (Auth::check()){
+            if($this->userRepository->AddOrder(Auth::user()->id,$request->productQuantity,$request->price,$id,
+                $request->product_title)){
+                return back()->withInput()->with(['success'=>'Added To Cart!']);
+            }else{
+                return back()->withInput()->withErrors(['msg'=>'Failed!']);
+            }
+
+        }
     }
 }

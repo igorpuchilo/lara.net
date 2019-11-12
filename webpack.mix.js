@@ -17,3 +17,7 @@ mix.js('resources/js/ajaxupload.js', 'public/js').version();
 mix.js('resources/js/app_main.js', 'public/js').version();
 mix.js('resources/js/validator.js', 'public/js').version();
 mix.js('resources/js/bootstrap-validate.js', 'public/js').version();
+mix.js('resources/js/bootstrap.min.js', 'public/js').version();
+mix.js('resources/js/jquery.fancybox.min.js', 'public/js').version();
+mix.js('resources/js/jquery.js', 'public/js').version();
+mix.js('resources/js/popper.min.js', 'public/js').version();

@@ -19,7 +19,7 @@ class FilterGroupRepository extends CoreRepository
         return AttributeGroup::class;
     }
     public function getAllGroupsFilter(){
-        return DB::table('attribute_groups')->get()->all();
+        return DB::table('attribute_groups')->get()->all();;
     }
     public function getInfoGroup($id){
         return $this->startConditions()->find($id);

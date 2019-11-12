@@ -1,10 +1,25 @@
 <?php
 
-//User&Guest
-Route::get('/cart', 'Shop\User\UserController@index')->name('shop.user.cart.index');
-Route::get('/changePassword','Shop\User\UserController@showChangePasswordForm');
+//Guest
 Route::any('/{url}', 'Shop\MainController@index' )->where('url', '(home|)');
 Route::get('/product/{id}', 'Shop\MainController@getProduct')->name('shop.getproduct');
+Route::get('/category/{id}', 'Shop\MainController@getCategory')->name('shop.getcategory');
+Route::get('/autocomplete', 'Shop\SearchController@search');
+Route::get('/search/result', 'Shop\SearchController@index');
+//User Routes
+Route::group(['middleware' => ['auth']], function () {
+    $groupData = [
+        'namespace' => 'Shop\User',
+    ];
+    Route::group($groupData, function () {
+        Route::get( '/cart', 'UserController@index');
+        Route::get('/changePassword','UserController@showChangePasswordForm');
+        Route::get('/cart/delete/{id}', 'UserController@destroy')->name('shop.user.delProd');
+        Route::post('/cart/save/{id}','UserController@update')->name('shop.user.saveOrder');
+        Route::post('/product/{id}', 'UserController@addOrder')->name('shop.user.addOrder');
+    });
+});
+//Auth
 Auth::routes();
 
 //Admin Panel rotes group **Only for admins//

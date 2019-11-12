@@ -24,7 +24,6 @@ abstract class CoreRepository
     {
         return $this->startConditions()->find($id);
     }
-
     public function getRequestID($get = true, $id = 'id')
     {
         if ($get) {

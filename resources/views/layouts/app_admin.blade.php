@@ -219,24 +219,13 @@
 <!-- ./wrapper -->
 
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
-<script type="text/javascript">
-    var route = "{{url('/admin/autocomplete')}}";
-    $('#search').typeahead({
-        source: function (term, process) {
-            return $.get(route, {term: term}, function (data) {
-                return process(data);
-            });
-        }
-    });
-</script>
+
 <script>
     var pathd = '{{PATH}}';
 </script>
 <!-- jQuery 3 -->
 <script src="{{asset('adminlte/bower_components/jquery/dist/jquery.min.js')}}"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="{{asset('adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 <!-- Validator -->
@@ -253,6 +242,7 @@
 <!-- App -->
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('js/ajaxupload.js')}}"></script>
+
 <!-- Script select2 -->
 @include('shop.admin.product.include.script_related_prod')
 @include('shop.admin.product.include.script_img')

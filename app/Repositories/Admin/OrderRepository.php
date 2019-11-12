@@ -10,8 +10,10 @@ use DB;
 
 class OrderRepository extends CoreRepository
 {
+    private $currencyRepository;
     public function __construct()
     {
+        $this->currencyRepository = app(CurrencyRepository::class);
         parent::__construct();
     }
 
@@ -19,7 +21,26 @@ class OrderRepository extends CoreRepository
     {
         return Order::class;
     }
+    public function updateSummary($order_id,$sum){
+        $order = $this->startConditions()->find($order_id);
+        $order->sum = $order->sum + $sum;
+        return $order->save();
+    }
+    public  function getOrderIdByUserID($id){
+        $order_id = $this->startConditions()->where('orders.user_id','=',$id)->first();
+        if($order_id){
+            return $order_id->id;
+        }else{
+            $new_order = new Order();
+            $new_order->user_id = $id;
+            $new_order->status = '0';
+            $new_order->currency = $this->currencyRepository->getBaseCurrency()->code;
+            $new_order->Note = '';
+            $new_order->save();
+            return $new_order->id;
+        }
 
+    }
     public function getAllOrders($paginate)
     {
         return $this->startConditions()::withTrashed()
@@ -77,5 +98,6 @@ class OrderRepository extends CoreRepository
         $item->status = '2';
         return $item->update();
     }
+
 
 }

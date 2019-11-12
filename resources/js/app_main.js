@@ -39,20 +39,47 @@ $( document ).ready( function () {
     }
 
     function increaseValue() {
-        var value = parseInt(document.getElementById('product-quantity').value, 10);
+        var value = parseInt(document.getElementById('productQuantity').value, 10);
         value = isNaN(value) ? 0 : value;
         value++;
-        document.getElementById('product-quantity').value = value;
+        changePrice(value);
+        document.getElementById('productQuantity').value = value;
     }
 
     function decreaseValue() {
-        var value = parseInt(document.getElementById('product-quantity').value, 10);
+        var value = parseInt(document.getElementById('productQuantity').value, 10);
         value = isNaN(value) ? 1 : value;
         value--;
         value < 1 ? value = 1 : '';
-        document.getElementById('product-quantity').value = value;
+        changePrice(value);
+        document.getElementById('productQuantity').value = value;
     }
 
-    $('#productQuanIncrease').on('click', increaseValue);
-    $('#productQuanDecrease').on('click', decreaseValue);
-} );
+    function changePrice(value) {
+        var price = parseFloat($('#price').val()), newPrice;
+        newPrice = price * value;
+        $('.product-price .value').text(function () {
+            return newPrice;
+        });
+    }
+
+    $('#productQuanIncrease').click(increaseValue);
+    $('#productQuanDecrease').click(decreaseValue);
+    $('#productQuantity').change(function() {
+        changePrice($(this).val())
+    });
+});
+//Search
+var route = "http://lara.net/autocomplete";
+$('#search').typeahead({
+    source: function (term, process) {
+        return $.get(route, {term: term}, function (data) {
+            return process(data);
+        });
+    },
+    minLength: 1,
+    items: 5,
+    delay: 400,
+    autoSelect: false,
+
+});

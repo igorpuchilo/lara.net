@@ -11,9 +11,11 @@
                             {{-- Big image --}}
                             <a class="product-link" data-fancybox="gallery"
                                href="{{asset("/uploads/gallery/$images[0]")}}">
-                                <div class="corner-ribbon top-right sticky red">Hit!</div>
+                                @if($currentProduct->hit ==1)
+                                    <div class="corner-ribbon top-right sticky red">Hit!</div>
+                                @endif
                                 {{-- Small image --}}
-                                <img src="{{asset("/uploads/gallery/preview_$images[0]")}}"
+                                <img src="{{asset("/uploads/gallery/preview-$images[0]")}}"
                                      alt="" class="img-responsive">
                             </a>
                             <div class="product-gallery-items">
@@ -21,7 +23,7 @@
                                     <a data-fancybox="gallery"
                                        href="{{asset("/uploads/gallery/$image")}}">
                                         {{-- Small image --}}
-                                        <img src="{{asset("/uploads/gallery/thumb_$image")}}"
+                                        <img src="{{asset("/uploads/gallery/thumb-$image")}}"
                                              alt="">
                                     </a>
                                 @endforeach
@@ -30,9 +32,9 @@
                     </div>
                 </div>
                 <div class="col-md-7">
-                    <h1>{{$product->title}}</h1>
+                    <h1>{{$currentProduct->title}}</h1>
                     {{-- Product desc--}}
-                    <p class="product-description">{{$product->content}}</p>
+                    {!! $currentProduct->content !!}
                     <h4>Спецификация</h4>
                     <table class="table table-bordered table-hover mb-4">
                         <thead>
@@ -42,41 +44,74 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @for ($i = 0; $i < $groupfilter->count(); $i++)
-                        <tr>
-                            <td>{{$group_filter[$i]}}</td>
-                            <td>{{$filter[$i]}}</td>
-                        </tr>
-                        @endfor
+                        @foreach($groupfilter as $group)
+                            <tr>
+                                <td>
+                                    {{$group->title}}
+                                </td>
+                                <td>
+                                    @foreach($attributes as $attr)
+                                        @if($attr->attr_group_id == $group->id)
+                                            @foreach($filters as $filter)
+                                                @if ($attr->id == $filter->attr_id)
+                                                    {{$attr->value}}
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    @endforeach
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                     <div class="row">
-                        <div class="col-6">
-                            <form action="" class="product-form form-inline">
+                        <div class="col-lg-8 col-md-12 col-sm-12">
+                            <form action="{{route('shop.user.addOrder', $currentProduct->id)}}" method="POST"
+                                  class="product-form form-inline">
+                                @csrf
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <button id="productQuanDecrease" class="btn btn-outline-dark" type="button">-
                                         </button>
                                     </div>
-                                    <input id="product-quantity" class="form-control" type="text" value="1"/>
+                                    <input id="productQuantity" class="form-control" name="productQuantity" type="text"
+                                           value="1"/>
                                     <div class="input-group-append">
                                         <button id="productQuanIncrease" class="btn btn-outline-dark" type="button">+
                                         </button>
                                     </div>
                                 </div>
-                                {{-- On change input value: https://stackoverflow.com/questions/8747439/detecting-value-change-of-inputtype-text-in-jquery --}}
-                                <div class="form-group mx-sm-3">
-                                    <input type="submit" class="btn btn-outline-dark" value="Add to cart"/>
+                                <div class="form-group mx-3">
+                                    @if (Auth::check())
+                                        <input type="submit" class="btn btn-outline-dark" value="Add to cart"/>
+                                    @else
+                                        <a href="{{route('register')}}" class="btn btn-outline-dark">Add to cart</a>
+                                    @endif
                                 </div>
+                                <input id="price" name="price" value="{{$currentProduct->price}}" hidden>
+                                <input id="product_title" name="product_title" value="{{$currentProduct->title}}" hidden>
                             </form>
                         </div>
-                        <div class="col-6 text-right">
+                        <div class="col-lg-4 col-md-12 col-sm-12">
                             <p class="product-price">
-                                {{$product->price}} <span class="currency">{{$curr->symbol_right}}</span>
+                                @if (isset($currentProduct->old_price))
+                                    <del class="old-price">{{$currentProduct->old_price}}</del>&nbsp;
+                                @endif
+                                <span class="value @if (isset($currentProduct->old_price)) value-sale @endif">{{$currentProduct->price}}</span>
+                                <span class="currency">{{$curr->symbol_right}}</span>
                             </p>
                         </div>
                     </div>
+                    @include('shop.admin.components.result_messages')
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="product">
+        <div class="container">
+            <h2>Related Products</h2>
+            <div class="row">
+                @include('shop.components.product_card',['products'=>$related])
             </div>
         </div>
     </div>

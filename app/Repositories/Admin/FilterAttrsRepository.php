@@ -32,7 +32,9 @@ class FilterAttrsRepository extends CoreRepository
             ->select('attribute_values.*', 'attribute_groups.title')
             ->paginate(10);
     }
-
+    public function getAllAttrsValues(){
+        return $this->startConditions()::all();
+    }
     public function checkUnique($name, $attr_group_id)
     {
         return $this->startConditions()
@@ -42,13 +44,6 @@ class FilterAttrsRepository extends CoreRepository
     public function getInfoAttribute($id)
     {
         return $this->startConditions()->find($id);
-    }
-    public function getProductAttributeValues($attrs){
-        $res = array();
-        foreach ($attrs as $attr){
-            array_push($res, $this->startConditions()->find($attr)->select('attribute_values.value'));
-        }
-        return $res;
     }
     public function deleteAttrFilter($id)
     {
