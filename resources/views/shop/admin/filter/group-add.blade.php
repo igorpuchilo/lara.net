@@ -22,6 +22,14 @@
                                        value="{{old('title')}}" required>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
+                            <div class="form-group">
+                                <label for="sel1">Select Category:</label>
+                                <select class="form-control" id="category_id" name="category_id">
+                                    @foreach($categories as $cat)
+                                        <option value="{{$cat->id}}">{{$cat->title}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <div class="box-footer">
                             <button type="submit" class="btn btn-success">Save</button>

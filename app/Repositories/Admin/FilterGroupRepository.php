@@ -19,7 +19,12 @@ class FilterGroupRepository extends CoreRepository
         return AttributeGroup::class;
     }
     public function getAllGroupsFilter(){
-        return DB::table('attribute_groups')->get()->all();;
+        return $this->startConditions()
+            ->join('categories', 'categories.id', '=',
+                'attribute_groups.category_id')
+            ->select('attribute_groups.*','categories.title as category_title')
+            ->orderBy('category_id')
+            ->get();
     }
     public function getInfoGroup($id){
         return $this->startConditions()->find($id);
@@ -30,5 +35,4 @@ class FilterGroupRepository extends CoreRepository
     public function getCountGroupFilter(){
         return DB::table('attribute_values')->count();
     }
-
 }

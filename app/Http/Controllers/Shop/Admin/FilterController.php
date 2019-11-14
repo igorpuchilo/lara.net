@@ -7,6 +7,7 @@ use App\Http\Requests\AdminAttrsFilterAddRequest;
 use App\Http\Requests\AdminGroupFilterAddRequest;
 use App\Models\Admin\AttributeGroup;
 use App\Models\Admin\AttributeValue;
+use App\Repositories\Admin\CategoryRepository;
 use App\Repositories\Admin\FilterAttrsRepository;
 use App\Repositories\Admin\FilterGroupRepository;
 use MetaTag;
@@ -16,12 +17,14 @@ class FilterController extends AdminBaseController
 
     private $filterGroupRepository;
     private $filterAttrsRepository;
+    private $categoryRepository;
 
     public function __construct()
     {
         parent::__construct();
         $this->filterAttrsRepository = app(FilterAttrsRepository::class);
         $this->filterGroupRepository = app(FilterGroupRepository::class);
+        $this->categoryRepository = app(CategoryRepository::class);
     }
     //show filter groups list
     public function attributeGroup()
@@ -45,7 +48,8 @@ class FilterController extends AdminBaseController
             }
         } else {
             MetaTag::setTags(['title' => 'New Filter Group']);
-            return view('shop.admin.filter.group-add');
+            $categories = $this->categoryRepository->getParentCategories();
+            return view('shop.admin.filter.group-add', compact('categories'));
         }
     }
     //edit filter group form and save action
@@ -57,6 +61,7 @@ class FilterController extends AdminBaseController
         if ($request->isMethod('POST')) {
             $group = AttributeGroup::find($id);
             $group->title = $request->title;
+            $group->category_id = $request->category_id;
             $group->save();
             if ($group) {
                 return redirect('/admin/filter/group-filter')->with(['success' => 'Saved']);
@@ -64,7 +69,8 @@ class FilterController extends AdminBaseController
         } else {
             $group = $this->filterGroupRepository->getInfoGroup($id);
             MetaTag::setTags(['title' => 'Edit Group']);
-            return view('shop.admin.filter.group-edit', compact('group'));
+            $categories = $this->categoryRepository->getParentCategories();
+            return view('shop.admin.filter.group-edit', compact('group','categories'));
         }
     }
     //delete filter group without attributes
@@ -146,5 +152,4 @@ class FilterController extends AdminBaseController
                 ->with(['success' => 'Attribute has been Deleted']);
         } else return back()->withErrors(['msg' => 'Error on delete!']);
     }
-
 }

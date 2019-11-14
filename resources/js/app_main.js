@@ -83,3 +83,16 @@ $('#search').typeahead({
     autoSelect: false,
 
 });
+// $.ajax({
+//     type: 'GET',
+//     url: '/category/filter',
+//     data: {
+//         date: date
+//     },
+//     success: function(data){
+//         console.log(data.data);
+//     },
+//     error: function(xhr){
+//         console.log(xhr.responseText);
+//     }
+// });

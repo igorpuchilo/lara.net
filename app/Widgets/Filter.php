@@ -11,6 +11,7 @@ class Filter extends AbstractWidget
     public $attrs;
     public $tpl;
     public $filter;
+    public $parent_id;
     /**
      * The configuration array.
      *
@@ -23,6 +24,7 @@ class Filter extends AbstractWidget
         parent::__construct($config);
         $this->filter = $this->config['filter'];
         $this->tpl = $this->config['tpl'];
+        $this->parent_id = $this->config['parent_id'];
     }
 
     /**
@@ -34,11 +36,13 @@ class Filter extends AbstractWidget
         $this->groups = $this->getGroups();
         $this->attrs = $this->getAttrs();
 
+
         return view($this->tpl, [
             'config' => $this->config,
             'groups' => $this->groups,
             'attrs' => $this->attrs,
             'filter' => $this->filter,
+            'parent_id' => $this->parent_id,
         ]);
     }
     protected function getGroups(){
@@ -46,6 +50,7 @@ class Filter extends AbstractWidget
             ->join('attribute_values', 'attribute_groups.id', '=',
                 'attribute_values.attr_group_id')
             ->select('attribute_groups.*')
+            ->where('category_id','=',$this->parent_id)
             ->get();
         $groups = [];
         foreach ($data as $key => $value){

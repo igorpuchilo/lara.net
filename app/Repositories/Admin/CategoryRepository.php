@@ -60,11 +60,21 @@ class CategoryRepository extends CoreRepository
             ->toBase()
             ->get();
     }
+    public function getSubCategories($id){
+        return $this->startConditions()
+            ->where('parent_id', '=', $id)
+            ->get();
+    }
 
     public function checkUniqueName($title,$id){
         return $this->startConditions()
             ->where('title','=',$title)
             ->where('parent_id','=',$id)
             ->exists();
+    }
+    public function getParentCategories(){
+        return $this->startConditions()
+            ->where('parent_id','=','0')
+            ->get();
     }
 }

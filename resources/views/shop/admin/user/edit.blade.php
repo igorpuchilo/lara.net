@@ -87,7 +87,7 @@
                                             <td>{{$order->created_at}}</td>
                                             <td>{{$order->updated_at}}</td>
                                             <td><a href="{{route('shop.admin.orders.edit',$order->id)}}"><i
-                                                            class="fa fa-fw fa-eye"></i></a></td>
+                                                            class="fa fa-fw fa-pencil"></i></a></td>
                                         </tr>
                                     @endforeach
                                     </tbody>

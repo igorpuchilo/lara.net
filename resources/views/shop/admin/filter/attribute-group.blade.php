@@ -14,12 +14,13 @@
                 <div class="box">
                     <div class="box-body">
                         <div class="table-responsive">
-                            <a href="{{url('/admin/filter/group-add')}}" class="btn btn-primary">
+                            <a href="{{url('/admin/filter/group-add')}}" class="btn btn-primary margin-bottom">
                                 <i class="fa fa-fw fa-plus"></i>Add Group
                             </a>
                             <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
+                                    <th>Category</th>
                                     <th>Name</th>
                                     <th>Action</th>
                                 </tr>
@@ -27,6 +28,7 @@
                                 <tbody>
                                 @foreach ($attrs_group as $attr)
                                     <tr>
+                                        <td>{{$attr->category_title}}</td>
                                         <td>{{$attr->title}}</td>
                                         <td>
                                             <a href="{{url('/admin/filter/group-edit', $attr->id)}}"><i

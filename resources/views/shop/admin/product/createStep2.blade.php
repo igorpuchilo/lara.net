@@ -12,21 +12,26 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="box">
-                        <form method="POST" action="{{route('shop.admin.products.store',$item->id)}}"
+                        <form method="POST" action="{{route('shop.admin.products.store')}}"
                               data-toggle="validator" id="add">
                             @csrf
                             <div class="box-body">
                                 <div class="form-group has-feedback">
                                     <label for="title">Product Name</label>
                                     <input type="text" name="title" class="form-control" id="title"
-                                           placeholder="Product Name" value="{{old('title')}}" required>
+                                           placeholder="Product Name" value="{{old('title')? '' : $data['title']}}" required>
                                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 </div>
                                 <div class="form-group">
                                     <select name="parent_id" id="parent_id" class="form-control" required>
-                                        <option>-- Choose Category --</option>
-                                        @include('shop.admin.product.include.all_categories_list',
-                                        ['categories'=>$categories])
+                                        @if (isset($categories))
+                                            <option selected="selected">Choose Sub Category</option>
+                                            @foreach($categories as $cat)
+                                                <option value="{{$cat->id}}">{{$cat->title}}</option>
+                                            @endforeach
+                                        @else
+                                            <option>Sub Categories List is empty</option>
+                                        @endif
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -67,12 +72,12 @@
                                 </div>
                                 <div class="form-group has-feedback">
                                     <label for="related">Related Products</label>
-                                    <select name="related[]" class="select2 form-control" id="related" multiple></select>
+                                    <select name="related[]" class="select2 form-control" id="related"
+                                            multiple></select>
                                 </div>
-                                <div class="form-group">
-                                    <label>Product Filters</label>
-                                    {{Widget::run('filter',['tpl'=>'widgets.filter', 'filter' =>null,])}}
-                                </div>
+
+                                    {{Widget::run('filter',['tpl'=>'widgets.filter', 'filter' =>null,
+                                    'parent_id' => $data['parent_id']])}}
 
                                 <div class="form-group">
                                     <div class="col-md-4">
@@ -86,6 +91,7 @@
 
                             <input type="hidden" id="_token" value="{{ csrf_token() }}">
                             <div class="box-footer">
+                                <a class="btn btn-warning" href="{{route('shop.admin.products.createStep1')}}">Previous Step</a>
                                 <button type="submit" class="btn btn-success">Save</button>
                             </div>
 

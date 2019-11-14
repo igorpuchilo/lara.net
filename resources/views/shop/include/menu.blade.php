@@ -1,8 +1,8 @@
 @foreach($items as $item)
     @if ($item->hasChildren())
         <li class="nav-item dropdown">
-            <a id="dropdownMenu{{$item->id}}" href="{{route('shop.getcategory',$item->id)}}" aria-haspopup="true" aria-expanded="false"
-               class="nav-link dropdown-toggle" data-target="dropdownMenu{{$item->id}}">{{$item->title}}</a>
+            <button id="dropdownMenu{{$item->id}}" href="" aria-haspopup="true" aria-expanded="false"
+               class="nav-link dropdown-toggle btn btn-link" data-target="dropdownMenu{{$item->id}}">{{$item->title}}</button>
             <ul aria-labelledby="dropdownMenu{{$item->id}}" class="dropdown-menu border-0 shadow">
              @include('shop.include.menu_child', ['items' => $item->children()])
             </ul>

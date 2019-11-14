@@ -34,7 +34,7 @@
                                         <td>{{$product->price}}</td>
                                         <td>{{$product->status ? 'On' : 'Off'}}</td>
                                         <td><a href="{{route('shop.admin.products.edit',$product->id)}}" title="Edit">
-                                                <i class="fa fa-fw fa-eye"></i>
+                                                <i class="fa fa-fw fa-pencil"></i>
                                             </a>
                                             @if ($product->status == 0)
                                                 <a href="{{route('shop.admin.products.getstatus',$product->id)}}"

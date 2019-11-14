@@ -328,6 +328,15 @@ class ProductRepository extends CoreRepository
             ->where('title', 'LIKE','%' . $term . '%')
             ->pluck('title');
     }
+    public function getCategoryByIdWithFilters($id,$paginate){
+        return $this->startConditions()
+            ->join('attribute_products', 'products.id', '=', 'attribute_products.attr_id')
+            ->where('category_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->limit($paginate)
+            ->paginate($paginate);
+
+    }
 
 //Others Function
 

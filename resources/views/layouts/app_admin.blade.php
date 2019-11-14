@@ -154,7 +154,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="{{route('shop.admin.products.index')}}">Product List</a></li>
-                        <li><a href="{{route('shop.admin.products.create')}}">Add Product</a></li>
+                        <li><a href="{{route('shop.admin.products.createStep1')}}">Add Product</a></li>
                     </ul>
                 </li>
                 <li class="treeview">

@@ -14,6 +14,13 @@
             </div>
         </div>
     </div>
-
+    <div class="container text-center">
+        @if ($products->total() > $products->count())
+            <br>
+            <div class="col-md-12 d-flex align-items-center justify-content-center">
+                {{$products->links()}}
+            </div>
+        @endif
+    </div>
 @endsection
 

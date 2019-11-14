@@ -73,4 +73,7 @@ class MainRepository
     public function getAutocompleteByTerms($term){
         return $this->productRepository->getAutocompleteByTerms($term);
     }
+    public function getCategoryByIdWithFilters($id){
+        return $this->productRepository->getCategoryByIdWithFilters($id);
+    }
 }

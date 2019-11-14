@@ -6,6 +6,7 @@ Route::get('/product/{id}', 'Shop\MainController@getProduct')->name('shop.getpro
 Route::get('/category/{id}', 'Shop\MainController@getCategory')->name('shop.getcategory');
 Route::get('/autocomplete', 'Shop\SearchController@search');
 Route::get('/search/result', 'Shop\SearchController@index');
+Route::get('/category/{id}/filters','Shop\MainController@ajaxGetProductsByFilters');
 //User Routes
 Route::group(['middleware' => ['auth']], function () {
     $groupData = [
@@ -52,6 +53,10 @@ Route::group(['middleware' => ['status', 'auth']], function () {
         ///PRODUCTS////
         Route::get('/products/related', 'ProductController@related');
         Route::resource('products', 'ProductController')->names('shop.admin.products');
+        Route::get('products/create/step-1', 'ProductController@createStep1')
+            ->name('shop.admin.products.createStep1');
+        Route::post('products/create/step-2','ProductController@createStep2')
+            ->name('shop.admin.products.createStep2');
         Route::match(['get','post'], '/products/ajax-image-upload','ProductController@ajaxImage');
         Route::delete('/products/ajax-remove-image/{filename}','ProductController@deleteImage');
         Route::post('/products/gallery','ProductController@gallery')
@@ -91,6 +96,5 @@ Route::group(['middleware' => ['status', 'auth']], function () {
         Route::get('/autocomplete', 'SearchController@search');
     });
 });
-
 
 

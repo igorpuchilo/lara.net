@@ -59,7 +59,7 @@ class MainController extends Controller
     }
     public function getCategory($id){
         $curr = $this->mainRepository->getBaseCurr();
-        $paginate = 25;
+        $paginate = 12;
         MetaTag::setTags(['title' => 'Category *****']);
         $arrmenu = Category::all();
         $menu = $this->mainRepository->buildMenu($arrmenu);
@@ -73,11 +73,29 @@ class MainController extends Controller
             return view('shop.category',['menu' => $menu], compact('countOrders', '$user_id', 'curr',
                 'products','category','attributes','groupfilter'));
         }
-        $products = $this->mainRepository->getProductsByCategoryId($id);
+        $products = $this->mainRepository->getProductsByCategoryId($id,$paginate);
         return view('shop.category',['menu' => $menu], compact( '$user_id', 'curr','products',
             'category','attributes','groupfilter'));
     }
-    public function getProductsByFilters(Request $request){
-
+    public function ajaxGetProductsByFilters(Request $request,$id){
+        $curr = $this->mainRepository->getBaseCurr();
+        $paginate = 12;
+        MetaTag::setTags(['title' => 'Category *****']);
+        $arrmenu = Category::all();
+        $menu = $this->mainRepository->buildMenu($arrmenu);
+        $category = $this->mainRepository->getCategoryByIdWithFilters($id);
+        $attributes = $this->mainRepository->getAllAttributes();
+        $groupfilter = $this->mainRepository->getAllFilterGroups();
+        if (Auth::check()) {
+            $user_id =\Auth::user()->id;
+            $countOrders = $this->mainRepository->getUserCountOrders($user_id);
+            $products = $this->mainRepository->getProductsByCategoryId($id,$paginate);
+            return view('shop.category',['menu' => $menu], compact('countOrders', '$user_id', 'curr',
+                'products','category','attributes','groupfilter'));
+        }
+//        $products = $this->mainRepository->getCategoryByIdWithFilters($id,$paginate);
+        $products = $this->mainRepository->getProductsByCategoryId($id,$paginate);
+        return view('shop.category',['menu' => $menu], compact( '$user_id', 'curr','products',
+            'category','attributes','groupfilter'));
     }
 }

@@ -27,8 +27,7 @@
                                     <label for="parent_id">Product Category</label>
                                     <select name="parent_id" id="parent_id" class="form-control" required>
                                         <option disabled>-- Choose Category --</option>
-                                        @include('shop.admin.product.include.categories_for_prod',
-                                        ['categories'=>$categories])
+
                                     </select>
                                 </div>
                                 <div class="form-group">

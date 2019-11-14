@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Shop\Admin;
 use App\Http\Requests\AdminProductsCreateRequest;
 use App\Models\Admin\Category;
 use App\Models\Admin\Product;
+use App\Repositories\Admin\CategoryRepository;
+use App\Repositories\Admin\FilterAttrsRepository;
 use App\Repositories\Admin\ProductRepository;
 use App\Shop\Core\ShopApp;
 use Illuminate\Http\Request;
@@ -13,11 +15,15 @@ use MetaTag;
 class ProductController extends AdminBaseController
 {
     private $productRepository;
+    private $categoryRepository;
+    private $filterAttrsRepository;
 
     public function __construct()
     {
         parent::__construct();
         $this->productRepository = app(ProductRepository::class);
+        $this->categoryRepository = app(CategoryRepository::class);
+        $this->filterAttrsRepository = app(FilterAttrsRepository::class);
     }
 
     /**
@@ -35,14 +41,20 @@ class ProductController extends AdminBaseController
     /**
      * Create new product form
      */
-    public function create()
+    public function createStep1()
+    {
+        $categories = $this->categoryRepository->getParentCategories();
+        return view('shop.admin.product.createStep1', compact('categories'));
+    }
+
+    public function createStep2(Request $request)
     {
         MetaTag::setTags(['title' => 'Create New Product']);
+        $data = $request->input();
+        $categories = $this->categoryRepository->getSubCategories($request->parent_id);
+        $filter = $this->filterAttrsRepository->getAllAttrsFilterByParentId($request->parent_id);
+        return view('shop.admin.product.createStep2', compact('data','categories','filter'));
 
-        $item = new Category();
-
-        return view('shop.admin.product.create', ['categories' => Category::with('children')
-            ->where('parent_id', '=', '0')->get(), 'delimiter' => '-', 'item' => $item,]);
     }
 
     /**
@@ -107,7 +119,7 @@ class ProductController extends AdminBaseController
     public function update(AdminProductsCreateRequest $request, $id)
     {
         $product = $this->productRepository->getId($id);
-        if(empty($product)){
+        if (empty($product)) {
             return back()
                 ->withErrors(['msg' => 'Product not found!'])
                 ->withInput();
@@ -143,51 +155,53 @@ class ProductController extends AdminBaseController
     {
         //
     }
+
     // change status product to OFF
     public function deleteStatus($id)
     {
-        if($id){
+        if ($id) {
             $status = $this->productRepository->deleteStatusOne($id);
-            if($status){
+            if ($status) {
                 return redirect()
                     ->route('shop.admin.products.index')
                     ->with(['success' => 'Saved']);
-            }else
-            {
-                return back()->withErrors(['msg'=>'Error on save'])->withInput();
+            } else {
+                return back()->withErrors(['msg' => 'Error on save'])->withInput();
             }
         }
     }
+
     // Get status current product On/Off
     public function getStatus($id)
     {
-        if($id){
+        if ($id) {
             $status = $this->productRepository->getStatusOne($id);
-            if($status){
+            if ($status) {
                 return redirect()
                     ->route('shop.admin.products.index')
                     ->with(['success' => 'Saved']);
-            }else
-            {
-                return back()->withErrors(['msg'=>'Error on save'])->withInput();
+            } else {
+                return back()->withErrors(['msg' => 'Error on save'])->withInput();
             }
         }
     }
+
     //delete product with all path
-    public function deleteProduct($id){
-        if($id) {
+    public function deleteProduct($id)
+    {
+        if ($id) {
             $this->productRepository->deleteImgGalleryFromPath($id);
             $db = $this->productRepository->deleteFromDB($id);
-            if($db){
+            if ($db) {
                 return redirect()
                     ->route('shop.admin.products.index')
                     ->with(['success' => 'Saved']);
-            }else
-            {
-                return back()->withErrors(['msg'=>'Error on save'])->withInput();
+            } else {
+                return back()->withErrors(['msg' => 'Error on save'])->withInput();
             }
         }
     }
+
     //Search related product method sql LIKE
     public function related(Request $request)
     {
@@ -205,6 +219,7 @@ class ProductController extends AdminBaseController
         echo json_encode($data);
         die;
     }
+
     //upload image to storage
     public function ajaxImage(Request $request)
     {
@@ -228,11 +243,13 @@ class ProductController extends AdminBaseController
         $this->productRepository->uploadImg($filename, $wmax, $hmax);
         return $filename;
     }
+
     //delete image from storage
     public function deleteImage($filename)
     {
         \File::delete('uploads/single/' . $filename);
     }
+
     // upload to gallery
     public function gallery(Request $request)
     {
@@ -254,6 +271,7 @@ class ProductController extends AdminBaseController
             $this->productRepository->uploadGallery($name, $wmax, $hmax, $thumb_wmax, $thumb_hmax, $preview_wmax, $preview_hmax);
         }
     }
+
     //delete all files from gallery
     public function deleteGallery()
     {

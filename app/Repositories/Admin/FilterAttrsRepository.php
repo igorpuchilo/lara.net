@@ -29,8 +29,16 @@ class FilterAttrsRepository extends CoreRepository
         return DB::table('attribute_values')
             ->join('attribute_groups', 'attribute_groups.id', '=',
                 'attribute_values.attr_group_id')
-            ->select('attribute_values.*', 'attribute_groups.title')
+            ->select('attribute_values.*', 'attribute_groups.title as category_title')
             ->paginate(10);
+    }
+    public function getAllAttrsFilterByParentId($id){
+        return DB::table('attribute_values')
+            ->join('attribute_groups', 'attribute_groups.id', '=',
+                'attribute_values.attr_group_id')
+            ->select('attribute_values.*', 'attribute_groups.title as category_title')
+            ->where('attribute_groups.id', '=',$id)
+            ->get();
     }
     public function getAllAttrsValues(){
         return $this->startConditions()::all();

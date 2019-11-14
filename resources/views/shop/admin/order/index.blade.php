@@ -49,7 +49,7 @@
                                         <td>{{$order->updated_at}}</td>
                                         <td>
                                             <a href="{{route('shop.admin.orders.edit',$order->id)}}" title="Edit">
-                                                <i class="fa fa-fw fa-eye"></i>
+                                                <i class="fa fa-fw fa-pencil"></i>
                                             </a>
                                             <a href="{{route('shop.admin.orders.forcedelete',$order->id)}}"
                                                title="Delete">
