@@ -20,7 +20,7 @@
                             @if(!empty($product->img))
                                 <img src="{{asset('uploads/single/'.$product->img)}}" alt="image">
                             @else
-                                <img src="{{asset('images/no_image.png')}}" alt="image">
+                                <img src="{{asset('images/no_image.jpg')}}" alt="image">
                             @endif
                         </div>
                         <div class="product-info">

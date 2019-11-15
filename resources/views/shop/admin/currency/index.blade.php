@@ -14,7 +14,7 @@
                 <div class="box">
                     <div class="box-body">
                         <div class="table-responsive">
-                            <a href="{{url('/admin/currency/add')}}" class="btn btn-primary">
+                            <a href="{{url('/admin/currency/add')}}" class="btn btn-primary margin-bottom">
                                 <i class="fa fa-fw fa-plus"></i>Add Currency
                             </a>
                             <table class="table table-bordered table-hover">

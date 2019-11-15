@@ -23,7 +23,7 @@
                                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 </div>
                                 <div class="form-group">
-                                    <select name="parent_id" id="parent_id" class="form-control" required>
+                                    <select name="category_id" id="category_id" class="form-control" required>
                                         @if (isset($categories))
                                             <option selected="selected">Choose Sub Category</option>
                                             @foreach($categories as $cat)

@@ -22,7 +22,7 @@
                                                  src="{{asset('uploads/single/'.$product->img)}}" alt="image">
                                         @else
                                             <img class="text-center product-img"
-                                                 src="{{asset('images/no_image.png')}}" alt="image">
+                                                 src="{{asset('images/no_image.jpg')}}" alt="image">
                                         @endif
                                     </a>
                                 </div>

@@ -14,7 +14,7 @@
                 <div class="box">
                     <div class="box-body">
                         <div class="table-responsive">
-                            <a href="{{url('/admin/filter/attr-add')}}" class="btn btn-primary">
+                            <a href="{{url('/admin/filter/attr-add')}}" class="btn btn-primary margin-bottom">
                                 <i class="fa fa-fw fa-plus"></i>Add Attribute
                             </a>
                             <table class="table table-bordered table-hover">
@@ -31,7 +31,7 @@
                                     <tr>
                                         <td>{{$attr->id}}</td>
                                         <td>{{$attr->value}}</td>
-                                        <td>{{$attr->title}}</td>
+                                        <td>{{$attr->category_title}}</td>
                                         <td>
                                             <a href="{{url('/admin/filter/attr-edit', $attr->id)}}"><i
                                                         class="fa fa-fw fa-pencil" title="Edit"></i></a>

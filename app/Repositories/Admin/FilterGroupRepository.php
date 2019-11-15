@@ -26,6 +26,13 @@ class FilterGroupRepository extends CoreRepository
             ->orderBy('category_id')
             ->get();
     }
+    public function getFiltersByAttrs($attrs){
+        return $this->startConditions()
+            ->join('attribute_values','attribute_values.attr_group_id','=','attribute_groups.id')
+            ->select('attribute_values.value','attribute_groups.title')
+            ->whereIn('attribute_values.id',$attrs)
+            ->get();
+    }
     public function getInfoGroup($id){
         return $this->startConditions()->find($id);
     }
@@ -34,5 +41,14 @@ class FilterGroupRepository extends CoreRepository
     }
     public function getCountGroupFilter(){
         return DB::table('attribute_values')->count();
+    }
+    public function getGroupIdByParentId($id){
+        return $this->startConditions()
+            ->select('id')
+            ->where('category_id',$id)
+            ->toArray();
+    }
+    public function getAllFilterGroupsByParentId($id){
+        return $this->startConditions()->where('category_id','=',$id)->get();
     }
 }

@@ -8,6 +8,7 @@ use Auth;
 use MetaTag;
 use App\Models\Admin\Category;
 use Illuminate\Http\Request;
+
 class MainController extends Controller
 {
 
@@ -27,75 +28,75 @@ class MainController extends Controller
         $products = $this->mainRepository->getLastProducts($paginatepages);
         $curr = $this->mainRepository->getBaseCurr();
         if (Auth::check()) {
-            $id =\Auth::user()->id;
+            $id = \Auth::user()->id;
             $countOrders = $this->mainRepository->getUserCountOrders($id);
-            return view('shop.home',['menu' => $menu], compact('countOrders','products', 'curr'));
+            return view('shop.home', ['menu' => $menu], compact('countOrders', 'products', 'curr'));
         }
-        return view('shop.home',['menu' => $menu], compact('products', 'curr'));
+        return view('shop.home', ['menu' => $menu], compact('products', 'curr'));
     }
-    public function getProduct($id){
+
+    public function getProduct($id)
+    {
         $currentProduct = $this->mainRepository->getProductById($id);
-        if ($currentProduct->status == 0){
+        if ($currentProduct->status == 0) {
             abort(404);
         }
         $curr = $this->mainRepository->getBaseCurr();
         MetaTag::setTags(['title' => $currentProduct->title]);
-        $filters = $this->mainRepository->getAttributesProduct($id);
-        $attributes = $this->mainRepository->getAllAttributes();
-        $groupfilter = $this->mainRepository->getAllFilterGroups();
+        $attrs = $this->mainRepository->getAttributesProduct($currentProduct->id);
+        $filters = $this->mainRepository->getFiltersByAttrs($attrs);
         $limit = 4;
-        $related = $this->mainRepository->getRelatedProducts($id,$limit);
+        $related = $this->mainRepository->getRelatedProducts($id, $limit);
         $images = $this->mainRepository->getGallery($id);
         $arrmenu = Category::all();
         $menu = $this->mainRepository->buildMenu($arrmenu);
         if (Auth::check()) {
-            $id =\Auth::user()->id;
+            $id = \Auth::user()->id;
             $countOrders = $this->mainRepository->getUserCountOrders($id);
-            return view('shop.product',['menu' => $menu], compact('countOrders','currentProduct',
-                'filters', 'related', 'images', 'id', 'curr', 'groupfilter','attributes') );
+            return view('shop.product', ['menu' => $menu], compact('countOrders', 'currentProduct',
+                'filters', 'related', 'images', 'id', 'curr'));
         }
-        return view('shop.product',['menu' => $menu], compact('currentProduct', 'filters',
-            'related', 'images', 'id', 'curr', 'groupfilter','attributes'));
+        return view('shop.product', ['menu' => $menu], compact('currentProduct', 'filters',
+            'related', 'images', 'id', 'curr'));
     }
-    public function getCategory($id){
+
+    public function getCategory(Request $request, $id)
+    {
         $curr = $this->mainRepository->getBaseCurr();
-        $paginate = 12;
-        MetaTag::setTags(['title' => 'Category *****']);
+        $paginate = 3;
+        $groups = array();
+        $sortBy = array();
         $arrmenu = Category::all();
         $menu = $this->mainRepository->buildMenu($arrmenu);
+        $attrs = array();
         $category = $this->mainRepository->getCategoryById($id);
-        $attributes = $this->mainRepository->getAllAttributes();
-        $groupfilter = $this->mainRepository->getAllFilterGroups();
-        if (Auth::check()) {
-            $user_id =\Auth::user()->id;
-            $countOrders = $this->mainRepository->getUserCountOrders($user_id);
-            $products = $this->mainRepository->getProductsByCategoryId($id,$paginate);
-            return view('shop.category',['menu' => $menu], compact('countOrders', '$user_id', 'curr',
-                'products','category','attributes','groupfilter'));
+
+        MetaTag::setTags(['title' => "$category->title"]);
+        $groupsfilter = $this->mainRepository->getAllFilterGroupsByParentId($category->parent_id);
+        if (!empty($groupsfilter)) {
+            foreach ($groupsfilter as $group) {
+                array_push($groups, $group->id);
+            }
         }
-        $products = $this->mainRepository->getProductsByCategoryId($id,$paginate);
-        return view('shop.category',['menu' => $menu], compact( '$user_id', 'curr','products',
-            'category','attributes','groupfilter'));
-    }
-    public function ajaxGetProductsByFilters(Request $request,$id){
-        $curr = $this->mainRepository->getBaseCurr();
-        $paginate = 12;
-        MetaTag::setTags(['title' => 'Category *****']);
-        $arrmenu = Category::all();
-        $menu = $this->mainRepository->buildMenu($arrmenu);
-        $category = $this->mainRepository->getCategoryByIdWithFilters($id);
-        $attributes = $this->mainRepository->getAllAttributes();
-        $groupfilter = $this->mainRepository->getAllFilterGroups();
-        if (Auth::check()) {
-            $user_id =\Auth::user()->id;
-            $countOrders = $this->mainRepository->getUserCountOrders($user_id);
-            $products = $this->mainRepository->getProductsByCategoryId($id,$paginate);
-            return view('shop.category',['menu' => $menu], compact('countOrders', '$user_id', 'curr',
-                'products','category','attributes','groupfilter'));
+        $attributes = $this->mainRepository->getAllAttributesByGroupsId($groups);
+        if(isset($request->sortBy)){
+            $sortBy = $request->sortBy;
         }
-//        $products = $this->mainRepository->getCategoryByIdWithFilters($id,$paginate);
-        $products = $this->mainRepository->getProductsByCategoryId($id,$paginate);
-        return view('shop.category',['menu' => $menu], compact( '$user_id', 'curr','products',
-            'category','attributes','groupfilter'));
+        if (isset($request->attrs)) {
+            $attrs = $request->attrs;
+
+            $products = $this->mainRepository->getProductsByAttrsAndCat($attrs, $paginate, $id);
+        } else {
+            $products = $this->mainRepository->getProductsByCategoryId($id, $paginate);
+        }
+        if (Auth::check()) {
+            $user_id = \Auth::user()->id;
+            $countOrders = $this->mainRepository->getUserCountOrders($user_id);
+            return view('shop.category', ['menu' => $menu], compact('countOrders', '$user_id', 'curr',
+                'products', 'category', 'attributes', 'groupsfilter','attrs','sortBy'));
+        }
+        return view('shop.category', ['menu' => $menu], compact('$user_id', 'curr', 'products',
+            'category', 'attributes', 'groupsfilter','attrs','sortBy'));
     }
+
 }

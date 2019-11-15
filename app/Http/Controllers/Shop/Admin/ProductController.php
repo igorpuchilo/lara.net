@@ -50,10 +50,10 @@ class ProductController extends AdminBaseController
     public function createStep2(Request $request)
     {
         MetaTag::setTags(['title' => 'Create New Product']);
-        $data = $request->input();
-        $categories = $this->categoryRepository->getSubCategories($request->parent_id);
-        $filter = $this->filterAttrsRepository->getAllAttrsFilterByParentId($request->parent_id);
-        return view('shop.admin.product.createStep2', compact('data','categories','filter'));
+        $parent_id = $request->parent_id;
+        $categories = $this->categoryRepository->getSubCategories($parent_id);
+        $filter = $this->filterAttrsRepository->getAllAttrsFilterByParentId($parent_id);
+        return view('shop.admin.product.createStep2', compact('data','categories','filter','parent_id'));
 
     }
 
@@ -67,15 +67,15 @@ class ProductController extends AdminBaseController
         $id = $product->id;
         $product->status = $request->status ? '1' : '0';
         $product->hit = $request->hit ? '1' : '0';
-        $product->category_id = $request->parent_id ?? '0';
+        $product->category_id = $request->category_id ?? '0';
+        $product->parent_id = $request->parent_id;
         $this->productRepository->getImg($product);
         $save = $product->save();
         if ($save) {
             $this->productRepository->editFilter($id, $data);
             $this->productRepository->editRelatedProduct($id, $data);
             $this->productRepository->saveGallery($id);
-            return redirect()
-                ->route('shop.admin.products.create', [$product->id])
+            return redirect('/admin/products')
                 ->with(['success' => 'Saved']);
         } else {
             return back()
@@ -103,14 +103,11 @@ class ProductController extends AdminBaseController
         MetaTag::setTags(['title' => 'Edit Exist Product']);
 
         $product = $this->productRepository->getInfoProduct($id);
-        ShopApp::get_Instance()->setProperty('parent_id', $product->category_id);
         $filter = $this->productRepository->getFiltersProduct($id);
+        $categories = $this->categoryRepository->getSubCategories($product->parent_id);
         $related = $this->productRepository->getRelatedProducts($id);
         $images = $this->productRepository->getGallery($id);
-        return view('shop.admin.product.edit', compact('product', 'filter', 'related', 'images', 'id'),
-            ['categories' => Category::with('children')
-                ->where('parent_id', '=', '0')->get(), 'delimiter' => '-',
-                'product' => $product,]);
+        return view('shop.admin.product.edit', compact('product', 'filter', 'related', 'images', 'id','categories'));
     }
 
     /**
@@ -128,7 +125,7 @@ class ProductController extends AdminBaseController
         $result = $product->update($data);
         $product->status = $request->status ? '1' : '0';
         $product->hit = $request->hit ? '1' : '0';
-        $product->category_id = $request->parent_id ?? $product->category_id;
+        $product->category_id = $request->category_id;
         $this->productRepository->getImg($product);
         $save = $product->save();
         if ($save && $result) {
@@ -247,6 +244,7 @@ class ProductController extends AdminBaseController
     //delete image from storage
     public function deleteImage($filename)
     {
+        $this->productRepository->delImgIfExist($filename);
         \File::delete('uploads/single/' . $filename);
     }
 

@@ -8,20 +8,20 @@
                         <div class="card h-100">
                             <a class="text-center product-link" href="{{route('shop.getproduct', $product->id)}}">
                                 @if(!empty($product->img))
-                                    <img class="card-img-top" style="height: 165px;width: 125px;"
-                                         src="{{asset('uploads/single/'.$product->img)}}" alt="image">
+                                    <img class="card-img-top" style="height: 200px;width: 125px;"
+                                         src="{{asset('uploads/single/'.$product->img)}}"
+                                         alt="">
                                 @else
                                     <img class="card-img-top"
-                                         src="{{asset('images/no_image.png')}}" alt="image">
+                                         src="{{asset('images/no_image.jpg')}}" alt="image">
                                 @endif
                                 @if ($product->hit ==1)
                                     <div class="corner-ribbon top-right sticky red small">Hit!</div>
                                 @endif
                             </a>
-                            <div class="card-body p-1">
-
+                            <div class="card-body p-1 text-center">
                                 <a href="{{route('shop.getproduct', $product->id)}}"
-                                   class="btn btn-linkedin">{{$product->title}}
+                                   class="nav-link text-secondary">{{$product->title}}
                                 </a>
                             </div>
                             <div class="card-footer">

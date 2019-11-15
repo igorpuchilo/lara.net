@@ -52,7 +52,7 @@ class MainRepository
         return $this->currencyRepository->getBaseCurrency();
     }
     public function getAttributesProduct($id){
-        $attr = $this->productRepository->getFiltersProductRaw($id);
+        $attr = $this->productRepository->getFiltersProduct($id);
         return $attr;
     }
     public function getAllAttributes(){
@@ -73,7 +73,16 @@ class MainRepository
     public function getAutocompleteByTerms($term){
         return $this->productRepository->getAutocompleteByTerms($term);
     }
-    public function getCategoryByIdWithFilters($id){
-        return $this->productRepository->getCategoryByIdWithFilters($id);
+    public function getFiltersByAttrs($attrs){
+        return $this->filterGroupRepository->getFiltersByAttrs($attrs);
+    }
+    public function getProductsByAttrsAndCat($attrs,$paginate,$id){
+        return $this->productRepository->getProductsByAttrsAndCat($attrs,$paginate,$id);
+    }
+    public function getAllAttributesByGroupsId($groups){
+       return $this->filterAttrsRepository->getAllAttributesByGroupsId($groups);
+    }
+    public function getAllFilterGroupsByParentId($id){
+        return $this->filterGroupRepository->getAllFilterGroupsByParentId($id);
     }
 }

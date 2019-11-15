@@ -39,26 +39,18 @@
                     <table class="table table-bordered table-hover mb-4">
                         <thead>
                         <tr>
-                            <td>Характеристика</td>
-                            <td>Значение</td>
+                            <td>Attribute</td>
+                            <td>Value</td>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($groupfilter as $group)
+                        @foreach($filters as $filter)
                             <tr>
                                 <td>
-                                    {{$group->title}}
+                                    {{$filter->title}}
                                 </td>
                                 <td>
-                                    @foreach($attributes as $attr)
-                                        @if($attr->attr_group_id == $group->id)
-                                            @foreach($filters as $filter)
-                                                @if ($attr->id == $filter->attr_id)
-                                                    {{$attr->value}}
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                    @endforeach
+                                    {{$filter->value}}
                                 </td>
                             </tr>
                         @endforeach

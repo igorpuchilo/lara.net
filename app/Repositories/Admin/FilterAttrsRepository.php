@@ -9,9 +9,12 @@ use App\Repositories\CoreRepository;
 
 class FilterAttrsRepository extends CoreRepository
 {
+    private $filterGroupRepository;
+
     public function __construct()
     {
         parent::__construct();
+        $this->filterGroupRepository = app(FilterGroupRepository::class);
     }
 
     protected function getModelClass()
@@ -40,6 +43,12 @@ class FilterAttrsRepository extends CoreRepository
             ->where('attribute_groups.id', '=',$id)
             ->get();
     }
+    public function getAllAttributesByGroupsId($groups){
+        return $this->startConditions()
+            ->wherein('attr_group_id', $groups)
+            ->get();
+    }
+
     public function getAllAttrsValues(){
         return $this->startConditions()::all();
     }

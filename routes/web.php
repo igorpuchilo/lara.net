@@ -6,7 +6,6 @@ Route::get('/product/{id}', 'Shop\MainController@getProduct')->name('shop.getpro
 Route::get('/category/{id}', 'Shop\MainController@getCategory')->name('shop.getcategory');
 Route::get('/autocomplete', 'Shop\SearchController@search');
 Route::get('/search/result', 'Shop\SearchController@index');
-Route::get('/category/{id}/filters','Shop\MainController@ajaxGetProductsByFilters');
 //User Routes
 Route::group(['middleware' => ['auth']], function () {
     $groupData = [

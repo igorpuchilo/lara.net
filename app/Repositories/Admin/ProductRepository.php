@@ -36,7 +36,6 @@ class ProductRepository extends CoreRepository
             ->limit($paginate)
             ->paginate($paginate);
     }
-
     public function getLastAvailableProducts($paginate)
     {
         return $this->startConditions()
@@ -62,6 +61,30 @@ class ProductRepository extends CoreRepository
             ->count();
     }
 
+    public function getProductsByAttrsAndCat($attrs,$paginate,$id){
+        return $this->startConditions()
+            ->join('attribute_products','attribute_products.product_id','=','products.id')
+            ->select('products.*')
+            ->where('products.category_id','=',$id)
+            ->wherein('attribute_products.attr_id',$attrs)
+            ->limit($paginate)
+            ->paginate($paginate);
+//        return $this->startConditions()
+//            ->join('attribute_products','products.id','=','attribute_products.product_id')
+//            ->select('products.*')
+//            ->where(function ($query,$attrs,$id){
+//                $query->where('products.category_id','=',$id)
+//                    ->whereIn('products.id',$attrs);
+//            })
+//            ->limit($paginate)
+//            ->paginate($paginate);
+//        return $this->startConditions()
+//            ->join('attribute_products','products.id','=','attribute_products.product_id')
+//            ->select('products.*')
+//            ->whereIn('products.id',$attrs)
+//            ->limit($paginate)
+//            ->paginate($paginate);
+    }
     public function getProducts($q)
     {
         return DB::table('products')
@@ -140,7 +163,7 @@ class ProductRepository extends CoreRepository
         }
 //        Change Filters
         if (!empty($data['attrs'])) {
-            $res = array_diff($filter, $data['attrs']);
+            $res = array_diff($data['attrs'],$filter);
             if ($res) {
                 DB::table('attribute_products')
                     ->where('product_id', '=', $id)
@@ -336,6 +359,11 @@ class ProductRepository extends CoreRepository
             ->limit($paginate)
             ->paginate($paginate);
 
+    }
+    public function delImgIfExist($filename){
+        $this->startConditions()
+            ->where('img', $filename)
+            ->update(['img' => '']);
     }
 
 //Others Function

@@ -29,7 +29,7 @@ class CreateProductsTable extends Migration
             $table->string('description',255)->default(NULL)->nullable();
             $table->string('img',255)->nullable();
             $table->enum('hit',['0','1'])->default(0)->index();
-
+            $table->tinyInteger('parent_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
 
