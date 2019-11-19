@@ -37,13 +37,13 @@ class MainController extends Controller
 
     public function getProduct($id)
     {
-        $currentProduct = $this->mainRepository->getProductById($id);
-        if ($currentProduct->status == 0) {
+        $product = $this->mainRepository->getProductById($id);
+        if ($product->status == 0) {
             abort(404);
         }
         $curr = $this->mainRepository->getBaseCurr();
-        MetaTag::setTags(['title' => $currentProduct->title]);
-        $attrs = $this->mainRepository->getAttributesProduct($currentProduct->id);
+        MetaTag::setTags(['title' => $product->title]);
+        $attrs = $this->mainRepository->getAttributesProduct($product->id);
         $filters = $this->mainRepository->getFiltersByAttrs($attrs);
         $limit = 4;
         $related = $this->mainRepository->getRelatedProducts($id, $limit);
@@ -53,24 +53,22 @@ class MainController extends Controller
         if (Auth::check()) {
             $id = \Auth::user()->id;
             $countOrders = $this->mainRepository->getUserCountOrders($id);
-            return view('shop.product', ['menu' => $menu], compact('countOrders', 'currentProduct',
+            return view('shop.product', ['menu' => $menu], compact('countOrders', 'product',
                 'filters', 'related', 'images', 'id', 'curr'));
         }
-        return view('shop.product', ['menu' => $menu], compact('currentProduct', 'filters',
+        return view('shop.product', ['menu' => $menu], compact('product', 'filters',
             'related', 'images', 'id', 'curr'));
     }
 
     public function getCategory(Request $request, $id)
     {
         $curr = $this->mainRepository->getBaseCurr();
-        $paginate = 3;
+        $paginate = 12;
         $groups = array();
-        $sortBy = array();
         $arrmenu = Category::all();
         $menu = $this->mainRepository->buildMenu($arrmenu);
         $attrs = array();
         $category = $this->mainRepository->getCategoryById($id);
-
         MetaTag::setTags(['title' => "$category->title"]);
         $groupsfilter = $this->mainRepository->getAllFilterGroupsByParentId($category->parent_id);
         if (!empty($groupsfilter)) {
@@ -84,7 +82,6 @@ class MainController extends Controller
         }
         if (isset($request->attrs)) {
             $attrs = $request->attrs;
-
             $products = $this->mainRepository->getProductsByAttrsAndCat($attrs, $paginate, $id);
         } else {
             $products = $this->mainRepository->getProductsByCategoryId($id, $paginate);

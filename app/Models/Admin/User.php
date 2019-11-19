@@ -5,12 +5,18 @@ namespace App\Models\Admin;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Kyslik\ColumnSortable\Sortable;
 
 class User extends Model
 {
     use SoftDeletes;
     use Notifiable;
-
+    use Sortable;
+    public $sortable = [
+        'login',
+        'email',
+        'id',
+    ];
     protected $fillable = [
       'name','login','email','password',
     ];
@@ -24,4 +30,9 @@ class User extends Model
     public function roles(){
         return $this->belongsToMany('App\Models\Role', 'user_roles');
     }
+    public function roleSortable($query, $direction)
+    {
+        return $query->orderBy('role', $direction);
+    }
+
 }

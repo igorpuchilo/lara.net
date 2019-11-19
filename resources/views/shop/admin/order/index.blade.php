@@ -18,12 +18,12 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Buyer</th>
-                                    <th>Status</th>
-                                    <th>Summary</th>
-                                    <th>Created At</th>
-                                    <th>Updated At</th>
+                                    <th>@sortablelink('id')</th>
+                                    <th>@sortablelink('name','Buyer')</th>
+                                    <th>@sortablelink('status')</th>
+                                    <th>@sortablelink('sum','Summary')</th>
+                                    <th>@sortablelink('created_at')</th>
+                                    <th>@sortablelink('updated_at')</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -67,18 +67,7 @@
                             </table>
                         </div>
                         <div class="text-center">
-                            @if ($orders->total() > $orders->count())
-                                <br>
-                                <div class="row justify-content-center">
-                                    <div class="col-md-12">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                {{$orders->links()}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
+                            {!! $orders->appends(\Request::except('page'))->render() !!}
                         </div>
                     </div>
                 </div>

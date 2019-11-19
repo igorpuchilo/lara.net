@@ -21,9 +21,12 @@ class CurrencyRepository extends CoreRepository
     public function getBaseCurrency(){
         return DB::table('currencies')->where('base', '=', '1')->get()->first();
     }
-    public function getAllCurrency()
+    public function getAllCurrency($paginate)
     {
-        return $this->startConditions()::all();
+        return $this->startConditions()
+            ->sortable()
+            ->limit($paginate)
+            ->paginate($paginate);
     }
 
     public function switchBaseCurrency()

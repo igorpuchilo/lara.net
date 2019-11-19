@@ -27,31 +27,39 @@ class FilterAttrsRepository extends CoreRepository
         return DB::table('attribute_values')->where('attr_group_id', '=', $id)->count();
     }
 
-    public function getAllAttrsFilter()
+    public function getAllAttrsFilter($paginate)
+    {
+        return $this->startConditions()
+            ->join('attribute_groups', 'attribute_groups.id', '=',
+                'attribute_values.attr_group_id')
+            ->select('attribute_values.*', 'attribute_groups.title as category_title')
+            ->sortable()
+            ->limit($paginate)
+            ->paginate($paginate);
+    }
+
+    public function getAllAttrsFilterByParentId($id)
     {
         return DB::table('attribute_values')
             ->join('attribute_groups', 'attribute_groups.id', '=',
                 'attribute_values.attr_group_id')
             ->select('attribute_values.*', 'attribute_groups.title as category_title')
-            ->paginate(10);
-    }
-    public function getAllAttrsFilterByParentId($id){
-        return DB::table('attribute_values')
-            ->join('attribute_groups', 'attribute_groups.id', '=',
-                'attribute_values.attr_group_id')
-            ->select('attribute_values.*', 'attribute_groups.title as category_title')
-            ->where('attribute_groups.id', '=',$id)
+            ->where('attribute_groups.id', '=', $id)
             ->get();
     }
-    public function getAllAttributesByGroupsId($groups){
+
+    public function getAllAttributesByGroupsId($groups)
+    {
         return $this->startConditions()
             ->wherein('attr_group_id', $groups)
             ->get();
     }
 
-    public function getAllAttrsValues(){
+    public function getAllAttrsValues()
+    {
         return $this->startConditions()::all();
     }
+
     public function checkUnique($name, $attr_group_id)
     {
         return $this->startConditions()
@@ -62,6 +70,7 @@ class FilterAttrsRepository extends CoreRepository
     {
         return $this->startConditions()->find($id);
     }
+
     public function deleteAttrFilter($id)
     {
         return $this->startConditions()->where('id', '=', $id)->forceDelete();

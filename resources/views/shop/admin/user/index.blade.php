@@ -18,15 +18,15 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>LOGIN</th>
-                                    <th>E-Mail</th>
-                                    <th>Role</th>
+                                    <th>@sortablelink('id')</th>
+                                    <th>@sortablelink('name','Login')</th>
+                                    <th>@sortablelink('email')</th>
+                                    <th>@sortablelink('role','Role')</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @forelse($paginator as $user)
+                                @forelse($users as $user)
                                     @php
                                         $class = '';
                                         $status = $user->role;
@@ -62,18 +62,7 @@
                             </table>
                         </div>
                         <div class="text-center">
-                            @if ($paginator->total() > $paginator->count())
-                                <br>
-                                <div class="row justify-content-center">
-                                    <div class="col-md-12">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                {{$paginator->links()}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
+                            {!! $users->appends(\Request::except('page'))->render() !!}
                         </div>
                     </div>
                 </div>

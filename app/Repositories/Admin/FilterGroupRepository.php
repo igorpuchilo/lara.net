@@ -18,13 +18,14 @@ class FilterGroupRepository extends CoreRepository
     {
         return AttributeGroup::class;
     }
-    public function getAllGroupsFilter(){
+    public function getAllGroupsFilter($paginate){
         return $this->startConditions()
             ->join('categories', 'categories.id', '=',
                 'attribute_groups.category_id')
             ->select('attribute_groups.*','categories.title as category_title')
-            ->orderBy('category_id')
-            ->get();
+            ->sortable()
+            ->limit($paginate)
+            ->paginate($paginate);
     }
     public function getFiltersByAttrs($attrs){
         return $this->startConditions()

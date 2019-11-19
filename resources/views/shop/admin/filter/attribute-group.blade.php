@@ -20,8 +20,8 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>Category</th>
-                                    <th>Name</th>
+                                    <th>@sortablelink('categories', 'Category Name')</th>
+                                    <th>@sortablelink('title')</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -41,6 +41,9 @@
                                 @endforeach
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="text-center">
+                            {!! $attrs_group->appends(\Request::except('page'))->render() !!}
                         </div>
                     </div>
                 </div>

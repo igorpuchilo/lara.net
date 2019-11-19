@@ -29,7 +29,8 @@ class FilterController extends AdminBaseController
     //show filter groups list
     public function attributeGroup()
     {
-        $attrs_group = $this->filterGroupRepository->getAllGroupsFilter();
+        $paginate = 3;
+        $attrs_group = $this->filterGroupRepository->getAllGroupsFilter($paginate);
         MetaTag::setTags(['title' => 'Filter Groups']);
         return view('shop.admin.filter.attribute-group', compact('attrs_group'));
     }
@@ -91,8 +92,9 @@ class FilterController extends AdminBaseController
     //show groups attributes list
     public function attributeFilter()
     {
+        $paginate = 10;
         MetaTag::setTags(['title' => 'Group Attributes']);
-        $attrs = $this->filterAttrsRepository->getAllAttrsFilter();
+        $attrs = $this->filterAttrsRepository->getAllAttrsFilter($paginate);
         $count = $this->filterGroupRepository->getCountGroupFilter();
         return view('shop.admin.filter.attribute', compact('attrs', 'count'));
     }

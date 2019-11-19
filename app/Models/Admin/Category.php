@@ -4,10 +4,22 @@ namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Kyslik\ColumnSortable\Sortable;
 
 class Category extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes,Sortable;
+    public $sortable = [
+        'id',
+        'title',
+        'alias',
+        'parent_id',
+        'keywords',
+        'description',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
     protected  $fillable=[
         'id',
         'title',

@@ -1,21 +1,7 @@
 <div class="col-md-3">
-    <h4>Filter Products</h4>
     <div class="category-filter">
+        <h4>Filter Products</h4>
         <form action="{{route('shop.getcategory',$category->id)}}" method="GET">
-            <div class="filter">
-                <div class="form-group">
-                    <label for="exampleFormControlSelect1">Sort by:</label>
-                    <select name="sortBy" class="form-control" id="sortBy">
-                        <option value="priceAsc" {{ $sortBy == 'priceAsc' ? 'selected' : '' }}>Price: min - max</option>
-                        <option value="priceDesc" {{ $sortBy == 'priceDesc' ? 'selected' : '' }}>Price: max - min</option>
-                        <option value="titleAsc" {{ $sortBy == 'titleAsc' ? 'selected' : '' }}>Alphabetically: A - Z</option>
-                        <option value="titleDesc" {{ $sortBy == 'titleDesc' ? 'selected' : '' }}>Alphabetically: Z - A</option>
-                        <option value="createdAtAsc" {{ $sortBy == 'createdAtAsc' ? 'selected' : '' }}>Date: Newest - Oldest</option>
-                        <option value="createdAtDesc" {{ $sortBy == 'createdAtDesc' ? 'selected' : '' }}>Date: Oldest - Newest</option>
-                    </select>
-                </div>
-            </div>
-
             {{--            <h5>Brands</h5>--}}
             {{--            <div class="filter-pos">--}}
             {{--                <div class="form-group">--}}

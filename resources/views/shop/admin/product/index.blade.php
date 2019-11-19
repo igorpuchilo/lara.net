@@ -17,11 +17,11 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Category</th>
-                                    <th>Product Name</th>
-                                    <th>Price</th>
-                                    <th>Status</th>
+                                    <th>@sortablelink('id','ID')</th>
+                                    <th>@sortablelink('category','Category')</th>
+                                    <th>@sortablelink('title','Product Name')</th>
+                                    <th>@sortablelink('price')</th>
+                                    <th>@sortablelink('status')</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -58,18 +58,19 @@
                             </table>
                         </div>
                         <div class="text-center">
-                            @if ($allProducts->total() > $allProducts->count())
-                                <br>
-                                <div class="row justify-content-center">
-                                    <div class="col-md-12">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                {{$allProducts->links()}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
+{{--                            @if ($allProducts->total() > $allProducts->count())--}}
+{{--                                <br>--}}
+{{--                                <div class="row justify-content-center">--}}
+{{--                                    <div class="col-md-12">--}}
+{{--                                        <div class="card">--}}
+{{--                                            <div class="card-body">--}}
+{{--                                                {{$allProducts->links()}}--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            @endif--}}
+                            {!! $allProducts->appends(\Request::except('page'))->render() !!}
                         </div>
                     </div>
                 </div>

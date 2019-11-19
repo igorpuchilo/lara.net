@@ -162,6 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
 
         /*
          * Package Service Providers...

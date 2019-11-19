@@ -20,11 +20,11 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Code</th>
-                                    <th>Value</th>
-                                    <th>Base</th>
+                                    <th>@sortablelink('id')</th>
+                                    <th>@sortablelink('title','Currency Name')</th>
+                                    <th>@sortablelink('code')</th>
+                                    <th>@sortablelink('value')</th>
+                                    <th>@sortablelink('base')</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -46,6 +46,9 @@
                                 @endforeach
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="text-center">
+                            {!! $curr->appends(\Request::except('page'))->render() !!}
                         </div>
                     </div>
                 </div>

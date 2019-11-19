@@ -20,9 +20,9 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Group</th>
+                                    <th>@sortablelink('id')</th>
+                                    <th>@sortablelink('value','Name')</th>
+                                    <th>@sortablelink('groups','Group')</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -45,8 +45,7 @@
                             </table>
                         </div>
                         <div class="text-center">
-                            <p>@php echo count($attrs) @endphp of {{$count}}</p>
-                            {{$attrs}}
+                            {!! $attrs->appends(\Request::except('page'))->render() !!}
                         </div>
                     </div>
                 </div>

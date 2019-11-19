@@ -28,8 +28,8 @@ class UserController extends AdminBaseController
 
         $paginatePages = 8;
         $countUsers = MainRepository::getCountUsers();
-        $paginator = $this->userRepository->getAllUsers($paginatePages);
-        return view('shop.admin.user.index', compact('countUsers', 'paginator'));
+        $users = $this->userRepository->getAllUsers($paginatePages);
+        return view('shop.admin.user.index', compact('countUsers', 'users'));
     }
 
     /**

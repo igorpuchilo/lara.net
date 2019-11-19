@@ -24,7 +24,7 @@ class ProductRepository extends CoreRepository
     {
         return $this->startConditions()
             ->where('category_id', $id)
-            ->orderBy('created_at', 'desc')
+            ->sortable()
             ->limit($paginate)
             ->paginate($paginate);
     }
@@ -50,7 +50,8 @@ class ProductRepository extends CoreRepository
         return $this->startConditions()
             ->join('categories', 'products.category_id', '=', 'categories.id')
             ->select('products.*', 'categories.title as category')
-            ->orderBy('id', 'desc')
+            //->orderBy('id', 'desc')
+            ->sortable()
             ->limit($paginate)
             ->paginate($paginate);
     }
@@ -67,6 +68,7 @@ class ProductRepository extends CoreRepository
             ->select('products.*')
             ->where('products.category_id','=',$id)
             ->wherein('attribute_products.attr_id',$attrs)
+            ->sortable()
             ->limit($paginate)
             ->paginate($paginate);
 //        return $this->startConditions()

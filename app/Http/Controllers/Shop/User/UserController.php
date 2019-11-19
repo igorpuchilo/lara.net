@@ -21,18 +21,19 @@ class UserController extends UserBaseController
         MetaTag::setTags(['title' => "My Cart"]);
 
 
-        $id =\Auth::user()->id;
+        $id = \Auth::user()->id;
 
         $countOrders = $this->userRepository->getCountOrders($id);
 
         $order = $this->userRepository->getUserOrder($id);
-        if (!$order){
-            return view('shop.user.index', compact(  'countOrders'));
+        if (!$order) {
+            return view('shop.user.index', compact('countOrders'));
         }
         $order_prod = $this->userRepository->getAllUserOrderProducts($id);
 
-        return view('shop.user.index', compact( 'order','order_prod', 'countOrders'));
+        return view('shop.user.index', compact('order', 'order_prod', 'countOrders'));
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -46,7 +47,7 @@ class UserController extends UserBaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -57,7 +58,7 @@ class UserController extends UserBaseController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -68,7 +69,7 @@ class UserController extends UserBaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request, User $user)
@@ -79,18 +80,17 @@ class UserController extends UserBaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         if (Auth::check()) {
-            if ($this->userRepository->saveOrder($id)){
+            if ($this->userRepository->saveOrder($id)) {
                 return back()->withInput();
-            }else
-            {
-                return back()->withErrors(['msg'=>'Error on save!'])->withInput();
+            } else {
+                return back()->withErrors(['msg' => 'Error on save!'])->withInput();
             }
         }
     }
@@ -98,33 +98,34 @@ class UserController extends UserBaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         if (Auth::check()) {
-            if ($this->userRepository->deleteProductFromOrder($id)){
+            if ($this->userRepository->deleteProductFromOrder($id)) {
                 return back()->withInput();
-            }else
-            {
-                return back()->withErrors(['msg'=>'Error on delete!'])->withInput();
+            } else {
+                return back()->withErrors(['msg' => 'Error on delete!'])->withInput();
             }
         }
     }
-    public function showChangePasswordForm(){
+
+    public function showChangePasswordForm()
+    {
         return view('auth.passwords.email');
     }
 
-    public function addOrder(Request $request, $id){
-        if (Auth::check()){
-            if($this->userRepository->AddOrder(Auth::user()->id,$request->productQuantity,$request->price,$id,
-                $request->product_title)){
-                return back()->withInput()->with(['success'=>'Added To Cart!']);
-            }else{
-                return back()->withInput()->withErrors(['msg'=>'Failed!']);
-            }
-
+    public function addOrder(Request $request, $id)
+    {
+        $cnt = $request->productQuantity ? $request->productQuantity : $request->quant[$id];
+        if ($this->userRepository->AddOrder(Auth::user()->id, $cnt,$request->price, $id, $request->product_title)) {
+            return back()->withInput()->with(['success' => 'Added To Cart!']);
+        } else {
+            return back()->withInput()->withErrors(['msg' => 'Failed!']);
         }
+
+
     }
 }

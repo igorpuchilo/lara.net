@@ -9,6 +9,7 @@
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
 
+
     &-item {
       -webkit-border-radius: 0 !important;
       -moz-border-radius: 0 !important;
@@ -21,17 +22,17 @@
     }
   }
 
-  &-filter {
-    margin-bottom: 20px;
-
-    .filter-pos {
-      overflow: auto;
-      max-height: 90px;
-      margin-bottom: 20px;
-    }
-
-    .filter-price {
-      margin-bottom: 20px;
-    }
+  .filter {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding-left: 0;
+    list-style: none;
+    margin-bottom: 0px;
+  }
+  .btn:focus,.btn:active {
+    outline-color: transparent !important;
+    box-shadow: none;
   }
 }

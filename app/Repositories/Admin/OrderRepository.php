@@ -50,8 +50,7 @@ class OrderRepository extends CoreRepository
                 'orders.updated_at','orders.currency','users.name',
                 DB::raw('ROUND(SUM(order_products.price),2) AS sum'))
             ->groupBy('orders.id')
-            ->orderBy('orders.status')
-            ->orderBy('orders.id')
+            ->sortable()
             ->toBase()
             ->paginate($paginate);
     }
