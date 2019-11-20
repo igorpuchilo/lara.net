@@ -74,6 +74,9 @@ class CurrencyController extends AdminBaseController
         if (empty($id)) {
             return back()->withErrors(['msg' => 'Item Not found!']);
         }
+        if ($this->currencyRepository->getBaseCurrency()->id == $id){
+            return back()->withErrors(['msg' => 'This is Base Currency!']);
+        }
         $del = $this->currencyRepository->deleteCurrency($id);
         if ($del) {
             return back()->with(['success' => 'Currency has been deleted']);

@@ -30,7 +30,7 @@ class FilterController extends AdminBaseController
     public function attributeGroup()
     {
         $paginate = 3;
-        $attrs_group = $this->filterGroupRepository->getAllGroupsFilter($paginate);
+        $attrs_group = $this->filterGroupRepository->getAllGroupsFilterSort($paginate);
         MetaTag::setTags(['title' => 'Filter Groups']);
         return view('shop.admin.filter.attribute-group', compact('attrs_group'));
     }

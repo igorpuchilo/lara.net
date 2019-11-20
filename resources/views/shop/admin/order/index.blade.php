@@ -51,6 +51,12 @@
                                             <a href="{{route('shop.admin.orders.edit',$order->id)}}" title="Edit">
                                                 <i class="fa fa-fw fa-pencil"></i>
                                             </a>
+                                            @if($order->status == 2)
+                                                <a href="{{route('shop.admin.orders.restore',$order->id)}}"
+                                                   title="Restore">
+                                                    <i class="fa fa-fw fa-refresh"></i>
+                                                </a>
+                                            @endif
                                             <a href="{{route('shop.admin.orders.forcedelete',$order->id)}}"
                                                title="Delete">
                                                 <i class="fa fa-fw fa-close text-danger deletedb"></i>

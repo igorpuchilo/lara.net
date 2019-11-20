@@ -332,6 +332,8 @@ class ProductRepository extends CoreRepository
             if (!empty($gallery)) {
                 foreach ($gallery as $img) {
                     @unlink("uploads/gallery/$img");
+                    @unlink("uploads/gallery/thumb-$img");
+                    @unlink("uploads/gallery/preview-$img");
                 }
             }
             if (!empty($singleImg)) {

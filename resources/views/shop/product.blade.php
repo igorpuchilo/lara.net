@@ -18,7 +18,7 @@
                                 @endif
                                 {{-- Small image --}}
                                 <img src="{{asset("/uploads/gallery/preview-$images[0]")}}"
-                                     alt="" class="img-responsive">
+                                     alt="Image not found" class="img-responsive" onerror="this.src = '{{asset("/images/no_image.jpg")}}';">
                             </a>
                             <div class="product-gallery-items">
                                 @foreach($images as $image)
@@ -26,7 +26,7 @@
                                        href="{{asset("/uploads/gallery/$image")}}">
                                         {{-- Small image --}}
                                         <img src="{{asset("/uploads/gallery/thumb-$image")}}"
-                                             alt="">
+                                             alt="Image not found" onerror="this.src = '{{asset("/images/no_image.jpg")}}';">
                                     </a>
                                 @endforeach
                             </div>
@@ -37,6 +37,7 @@
                     <h1>{{$product->title}}</h1>
                     {{-- Product desc--}}
                     {!! $product->content !!}
+                    @if(!$filters->isEmpty())
                     <h4>Order Details</h4>
                     <table class="table table-bordered table-hover mb-4">
                         <thead>
@@ -58,6 +59,7 @@
                         @endforeach
                         </tbody>
                     </table>
+                    @endif
                     <div class="row">
                         <div class="col-lg-8 col-md-12 col-sm-12">
                             <form action="{{route('shop.user.addOrder', $product->id)}}" method="POST"

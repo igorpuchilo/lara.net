@@ -7,6 +7,7 @@ use App\Models\Admin\User;
 use App\Models\UserRole;
 use App\Repositories\Admin\MainRepository;
 use App\Repositories\Admin\UserRepository;
+use DB;
 use MetaTag;
 
 class UserController extends AdminBaseController
@@ -115,7 +116,10 @@ class UserController extends AdminBaseController
      */
     public function destroy(User $user)
     {
+        $id = $user->id;
         $res = $user->forceDelete();
+        DB::table('user_roles')->where('user_id',$id)->delete();
+            DB::table('orders')->where('user_id',$id)->delete();
         if (!$res) {
             return back()->withErrors(['msg' => 'Error on delete!']);
         } else {

@@ -37,6 +37,7 @@ class OrderController extends AdminBaseController
         }
         $res = DB::table('orders')
             ->delete($id);
+        DB::table('order_products')->where('order_id',$id)->delete();
         if ($res){
             return redirect()->route('shop.admin.orders.index')
                 ->with(['success' => "Order #$id has been deleted from database"]);
@@ -148,8 +149,18 @@ class OrderController extends AdminBaseController
             }
         }
         return back()->withErrors(['msg'=>'Status not change']);
-
-
-
+    }
+    public function restore($id){
+        $st = $this->orderRepository->restore($id);
+        if ($st){
+            $result = $this->orderRepository->changeStatusOrder($id);
+            if ($result){
+                return redirect()->route('shop.admin.orders.index')
+                    ->with(['success' => "Order #[$id] was restored"]);
+            }else {
+                return back()->withErrors(['msg'=>'Error on restore']);
+            }
+        }
+        return back()->withErrors(['msg'=>'Status not change']);
     }
 }

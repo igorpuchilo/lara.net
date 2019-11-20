@@ -97,6 +97,10 @@ class OrderRepository extends CoreRepository
         $item->status = '2';
         return $item->update();
     }
-
+    public function restore($id){
+        return $this->startConditions()::withTrashed()
+            ->find($id)
+            ->restore();
+    }
 
 }

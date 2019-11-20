@@ -73,6 +73,10 @@ class FilterAttrsRepository extends CoreRepository
 
     public function deleteAttrFilter($id)
     {
-        return $this->startConditions()->where('id', '=', $id)->forceDelete();
+        if($this->startConditions()->where('id', '=', $id)->forceDelete()){
+            return DB::table('attribute_products')->where('attr_id',$id)->delete();
+        }
+
+
     }
 }

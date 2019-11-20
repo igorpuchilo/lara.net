@@ -43,6 +43,8 @@ Route::group(['middleware' => ['status', 'auth']], function () {
             ->name('shop.admin.orders.save');
         Route::get('/orders/forcedelete/{id}', 'OrderController@forcedelete')
             ->name('shop.admin.orders.forcedelete');
+        Route::get('/orders/restore/{id}', 'OrderController@restore')
+            ->name('shop.admin.orders.restore');
         ///CATEGORY////
         Route::resource('categories', 'CategoryController')
             ->names('shop.admin.categories');

@@ -18,9 +18,10 @@
                     <li class="item">
                         <div class="product-img">
                             @if(!empty($product->img))
-                                <img src="{{asset('uploads/single/'.$product->img)}}" alt="image">
+                                <img src="{{asset('uploads/single/'.$product->img)}}" alt="Image not found"
+                                     onerror="this.src = '{{asset("/images/no_image.jpg")}}';">
                             @else
-                                <img src="{{asset('images/no_image.jpg')}}" alt="image">
+                                <img src="{{asset('images/no_image.jpg')}}" alt="Image not found">
                             @endif
                         </div>
                         <div class="product-info">

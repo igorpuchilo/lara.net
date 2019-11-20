@@ -280,8 +280,8 @@ class ProductController extends AdminBaseController
         }
         if (\DB::delete("DELETE FROM galleries WHERE product_id = ? AND img = ?", [$id, $src])) {
             @unlink("uploads/gallery/$src");
-            @unlink("uploads/gallery/thumb_$src");
-            @unlink("uploads/gallery/preview_$src");
+            @unlink("uploads/gallery/thumb-$src");
+            @unlink("uploads/gallery/preview-$src");
             exit('1');
         }
         return;

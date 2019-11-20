@@ -10,10 +10,10 @@
                                 @if(!empty($product->img))
                                     <img class="card-img-top" style="height: 200px;width: 125px;"
                                          src="{{asset('uploads/single/'.$product->img)}}"
-                                         alt="">
+                                         alt="Image not found" onerror="this.src = '{{asset("/images/no_image.jpg")}}';">
                                 @else
                                     <img class="card-img-top"
-                                         src="{{asset('images/no_image.jpg')}}" alt="image">
+                                         src="{{asset('images/no_image.jpg')}}" alt="Image not found">
                                 @endif
                                 @if ($product->hit ==1)
                                     <div class="corner-ribbon top-right sticky red small">Hit!</div>
