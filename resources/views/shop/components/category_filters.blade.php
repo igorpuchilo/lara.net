@@ -1,7 +1,7 @@
 <div class="col-md-3">
     <div class="category-filter">
         <h4>Filter Products</h4>
-        <form action="{{route('shop.getcategory',$category->id)}}" method="GET">
+        <form action="{{route('shop.getcategory',$category->alias)}}" method="GET">
             {{--            <h5>Brands</h5>--}}
             {{--            <div class="filter-pos">--}}
             {{--                <div class="form-group">--}}
@@ -38,7 +38,7 @@
             @endif
             <div class="form-group">
                 <button type="submit" id="filterProducts" class="btn btn-dark">Filter Products</button>
-                <a href="{{route('shop.getcategory',$category->id)}}" class="btn btn-outline-dark">Reset Filters</a>
+                <a href="{{route('shop.getcategory',$category->alias)}}" class="btn btn-outline-dark">Reset Filters</a>
             </div>
             <input name="category_id" value="{{$category->id}}" id="{{$category->id}}" hidden>
         </form>

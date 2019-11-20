@@ -36,6 +36,7 @@ class ProductRepository extends CoreRepository
             ->limit($paginate)
             ->paginate($paginate);
     }
+
     public function getLastAvailableProducts($paginate)
     {
         return $this->startConditions()
@@ -62,12 +63,13 @@ class ProductRepository extends CoreRepository
             ->count();
     }
 
-    public function getProductsByAttrsAndCat($attrs,$paginate,$id){
+    public function getProductsByAttrsAndCat($attrs, $paginate, $id)
+    {
         return $this->startConditions()
-            ->join('attribute_products','attribute_products.product_id','=','products.id')
+            ->join('attribute_products', 'attribute_products.product_id', '=', 'products.id')
             ->select('products.*')
-            ->where('products.category_id','=',$id)
-            ->wherein('attribute_products.attr_id',$attrs)
+            ->where('products.category_id', '=', $id)
+            ->wherein('attribute_products.attr_id', $attrs)
             ->sortable()
             ->limit($paginate)
             ->paginate($paginate);
@@ -87,6 +89,7 @@ class ProductRepository extends CoreRepository
 //            ->limit($paginate)
 //            ->paginate($paginate);
     }
+
     public function getProducts($q)
     {
         return DB::table('products')
@@ -165,7 +168,7 @@ class ProductRepository extends CoreRepository
         }
 //        Change Filters
         if (!empty($data['attrs'])) {
-            $res = array_diff($data['attrs'],$filter);
+            $res = array_diff($data['attrs'], $filter);
             if ($res) {
                 DB::table('attribute_products')
                     ->where('product_id', '=', $id)
@@ -242,6 +245,13 @@ class ProductRepository extends CoreRepository
             ->find($id);
     }
 
+    public function getProductByAlias($alias)
+    {
+        return $this->startConditions()
+            ->where('alias','=', $alias)
+            ->first();
+    }
+
     public function getFiltersProduct($id)
     {
         return DB::table('attribute_products')
@@ -268,7 +278,7 @@ class ProductRepository extends CoreRepository
             ->get();
     }
 
-    public function getRelatedProductsList($id,$lim)
+    public function getRelatedProductsList($id, $lim)
     {
         return $this->startConditions()
             ->join('related_products', 'products.id', '=', 'related_products.related_id')
@@ -347,13 +357,17 @@ class ProductRepository extends CoreRepository
             ->limit($paginate)
             ->paginate($paginate);
     }
-    public function getAutocompleteByTerms($term){
-       return $this->startConditions()
+
+    public function getAutocompleteByTerms($term)
+    {
+        return $this->startConditions()
             ->select('title')
-            ->where('title', 'LIKE','%' . $term . '%')
+            ->where('title', 'LIKE', '%' . $term . '%')
             ->pluck('title');
     }
-    public function getCategoryByIdWithFilters($id,$paginate){
+
+    public function getCategoryByIdWithFilters($id, $paginate)
+    {
         return $this->startConditions()
             ->join('attribute_products', 'products.id', '=', 'attribute_products.attr_id')
             ->where('category_id', $id)
@@ -362,7 +376,9 @@ class ProductRepository extends CoreRepository
             ->paginate($paginate);
 
     }
-    public function delImgIfExist($filename){
+
+    public function delImgIfExist($filename)
+    {
         $this->startConditions()
             ->where('img', $filename)
             ->update(['img' => '']);

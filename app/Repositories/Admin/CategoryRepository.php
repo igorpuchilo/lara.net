@@ -25,12 +25,15 @@ class CategoryRepository extends CoreRepository
         return Menu::make('Nav', function ($m) use ($arr){
            foreach ($arr as $item){
                if ($item->parent_id == 0){
-                   $m->add($item->title,$item->id)->id($item->id);
+                   $m->add($item->title, $item->id)->id($item->id)
+                       ->data('alias',$item->alias);
+
                }else{
                    if($m->find($item->parent_id)){
                        $m->find($item->parent_id)
                            ->add($item->title, $item->id)
-                           ->id($item->id);
+                           ->id($item->id)
+                           ->data('alias',$item->alias);
                    }
                }
            }

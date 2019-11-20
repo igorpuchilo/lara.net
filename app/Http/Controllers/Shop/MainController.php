@@ -35,9 +35,10 @@ class MainController extends Controller
         return view('shop.home', ['menu' => $menu], compact('products', 'curr'));
     }
 
-    public function getProduct($id)
+    public function getProduct($alias)
     {
-        $product = $this->mainRepository->getProductById($id);
+        $product = $this->mainRepository->getProductByAlias($alias);
+        //$product = $this->mainRepository->getProductById(5);
         if ($product->status == 0) {
             abort(404);
         }
@@ -46,8 +47,8 @@ class MainController extends Controller
         $attrs = $this->mainRepository->getAttributesProduct($product->id);
         $filters = $this->mainRepository->getFiltersByAttrs($attrs);
         $limit = 4;
-        $related = $this->mainRepository->getRelatedProducts($id, $limit);
-        $images = $this->mainRepository->getGallery($id);
+        $related = $this->mainRepository->getRelatedProducts($product->id, $limit);
+        $images = $this->mainRepository->getGallery($product->id);
         $arrmenu = Category::all();
         $menu = $this->mainRepository->buildMenu($arrmenu);
         if (Auth::check()) {
@@ -60,7 +61,7 @@ class MainController extends Controller
             'related', 'images', 'id', 'curr'));
     }
 
-    public function getCategory(Request $request, $id)
+    public function getCategory(Request $request, $alias)
     {
         $curr = $this->mainRepository->getBaseCurr();
         $paginate = 12;
@@ -68,7 +69,7 @@ class MainController extends Controller
         $arrmenu = Category::all();
         $menu = $this->mainRepository->buildMenu($arrmenu);
         $attrs = array();
-        $category = $this->mainRepository->getCategoryById($id);
+        $category = $this->mainRepository->getCategoryByAlias($alias);
         MetaTag::setTags(['title' => "$category->title"]);
         $groupsfilter = $this->mainRepository->getAllFilterGroupsByParentId($category->parent_id);
         if (!empty($groupsfilter)) {
@@ -82,9 +83,9 @@ class MainController extends Controller
         }
         if (isset($request->attrs)) {
             $attrs = $request->attrs;
-            $products = $this->mainRepository->getProductsByAttrsAndCat($attrs, $paginate, $id);
+            $products = $this->mainRepository->getProductsByAttrsAndCat($attrs, $paginate, $category->id);
         } else {
-            $products = $this->mainRepository->getProductsByCategoryId($id, $paginate);
+            $products = $this->mainRepository->getProductsByCategoryId($category->id, $paginate);
         }
         if (Auth::check()) {
             $user_id = \Auth::user()->id;

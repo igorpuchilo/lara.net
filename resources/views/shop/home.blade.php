@@ -10,7 +10,6 @@
         </div>
     </header>
     <section class="content container mt-4">
-        {{ Breadcrumbs::render('Home') }}
         <h2 class="text-center">Recently added</h2>
         <div class="row align-content-stretch">
             @include('shop.components.product_card')

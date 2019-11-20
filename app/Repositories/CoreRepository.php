@@ -24,6 +24,11 @@ abstract class CoreRepository
     {
         return $this->startConditions()->find($id);
     }
+    public function getCategoryByAlias($alias){
+        return $this->startConditions()
+            ->where('alias','=',$alias)
+            ->first();
+    }
     public function getRequestID($get = true, $id = 'id')
     {
         if ($get) {

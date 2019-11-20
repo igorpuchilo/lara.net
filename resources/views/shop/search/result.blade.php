@@ -3,6 +3,7 @@
 @section('content')
     <section class="content container mt-4">
         <h2 class="text-center">Search result:</h2>
+        {{ Breadcrumbs::render('Search',$query) }}
         <div class="row align-content-stretch">
             @include('shop.components.product_card')
         </div>

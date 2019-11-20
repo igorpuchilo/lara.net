@@ -6,7 +6,7 @@
                     <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                         @endif
                         <div class="card h-100">
-                            <a class="text-center product-link" href="{{route('shop.getproduct', $product->id)}}">
+                            <a class="text-center product-link" href="{{route('shop.getproduct', $product->alias)}}">
                                 @if(!empty($product->img))
                                     <img class="card-img-top" style="height: 200px;width: 125px;"
                                          src="{{asset('uploads/single/'.$product->img)}}"
@@ -20,7 +20,7 @@
                                 @endif
                             </a>
                             <div class="card-body p-1 text-center">
-                                <a href="{{route('shop.getproduct', $product->id)}}"
+                                <a href="{{route('shop.getproduct', $product->alias)}}"
                                    class="nav-link text-secondary">{{$product->title}}
                                 </a>
                             </div>

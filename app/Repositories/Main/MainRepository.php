@@ -36,6 +36,9 @@ class MainRepository
     public function getLastProducts($pag){
         return $this->productRepository->getLastAvailableProducts($pag);
     }
+    public function getProductByAlias($alias){
+        return $this->productRepository->getProductByAlias($alias);
+    }
     public function getProductById($id){
         return $this->productRepository->getInfoProduct($id);
     }
@@ -58,14 +61,17 @@ class MainRepository
     public function getAllAttributes(){
         return $this->filterAttrsRepository->getAllAttrsValues();
     }
-    public function getAllFilterGroups(){
-        return $this->filterGroupRepository->getAllGroupsFilter();
+    public function getAllFilterGroups($paginate){
+        return $this->filterGroupRepository->getAllGroupsFilter($paginate);
     }
     public function getProductsByCategoryId($id,$paginate){
         return $this->productRepository->getProductsByCatId($id,$paginate);
     }
     public function getCategoryById($id){
         return $this->categoryRepository->getId($id);
+    }
+    public function getCategoryByAlias($alias){
+        return $this->categoryRepository->getCategoryByAlias($alias);
     }
     public function getSearchResult($query,$paginate){
         return $this->productRepository->getSearchResult($query,$paginate);

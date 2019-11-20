@@ -3,8 +3,8 @@
 //Guest
 Route::any('/{url}', 'Shop\MainController@index' )->where('url', '(home|)')
     ->name('shop.home');
-Route::get('/product/{id}', 'Shop\MainController@getProduct')->name('shop.getproduct');
-Route::get('/category/{id}', 'Shop\MainController@getCategory')->name('shop.getcategory');
+Route::get('/product/{alias}', 'Shop\MainController@getProduct')->name('shop.getproduct');
+Route::get('/category/{alias}', 'Shop\MainController@getCategory')->name('shop.getcategory');
 Route::get('/autocomplete', 'Shop\SearchController@search');
 Route::get('/search/result', 'Shop\SearchController@index');
 //User Routes
