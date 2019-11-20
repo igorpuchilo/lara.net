@@ -6,6 +6,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="container">
+                    {{ Breadcrumbs::render('Cart') }}
                     <div class="row">
                         <div class="col-lg-12">
                             <h4>Order Details</h4>

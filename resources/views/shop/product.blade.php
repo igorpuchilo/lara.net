@@ -4,8 +4,10 @@
 
     <div class="product">
         <div class="container">
+            {{ Breadcrumbs::render('Product', $product) }}
             <div class="row">
                 <div class="col-md-5">
+
                     <div class="product-gallery">
                         @if(!empty($images))
                             {{-- Big image --}}

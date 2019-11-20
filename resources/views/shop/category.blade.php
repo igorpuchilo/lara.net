@@ -7,9 +7,10 @@
                 @include('shop.components.category_filters')
                 <div class="col-md-9">
                     <h1>{{$category->title}}</h1>
+                    {{ Breadcrumbs::render('Category', $category) }}
                     <ul class="filter">
                         <li class="nav-item">
-                            <h5 class="text-monospace btn text-bold">Sort By:</h5>
+                            <h5 class="font-weight-bold btn">Sort By:</h5>
                         </li>
                         <li class="nav-item">
                             @sortablelink('price','Price',null,['class' => 'btn btn-outline'])

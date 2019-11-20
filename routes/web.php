@@ -1,7 +1,8 @@
 <?php
 
 //Guest
-Route::any('/{url}', 'Shop\MainController@index' )->where('url', '(home|)');
+Route::any('/{url}', 'Shop\MainController@index' )->where('url', '(home|)')
+    ->name('shop.home');
 Route::get('/product/{id}', 'Shop\MainController@getProduct')->name('shop.getproduct');
 Route::get('/category/{id}', 'Shop\MainController@getCategory')->name('shop.getcategory');
 Route::get('/autocomplete', 'Shop\SearchController@search');
@@ -12,7 +13,7 @@ Route::group(['middleware' => ['auth']], function () {
         'namespace' => 'Shop\User',
     ];
     Route::group($groupData, function () {
-        Route::get( '/cart', 'UserController@index');
+        Route::get( '/cart', 'UserController@index')->name('cart');
         Route::get('/changePassword','UserController@showChangePasswordForm');
         Route::get('/cart/delete/{id}', 'UserController@destroy')->name('shop.user.delProd');
         Route::post('/cart/save/{id}','UserController@update')->name('shop.user.saveOrder');
