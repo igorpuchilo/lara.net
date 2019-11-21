@@ -132,6 +132,14 @@ $('#search').typeahead({
     autoSelect: false,
 
 });
+
+// Confirm Delete Alert
+$('.delete').click(function () {
+    var res = confirm('Are u really want delete this item?');
+    if (!res){
+        return false;
+    }
+});
 // $.ajax({
 //     type: 'GET',
 //     url: '/category/filter',

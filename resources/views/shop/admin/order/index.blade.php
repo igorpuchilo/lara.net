@@ -29,7 +29,22 @@
                                 </thead>
                                 <tbody>
                                 @forelse($orders as $order)
-                                    <?php $class = $order->status ? 'success' : '';?>
+                                    <?php
+                                    switch ($order->status) {
+                                        case 0:
+                                            $class = 'primary';
+                                            break;
+                                        case 1:
+                                            $class = 'success';
+                                            break;
+                                        case 2:
+                                            $class = 'danger';
+                                            break;
+                                        case 3:
+                                            $class = 'warning';
+                                            break;
+                                    }
+                                    ?>
                                     <tr class="{{$class}}">
                                         <td>{{$order->id}}</td>
                                         <td>{{$order->name}}</td>
@@ -43,6 +58,9 @@
                                             @if ($order->status == 2)
                                                 Deleted
                                             @endif
+                                            @if ($order->status == 3)
+                                                On Order Preparation
+                                                @endif
                                         </td>
                                         <td>{{$order->sum}} {{$order->currency}}</td>
                                         <td>{{$order->created_at}}</td>
@@ -58,7 +76,7 @@
                                                 </a>
                                             @endif
                                             <a href="{{route('shop.admin.orders.forcedelete',$order->id)}}"
-                                               title="Delete">
+                                               title="Delete From DB">
                                                 <i class="fa fa-fw fa-close text-danger deletedb"></i>
                                             </a>
                                         </td>

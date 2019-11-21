@@ -29,7 +29,7 @@ class UserController extends UserBaseController
         if (!$order) {
             return view('shop.user.index', compact('countOrders'));
         }
-        $order_prod = $this->userRepository->getAllUserOrderProducts($id);
+        $order_prod = $this->userRepository->getAllUserOrderProducts($order->id);
 
         return view('shop.user.index', compact('order', 'order_prod', 'countOrders'));
     }
@@ -52,7 +52,11 @@ class UserController extends UserBaseController
      */
     public function store(Request $request)
     {
-        //
+        if ($this->userRepository->saveOrder($request->order_id)) {
+            return redirect('/cart');
+        } else {
+            return back()->withErrors(['msg' => 'Error on save!'])->withInput();
+        }
     }
 
     /**
@@ -78,24 +82,6 @@ class UserController extends UserBaseController
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        if (Auth::check()) {
-            if ($this->userRepository->saveOrder($id)) {
-                return back()->withInput();
-            } else {
-                return back()->withErrors(['msg' => 'Error on save!'])->withInput();
-            }
-        }
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param int $id
@@ -117,10 +103,11 @@ class UserController extends UserBaseController
         return view('auth.passwords.email');
     }
 
-    public function addOrder(Request $request, $id)
+    public function addOrder(Request $request)
     {
-        $cnt = $request->productQuantity ? $request->productQuantity : $request->quant[$id];
-        if ($this->userRepository->AddOrder(Auth::user()->id, $cnt,$request->price, $id, $request->product_title)) {
+        $cnt = $request->productQuantity ? $request->productQuantity : $request->quant[$request->product_id];
+        if ($this->userRepository->AddOrder(Auth::user()->id, $cnt, $request->price, $request->product_id,
+            $request->product_title)) {
             return back()->withInput()->with(['success' => 'Added To Cart!']);
         } else {
             return back()->withInput()->withErrors(['msg' => 'Failed!']);

@@ -25,7 +25,6 @@ class UserRepository extends CoreRepository
             ->join('user_roles','user_roles.user_id', '=','users.id')
             ->join('roles','user_roles.role_id','=','roles.id')
             ->select('users.id','users.name','users.email','roles.name as role')
-//            ->orderBy('users.id')
             ->sortable()
             ->toBase()
             ->paginate($paginate);

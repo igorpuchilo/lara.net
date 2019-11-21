@@ -106,21 +106,16 @@ class OrderController extends AdminBaseController
     //order details action -> show edit view
     public function edit($id)
     {
-        $item = $this->orderRepository->getId($id);
-        if (empty($item)){
-            abort(404);
-        }
-
-        $order = $this->orderRepository->getOneOrder($item->id);
+        $order = $this->orderRepository->getOneOrder($id);
         if (!$order){
             abort(404);
         }
 
-        $order_prod = $this->orderRepository->getAllOrderProductsId($item->id);
+        $order_prod = $this->orderRepository->getAllOrderProductsId($id);
 
-        \MetaTag::setTags(['title'=>"Order # {$item->id}"]);
+        \MetaTag::setTags(['title'=>"Order # {$order->id}"]);
 
-        return view('shop.admin.order.edit',compact('item', 'order','order_prod'));
+        return view('shop.admin.order.edit',compact('order','order_prod'));
     }
 
     /**
@@ -130,9 +125,15 @@ class OrderController extends AdminBaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateStatus($id)
     {
-        //
+        if($this->orderRepository->setOrderStatus('3',$id)){
+            return redirect()->route('shop.admin.orders.index')
+                ->with(['success' => "Order #[$id] Was Restored To User Cart!"]);
+        }else{
+            return back()
+                ->withErrors(['msg' => 'Error on change status!']);
+        }
     }
 
     //disable order action
@@ -162,5 +163,12 @@ class OrderController extends AdminBaseController
             }
         }
         return back()->withErrors(['msg'=>'Status not change']);
+    }
+    public function deleteProduct($id){
+        if ($this->orderRepository->deleteProductFromOrder($id)) {
+            return back()->withInput();
+        } else {
+            return back()->withErrors(['msg' => 'Error on delete!'])->withInput();
+        }
     }
 }

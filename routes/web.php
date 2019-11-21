@@ -16,8 +16,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get( '/cart', 'UserController@index')->name('cart');
         Route::get('/changePassword','UserController@showChangePasswordForm');
         Route::get('/cart/delete/{id}', 'UserController@destroy')->name('shop.user.delProd');
-        Route::post('/cart/save/{id}','UserController@update')->name('shop.user.saveOrder');
-        Route::post('/product/{id}', 'UserController@addOrder')->name('shop.user.addOrder');
+        Route::post('/cart','UserController@store')->name('shop.user.store');
+        Route::post('/product', 'UserController@addOrder')->name('shop.user.addOrder');
     });
 });
 //Auth
@@ -33,8 +33,6 @@ Route::group(['middleware' => ['status', 'auth']], function () {
     Route::group($groupData, function () {
         //Main page
         Route::resource('index', 'MainController')->names('shop.admin.index');
-
-
         ///ORDERS////
         Route::resource('orders', 'OrderController')->names('shop.admin.orders');
         Route::get('/orders/change/{id}', 'OrderController@change')
@@ -45,6 +43,10 @@ Route::group(['middleware' => ['status', 'auth']], function () {
             ->name('shop.admin.orders.forcedelete');
         Route::get('/orders/restore/{id}', 'OrderController@restore')
             ->name('shop.admin.orders.restore');
+        Route::post('/orders/{id}/edit', 'OrderController@updateStatus')
+            ->name('shop.admin.orders.updatestatus');
+        Route::get('/orders/remove-product/{id}','OrderController@deleteProduct')
+            ->name('shop.admin.orders.delProd');
         ///CATEGORY////
         Route::resource('categories', 'CategoryController')
             ->names('shop.admin.categories');

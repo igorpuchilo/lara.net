@@ -62,7 +62,7 @@
                     @endif
                     <div class="row">
                         <div class="col-lg-8 col-md-12 col-sm-12">
-                            <form action="{{route('shop.user.addOrder', $product->id)}}" method="POST"
+                            <form action="{{route('shop.user.addOrder')}}" method="POST"
                                   class="product-form form-inline">
                                 @csrf
                                 <div class="input-group">
@@ -93,6 +93,7 @@
                                 <input id="price" name="price" value="{{$product->price}}" hidden>
                                 <input id="quant[{{$product->id}}]" value="{{$product->price}}" hidden>
                                 <input id="product_title" name="product_title" value="{{$product->title}}" hidden>
+                                <input name="product_id" value="{{$product->id}}" hidden>
                             </form>
                         </div>
                         <div class="col-lg-4 col-md-12 col-sm-12">

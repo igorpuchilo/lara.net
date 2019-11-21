@@ -21,24 +21,20 @@ class UserRepository
         return $this->userRepository->getUserOrders($id,$paginate);
     }
     public function getCountOrders($id){
-        return $this->userRepository->getCountOrders($id);
+        return $this->productOrdersRepository->getProductsCountByOrderId($this->orderRepository->getOrderIdByUserID($id));
     }
     public function getCountOrdersPaginate($id,$paginate){
         return $this->userRepository->getCountOrdersPaginate($id,$paginate);
     }
     public function getUserOrder($id){
-        $order = $this->orderRepository->getOrderIdByUserID($id);
-        if($order){
-            return $this->orderRepository->getOneOrder($order);
+        $order_id = $this->orderRepository->getOrderIdByUserID($id);
+        if($order_id){
+            return $this->orderRepository->getUserOrder($order_id);
         }
         return false;
     }
     public function getAllUserOrderProducts($id){
-        $order = $this->orderRepository->getOrderIdByUserID($id);
-        if($order){
-           return  $this->orderRepository->getAllOrderProductsId($order);
-        }
-        return false;
+        return  $this->orderRepository->getAllOrderProductsId($id);
     }
     public function deleteProductFromOrder($id){
         return $this->productOrdersRepository->deleteProductFromOrder($id);

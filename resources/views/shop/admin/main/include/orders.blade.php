@@ -28,12 +28,30 @@
                         <tr>
                             <td><a href="{{route('shop.admin.orders.edit', $order->id)}}">{{$order->id}}</a></td>
                             <td><a href="{{route('shop.admin.orders.edit', $order->id)}}">{{ucfirst($order->name)}}</a></td>
-                            <td><span class="label label-success">
+                            <?php
+                            switch ($order->status) {
+                                case 0:
+                                    $class = 'primary';
+                                    break;
+                                case 1:
+                                    $class = 'success';
+                                    break;
+                                case 2:
+                                    $class = 'danger';
+                                    break;
+                                case 3:
+                                    $class = 'warning';
+                                    break;
+                            }
+                            ?>
+                            <td><span class="label label-{{$class}}">
                                 @if ($order->status == 0) NEW!
                                     @endif
                                     @if ($order->status == 1) Completed
                                     @endif
-                                    @if ($order->status == 3) Deleted
+                                    @if ($order->status == 2) Deleted
+                                    @endif
+                                    @if ($order->status == 3) On Order Preparation
                                     @endif
                             </span></td>
                             <td>

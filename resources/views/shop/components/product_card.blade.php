@@ -25,7 +25,7 @@
                                 </a>
                             </div>
                             <div class="card-footer">
-                                <form action="{{route('shop.user.addOrder',$product->id)}}" method="POST">
+                                <form action="{{route('shop.user.addOrder')}}" method="POST">
                                     @csrf
                                     <span class="w-100" style="vertical-align: sub;" id="price">Price:
                                         @if (isset($product->old_price))
@@ -64,11 +64,11 @@
                                             </b>
                                             <input id="quant[{{$product->id}}]" value="{{$product->price}}" hidden>
                                             @if (Auth::check())
-                                                <button type="submit" class="btn btn-outline" style="float: right;">
+                                                <button type="submit" class="btn links" style="float: right;">
                                                     <i class="fa fa-shopping-cart fa-lg"></i>
                                                 </button>
                                             @else
-                                                <a href="{{route('register')}}" class="btn btn-outline"
+                                                <a href="{{route('register')}}" class="btn links"
                                                    style="float: right">
                                                     <i class="fa fa-shopping-cart fa-lg"></i>
                                                 </a>
@@ -77,6 +77,7 @@
                                     </div>
                                     <input name="price" id="price" value="{{$product->price}}" hidden>
                                     <input name="product_title" value="{{$product->title}}" hidden>
+                                    <input name="product_id" value="{{$product->id}}" hidden>
                                 </form>
                             </div>
                         </div>
