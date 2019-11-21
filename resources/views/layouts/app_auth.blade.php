@@ -3,12 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>{!! MetaTag::tag('title') !!}</title>
-
+    {{--Favicon--}}
+    <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{asset('adminlte/bower_components/font-awesome/css/font-awesome.min.css')}}">
     <!-- Fonts -->
