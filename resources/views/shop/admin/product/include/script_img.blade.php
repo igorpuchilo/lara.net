@@ -22,17 +22,17 @@
             processData: false,
             success: function (data) {
                 if (data.fail) {
-                    $('#preview_image').attr('src', '{{asset('images/no_image.jpg')}}');
+                    $('#preview_image').attr('src', '{{asset('storage/images/no_image.jpg')}}');
                     alert(data.errors['file']);
                 } else {
                     $('#file_name').val(data);
-                    $('#preview_image').attr('src', '{{asset('uploads/single')}}/' + data);
+                    $('#preview_image').attr('src', '{{asset('storage/uploads/single')}}/' + data);
                 }
                 $('#loading').css('display', 'none');
             },
             error: function (xhr, status, error) {
                 alert(xhr.responeText);
-                $('#preview_image').attr('src', '{{asset('images/no_image.jpg')}}');
+                $('#preview_image').attr('src', '{{asset('storage/images/no_image.jpg')}}');
                 $('#loading').css('display', 'none');
             }
         });
@@ -52,7 +52,7 @@
                    contentType: false,
                    processData: false,
                    success: function (data) {
-                       $('#preview_image').attr('src', '{{asset('images/no_image.jpg')}}');
+                       $('#preview_image').attr('src', '{{asset('storage/images/no_image.jpg')}}');
                        $('#file_name').val('');
                        $('#loading').css('display','none');
                    },
@@ -76,7 +76,7 @@
                     contentType: false,
                     processData: false,
                     success: function (data) {
-                        $('#preview_image').attr('src', '{{asset('images/no_image.jpg')}}');
+                        $('#preview_image').attr('src', '{{asset('storage/images/no_image.jpg')}}');
                         $('#file_name').val('');
                         $('#loading').css('display','none');
                     },

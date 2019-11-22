@@ -12,21 +12,21 @@
                         @if(!empty($images))
                             {{-- Big image --}}
                             <a class="product-link" data-fancybox="gallery"
-                               href="{{asset("/uploads/gallery/$images[0]")}}">
+                               href="{{asset("storage/uploads/gallery/$images[0]")}}">
                                 @if($product->hit ==1)
                                     <div class="corner-ribbon top-right sticky red">Hit!</div>
                                 @endif
                                 {{-- Small image --}}
-                                <img src="{{asset("/uploads/gallery/preview-$images[0]")}}"
-                                     alt="Image not found" class="img-responsive" onerror="this.src = '{{asset("/images/no_image.jpg")}}';">
+                                <img src="{{asset("storage/uploads/gallery/preview-$images[0]")}}"
+                                     alt="Image not found" class="img-responsive" onerror="this.src = '{{asset("storage/images/no_image.jpg")}}';">
                             </a>
                             <div class="product-gallery-items">
                                 @foreach($images as $image)
                                     <a data-fancybox="gallery"
-                                       href="{{asset("/uploads/gallery/$image")}}">
+                                       href="{{asset("storage/uploads/gallery/$image")}}">
                                         {{-- Small image --}}
-                                        <img src="{{asset("/uploads/gallery/thumb-$image")}}"
-                                             alt="Image not found" onerror="this.src = '{{asset("/images/no_image.jpg")}}';">
+                                        <img src="{{asset("storage/uploads/gallery/thumb-$image")}}"
+                                             alt="Image not found" onerror="this.src = '{{asset("storage/images/no_image.jpg")}}';">
                                     </a>
                                 @endforeach
                             </div>

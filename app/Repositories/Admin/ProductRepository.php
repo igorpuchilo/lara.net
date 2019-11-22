@@ -7,6 +7,9 @@ namespace App\Repositories\Admin;
 use App\Repositories\CoreRepository;
 use App\Models\Admin\Product;
 use DB;
+use Illuminate\Http\File;
+use Intervention\Image\ImageManagerStatic as Image;
+use Storage;
 
 class ProductRepository extends CoreRepository
 {
@@ -73,21 +76,6 @@ class ProductRepository extends CoreRepository
             ->sortable()
             ->limit($paginate)
             ->paginate($paginate);
-//        return $this->startConditions()
-//            ->join('attribute_products','products.id','=','attribute_products.product_id')
-//            ->select('products.*')
-//            ->where(function ($query,$attrs,$id){
-//                $query->where('products.category_id','=',$id)
-//                    ->whereIn('products.id',$attrs);
-//            })
-//            ->limit($paginate)
-//            ->paginate($paginate);
-//        return $this->startConditions()
-//            ->join('attribute_products','products.id','=','attribute_products.product_id')
-//            ->select('products.*')
-//            ->whereIn('products.id',$attrs)
-//            ->limit($paginate)
-//            ->paginate($paginate);
     }
 
     public function getProducts($q)
@@ -99,49 +87,7 @@ class ProductRepository extends CoreRepository
             ->get();
     }
 
-    public function uploadImg($filename, $wmax, $hmax)
-    {
-        $uplad_dir = 'uploads/single/';
-        $ext = strtolower(preg_replace("#.+\.([a-z]+)$#i", "$1", $filename));
-        $uploadfile = $uplad_dir . $filename;
-        \Session::put('single', $filename);
-        self::resize($uploadfile, $uploadfile, $wmax, $hmax, $ext);
-    }
 
-    public function uploadGallery($filename, $wmax, $hmax, $thumb_wmax, $thumb_hmax, $preview_wmax, $preview_hmax)
-    {
-        $uplad_dir = 'uploads/gallery/';
-        $ext = strtolower(preg_replace("#.+\.([a-z]+)$#i", "$1", $_FILES[$filename]['name']));
-        $new_name = md5(time()) . ".$ext";
-        $new_name_thumb = 'thumb-' . md5(time()) . ".$ext";
-        $new_name_preview = 'preview-' . md5(time()) . ".$ext";
-        $uploadfile = $uplad_dir . $new_name;
-        $uploadfile_thumb = $uplad_dir . $new_name_thumb;
-        $uploadfile_thumb_preview = $uplad_dir . $new_name_preview;
-        \Session::push('gallery', $new_name);
-        if (@move_uploaded_file($_FILES[$filename]['tmp_name'], $uploadfile)) {
-            self::resize($uploadfile, $uploadfile, $wmax, $hmax, $ext);
-            self::resize($uploadfile, $uploadfile_thumb, $thumb_wmax, $thumb_hmax, $ext);
-            self::resize($uploadfile, $uploadfile_thumb_preview, $preview_wmax, $preview_hmax, $ext);
-            $res = array("file" => $new_name);
-            echo json_encode($res);
-        }
-    }
-
-    public function getImg(Product $product)
-    {
-        clearstatcache();
-        if (!empty(\Session::get('single'))) {
-            $name = \Session::get('single');
-            $product->img = $name;
-            \Session::forget('single');
-            return;
-        }
-        if (empty(\Session::get('single')) && !is_file(WWW . '/uploads/single/' . $product->img)) {
-            $product->img = null;
-        }
-        return;
-    }
 
     public function editFilter($id, $data)
     {
@@ -304,6 +250,7 @@ class ProductRepository extends CoreRepository
                 return true;
             } else return false;
         }
+        return false;
     }
 
     public function deleteStatusOne($id)
@@ -314,33 +261,9 @@ class ProductRepository extends CoreRepository
                 return true;
             } else return false;
         }
+        return false;
     }
 
-    public function deleteImgGalleryFromPath($id)
-    {
-        if (isset($id)) {
-            $gallery = DB::table('galleries')
-                ->select('img')
-                ->where('product_id', '=', $id)
-                ->pluck('img')
-                ->all();
-            $singleImg = DB::table('products')
-                ->select('img')
-                ->where('id', '=', $id)
-                ->pluck('img')
-                ->all();
-            if (!empty($gallery)) {
-                foreach ($gallery as $img) {
-                    @unlink("uploads/gallery/$img");
-                    @unlink("uploads/gallery/thumb-$img");
-                    @unlink("uploads/gallery/preview-$img");
-                }
-            }
-            if (!empty($singleImg)) {
-                @unlink("uploads/single/" . $singleImg[0]);
-            }
-        }
-    }
 
     public function deleteFromDB($id)
     {
@@ -348,8 +271,10 @@ class ProductRepository extends CoreRepository
             DB::delete('DELETE FROM related_products WHERE product_id = ?', [$id]);
             DB::delete('DELETE FROM attribute_products WHERE product_id = ?', [$id]);
             DB::delete('DELETE FROM galleries WHERE product_id = ?', [$id]);
+            DB::delete('DELETE FROM order_products WHERE product_id = ?', [$id]);
             return DB::delete('DELETE FROM products WHERE id = ?', [$id]);
         }
+        return false;
     }
 
     public function getSearchResult($query, $paginate)
@@ -379,6 +304,73 @@ class ProductRepository extends CoreRepository
 
     }
 
+    public function uploadGallery($filename, $wmax, $hmax, $thumb_wmax, $thumb_hmax, $preview_wmax, $preview_hmax)
+    {
+
+        $uplad_dir = 'uploads/gallery/';
+        $ext = strtolower(preg_replace("#.+\.([a-z]+)$#i", "$1", $_FILES[$filename]['name']));
+        $new_name = uniqid() . ".$ext";
+        $new_name_thumb = 'thumb-' . $new_name;
+        $new_name_preview = 'preview-' . $new_name;
+        $uploadfile = $uplad_dir . $new_name;
+        $uploadfile_thumb = $uplad_dir . $new_name_thumb;
+        $uploadfile_thumb_preview = $uplad_dir . $new_name_preview;
+        $image = Image::make($_FILES[$filename]['tmp_name'])->resize($wmax,  null, function ($constraint) {
+            $constraint->aspectRatio();
+        })->encode('jpg');
+        $image_thumb = Image::make($_FILES[$filename]['tmp_name'])->resize($thumb_wmax, null, function ($constraint) {
+            $constraint->aspectRatio();
+        })->encode('jpg');
+        $image_thumb_preview = Image::make($_FILES[$filename]['tmp_name'])->resize($preview_wmax, null, function ($constraint) {
+            $constraint->aspectRatio();
+        })->encode('jpg');
+        Storage::put($uploadfile, $image->encode());
+        Storage::put($uploadfile_thumb, $image_thumb->encode());
+        Storage::put($uploadfile_thumb_preview, $image_thumb_preview->encode());
+        $res = array("file" => $new_name);
+        \Session::push('gallery', $new_name);
+        echo json_encode($res);
+    }
+
+    public function getImg(Product $product)
+    {
+        clearstatcache();
+        if (!empty(\Session::get('single'))) {
+            $name = \Session::get('single');
+            $product->img = $name;
+            \Session::forget('single');
+            return;
+        }
+        if (empty(\Session::get('single')) && !is_file(WWW . '/storage/uploads/single/' . $product->img)) {
+            $product->img = null;
+        }
+        return;
+    }
+    public function deleteImgGalleryFromPath($id)
+    {
+        if (isset($id)) {
+            $gallery = DB::table('galleries')
+                ->select('img')
+                ->where('product_id', '=', $id)
+                ->pluck('img')
+                ->all();
+            $singleImg = DB::table('products')
+                ->select('img')
+                ->where('id', '=', $id)
+                ->pluck('img')
+                ->all();
+            if (!empty($gallery)) {
+                foreach ($gallery as $img) {
+                    Storage::disk('public')
+                        ->delete(['uploads/gallery/'.$img,'uploads/gallery/thumb-'.$img,'uploads/gallery/preview-'.$img]);
+
+                }
+            }
+            if (!empty($singleImg)) {
+                Storage::disk('public')->delete('uploads/single/'.$singleImg[0]);
+            }
+        }
+    }
     public function delImgIfExist($filename)
     {
         $this->startConditions()
@@ -386,57 +378,5 @@ class ProductRepository extends CoreRepository
             ->update(['img' => '']);
     }
 
-//Others Function
 
-//Image Resize
-    public static function resize($target, $dist, $widthMax, $heightMax, $expansion)
-    {
-        list($width_original, $height_original) = getimagesize($target);
-
-        // $ratio = 1 — square, < 1 — vertic, > 1 — horiz
-        $ratio = $width_original / $height_original;
-
-        if (($widthMax / $heightMax) > $ratio) {
-            $widthMax = $heightMax * $ratio;
-        } else {
-            $heightMax = $widthMax / $ratio;
-        }
-        $img = "";
-        switch ($expansion) {
-            case("gif") :
-                $img = imagecreatefromgif($target);
-                break;
-            case("png") :
-                $img = imagecreatefrompng($target);
-                break;
-            default:
-                $img = imagecreatefromjpeg($target);
-        }
-
-        $newImg = imagecreatetruecolor($widthMax, $heightMax);
-
-        if ($expansion == "png") {
-            imagesavealpha($newImg, true); // Сохранение альфа-канала
-
-            // Прозрачность для полотна
-            $transPng = imagecolorallocatealpha($newImg, 0, 0, 0, 127);
-
-            imagefill($newImg, 0, 0, $transPng); // заливка
-        }
-
-        imagecopyresampled($newImg, $img, 0, 0, 0, 0, $widthMax, $heightMax, $width_original, $height_original); // копируем и ресайзим изображение
-
-        switch ($expansion) {
-            case("gif"):
-                imagegif($newImg, $dist);
-                break;
-            case("png"):
-                imagepng($newImg, $dist);
-                break;
-            default:
-                imagejpeg($newImg, $dist);
-        }
-
-        imagedestroy($newImg);
-    }
 }

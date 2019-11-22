@@ -27,7 +27,7 @@
                         setTimeout(function () {
                             buttonMulti.closest('.file-upload').find('.overlay').css({'display': 'none'});
                             response = JSON.parse(response);
-                            $('.' + buttonMulti.data('name')).append('<img src="{{asset('/uploads/gallery/')}}/'
+                            $('.' + buttonMulti.data('name')).append('<img src="{{asset('storage/uploads/gallery/')}}/'
                                 + response.file + '" style="max-height: 150px;">');
                         }, 1000);
                     }

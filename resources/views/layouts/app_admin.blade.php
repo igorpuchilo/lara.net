@@ -9,21 +9,21 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     {{--Favicon--}}
-    <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}">
+    <link rel="shortcut icon" href="{{ asset('storage/images/favicon.png') }}">
     <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="{{asset('adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('storage/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
     <!-- App -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{asset('adminlte/bower_components/font-awesome/css/all.min.css')}}">
+    <link rel="stylesheet" href="{{asset('storage/adminlte/bower_components/font-awesome/css/all.min.css')}}">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="{{asset('adminlte/bower_components/Ionicons/css/ionicons.min.css')}}">
+    <link rel="stylesheet" href="{{asset('storage/adminlte/bower_components/Ionicons/css/ionicons.min.css')}}">
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{asset('adminlte/dist/css/AdminLTE.min.css')}}">
+    <link rel="stylesheet" href="{{asset('storage/adminlte/dist/css/AdminLTE.min.css')}}">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="{{asset('adminlte/dist/css/skins/_all-skins.min.css')}}">
-    <link rel="stylesheet" href="{{asset('adminlte/bower_components/select2/dist/css/select2.css')}}">
+    <link rel="stylesheet" href="{{asset('storage/adminlte/dist/css/skins/_all-skins.min.css')}}">
+    <link rel="stylesheet" href="{{asset('storage/adminlte/bower_components/select2/dist/css/select2.css')}}">
     <!-- Google Font -->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -73,15 +73,15 @@
 
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="{{asset('adminlte/dist/img/user2-160x160.jpg')}}" class="user-image"
-                                 alt="User Image" onerror="this.src = '{{asset("/images/no_image.jpg")}}';">
+                            <img src="{{asset('storage/adminlte/dist/img/user2-160x160.jpg')}}" class="user-image"
+                                 alt="User Image" onerror="this.src = '{{asset("storage/images/no_image.jpg")}}';">
                             <span class="hidden-xs">{{ucfirst (Auth::user()->name) }} </span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="{{asset('adminlte/dist/img/user2-160x160.jpg')}}" class="img-circle"
-                                     alt="User Image" onerror="this.src = '{{asset("/images/no_image.jpg")}}';">
+                                <img src="{{asset('storage/adminlte/dist/img/user2-160x160.jpg')}}" class="img-circle"
+                                     alt="User Image" onerror="this.src = '{{asset("storage/images/no_image.jpg")}}';">
                                 <p>
                                     {{ ucfirst(Auth::user()->name) }}
                                 </p>
@@ -119,8 +119,8 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="{{asset('adminlte/dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image"
-                         onerror="this.src = '{{asset("/images/no_image.jpg")}}';">
+                    <img src="{{asset('storage/adminlte/dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image"
+                         onerror="this.src = '{{asset("storage/images/no_image.jpg")}}';">
                 </div>
                 <div class="pull-left info">
                     <p>{{ ucfirst (Auth::user()->name) }} </p>
@@ -227,21 +227,21 @@
     var pathd = '{{PATH}}';
 </script>
 <!-- jQuery 3 -->
-<script src="{{asset('adminlte/bower_components/jquery/dist/jquery.min.js')}}"></script>
+<script src="{{asset('storage/adminlte/bower_components/jquery/dist/jquery.min.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="{{asset('adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+<script src="{{asset('storage/adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 <!-- Validator -->
 <script src="{{asset('js/bootstrap-validate.js')}}"></script>
 <!-- Search -->
 
 
 <!-- AdminLTE App -->
-<script src="{{asset('adminlte/dist/js/adminlte.min.js')}}"></script>
+<script src="{{asset('storage/adminlte/dist/js/adminlte.min.js')}}"></script>
 <!-- Add product content editor -->
-<script src="{{asset('adminlte/bower_components/ckeditor/ckeditor.js')}}"></script>
-<script src="{{asset('adminlte/bower_components/ckeditor/adapters/jquery.js')}}"></script>
-<script src="{{asset('adminlte/bower_components/select2/dist/js/select2.full.js')}}"></script>
+<script src="{{asset('storage/adminlte/bower_components/ckeditor/ckeditor.js')}}"></script>
+<script src="{{asset('storage/adminlte/bower_components/ckeditor/adapters/jquery.js')}}"></script>
+<script src="{{asset('storage/adminlte/bower_components/select2/dist/js/select2.full.js')}}"></script>
 <!-- App -->
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('js/ajaxupload.js')}}"></script>

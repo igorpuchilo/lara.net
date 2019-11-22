@@ -115,7 +115,7 @@ class OrderRepository extends CoreRepository
         return DB::table('order_products')
             ->join('products','order_products.product_id','=','products.id')
             ->where('order_id','=',$id)
-            ->select('order_products.*', 'products.alias as alias')
+            ->select('order_products.*', 'products.alias as alias', 'products.title as prod_title')
             ->get();
     }
     public function getUserCountOrders($id){

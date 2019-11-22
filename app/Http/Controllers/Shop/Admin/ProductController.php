@@ -10,7 +10,9 @@ use App\Repositories\Admin\FilterAttrsRepository;
 use App\Repositories\Admin\ProductRepository;
 use App\Shop\Core\ShopApp;
 use Illuminate\Http\Request;
+use Intervention\Image\ImageManagerStatic as Image;
 use MetaTag;
+use Storage;
 
 class ProductController extends AdminBaseController
 {
@@ -191,8 +193,9 @@ class ProductController extends AdminBaseController
             $db = $this->productRepository->deleteFromDB($id);
             if ($db) {
                 return redirect()
-                    ->route('shop.admin.products.index')
-                    ->with(['success' => 'Saved']);
+                    ->back()
+                    ->withInput()
+                    ->with(['success' => "Product[$id] was deleted for DataBase"]);
             } else {
                 return back()->withErrors(['msg' => 'Error on save'])->withInput();
             }
@@ -233,11 +236,13 @@ class ProductController extends AdminBaseController
         }
         $extens = $request->file('file')->getClientOriginalExtension();
         $dir = 'uploads/single/';
-        $filename = uniqid() . '_' . time() . '.' . $extens;
-        $request->file('file')->move($dir, $filename);
-        $wmax = ShopApp::get_Instance()->getProperty('img_width');
-        $hmax = ShopApp::get_Instance()->getProperty('img_height');
-        $this->productRepository->uploadImg($filename, $wmax, $hmax);
+        $filename = uniqid() . '.' . $extens;
+        $uploadfile = $dir . $filename;
+        $image = Image::make($request->file('file'))->resize(null, 200, function ($constraint) {
+            $constraint->aspectRatio();
+        })->encode('jpg');
+        Storage::put($uploadfile, $image->encode());
+        \Session::put('single', $filename);
         return $filename;
     }
 
@@ -245,7 +250,7 @@ class ProductController extends AdminBaseController
     public function deleteImage($filename)
     {
         $this->productRepository->delImgIfExist($filename);
-        \File::delete('uploads/single/' . $filename);
+        Storage::disk('public')->delete('uploads/single/'.$filename);
     }
 
     // upload to gallery
@@ -279,9 +284,8 @@ class ProductController extends AdminBaseController
             return;
         }
         if (\DB::delete("DELETE FROM galleries WHERE product_id = ? AND img = ?", [$id, $src])) {
-            @unlink("uploads/gallery/$src");
-            @unlink("uploads/gallery/thumb-$src");
-            @unlink("uploads/gallery/preview-$src");
+            Storage::disk('public')
+                ->delete(['uploads/gallery/'.$src,'uploads/gallery/thumb-'.$src,'uploads/gallery/preview-'.$src]);
             exit('1');
         }
         return;

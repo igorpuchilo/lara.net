@@ -104,7 +104,6 @@
     position: relative;
     width: max-content;
 }
-
 .dropdown-submenu>a:after {
     content: "\f0da";
     float: right;

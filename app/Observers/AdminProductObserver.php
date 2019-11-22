@@ -69,7 +69,7 @@ class AdminProductObserver
             $product->alias = \Str::slug($product->title);
             $check = Product::where('alias', '=', $product->alias)->exists();
             if ($check){
-                $product->alias = \Str::slug($product->title) . time();
+                $product->alias = \Str::slug($product->title) . uniqid();
             }
         }
     }

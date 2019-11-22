@@ -2,7 +2,6 @@
 
 @section('content')
 
-
     @csrf
     <div class="row">
         <div class="col-md-12">
@@ -32,7 +31,7 @@
                                                        title="Delete This Product"><i
                                                                 class="fa fa-fw fa-close text-danger"></i></a>
                                                     <a class="links"
-                                                       href="{{route('shop.getproduct', $prod->alias)}}">{{$prod->title}}</a>
+                                                       href="{{route('shop.getproduct', $prod->alias)}}">{{$prod->prod_title}}</a>
                                                 </td>
                                                 <td>{{$prod->qty , $qty+=$prod->qty}}</td>
                                                 <td>{{$prod->price}}</td>
@@ -72,9 +71,10 @@
                         </form>
                     @else
                         <div class="col-lg-12 text-center">
-                            <img src="{{asset("/images/no_items_found.jpg")}}" alt="Cart is Empty">
+                            <img src="{{asset("storage/images/no_items_found.jpg")}}" alt="Cart is Empty">
                             <br>
-                            <a class="btn btn-outline-dark btn-lg mt-3" href="{{url('/home')}}"><i class="fa fa-shopping-cart"></i> Go To Store</a>
+                            <a class="btn btn-outline-dark btn-lg mt-3" href="{{url('/home')}}">
+                                <i class="fa fa-shopping-cart"></i> Go To Store</a>
                         </div>
                     @endif
                 </div>

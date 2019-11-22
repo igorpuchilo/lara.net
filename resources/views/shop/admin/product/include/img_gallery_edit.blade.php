@@ -12,8 +12,8 @@
                     <small>Click on image for delete</small>
                 </p>
                 @foreach($images as $image)
-                    <img src='{{asset("/uploads/gallery/$image")}}' alt="Image not found" style="max-height: 150px; cursor: pointer;"
-                         data-id="{{$product->id}}" data-src="{{$image}}" class="del-items" onerror="this.src = '{{asset("/images/no_image.jpg")}}';">
+                    <img src='{{asset("storage/uploads/gallery/$image")}}' alt="Image not found" style="max-height: 150px; cursor: pointer;"
+                         data-id="{{$product->id}}" data-src="{{$image}}" class="del-items" onerror="this.src = '{{asset("storage/images/no_image.jpg")}}';">
                 @endforeach
             @endif
         </div>

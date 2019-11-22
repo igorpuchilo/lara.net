@@ -19,11 +19,11 @@
                                     <a href="{{url("admin/products/$product->id".'/edit')}}">
                                         @if(!empty($product->img))
                                             <img class="text-center product-img" style="height: 165px;width: 125px;"
-                                                 src="{{asset('uploads/single/'.$product->img)}}" alt="Image not found"
+                                                 src="{{asset('storage/uploads/single/'.$product->img)}}" alt="Image not found"
                                                  onerror="this.src = '{{asset("/images/no_image.jpg")}}';">
                                         @else
                                             <img class="text-center product-img"
-                                                 src="{{asset('images/no_image.jpg')}}" alt="Image not found">
+                                                 src="{{asset('storage/images/no_image.jpg')}}" alt="Image not found">
                                         @endif
                                     </a>
                                 </div>
