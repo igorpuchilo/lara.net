@@ -15,7 +15,7 @@
     <!-- App -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{asset('storage/adminlte/bower_components/font-awesome/css/all.min.css')}}">
+    <link rel="stylesheet" href="{{asset('storage/adminlte/bower_components/font-awesome/css/font-awesome.css')}}">
     <!-- Ionicons -->
     <link rel="stylesheet" href="{{asset('storage/adminlte/bower_components/Ionicons/css/ionicons.min.css')}}">
     <!-- Theme style -->

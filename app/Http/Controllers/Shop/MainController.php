@@ -39,9 +39,10 @@ class MainController extends Controller
     {
         $product = $this->mainRepository->getProductByAlias($alias);
         //$product = $this->mainRepository->getProductById(5);
-        if ($product->status == 0) {
+        if (empty($product)||$product->status == 0) {
             abort(404);
         }
+        $category = $this->mainRepository->getCategoryById($product->category_id);
         $curr = $this->mainRepository->getBaseCurr();
         MetaTag::setTags(['title' => $product->title]);
         $attrs = $this->mainRepository->getAttributesProduct($product->id);
@@ -55,10 +56,10 @@ class MainController extends Controller
             $id = \Auth::user()->id;
             $countOrders = $this->mainRepository->getUserCountOrders($id);
             return view('shop.product', ['menu' => $menu], compact('countOrders', 'product',
-                'filters', 'related', 'images', 'id', 'curr'));
+                'filters', 'related', 'images', 'id', 'curr', 'category'));
         }
         return view('shop.product', ['menu' => $menu], compact('product', 'filters',
-            'related', 'images', 'id', 'curr'));
+            'related', 'images', 'id', 'curr', 'category'));
     }
 
     public function getCategory(Request $request, $alias)
@@ -70,6 +71,9 @@ class MainController extends Controller
         $menu = $this->mainRepository->buildMenu($arrmenu);
         $attrs = array();
         $category = $this->mainRepository->getCategoryByAlias($alias);
+        if (empty($category)) {
+            abort(404);
+        }
         MetaTag::setTags(['title' => "$category->title"]);
         $groupsfilter = $this->mainRepository->getAllFilterGroupsByParentId($category->parent_id);
         if (!empty($groupsfilter)) {

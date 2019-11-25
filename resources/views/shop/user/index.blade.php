@@ -15,7 +15,7 @@
                                 <h4>Order Details</h4>
                                 @if (isset($order_prod))
                                     <table class="table table-bordered table-hover">
-                                        <thead>
+                                        <thead class="thead-dark">
                                         <tr>
                                             <th>Product</th>
                                             <th>Count</th>

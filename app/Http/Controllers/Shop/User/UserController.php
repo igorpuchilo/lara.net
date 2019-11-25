@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Shop\User;
 
 use App\Models\User;
 use App\Repositories\User\UserRepository;
+use App\Models\Admin\Category;
 use Auth;
 use Illuminate\Http\Request;
 use MetaTag;
@@ -25,15 +26,38 @@ class UserController extends UserBaseController
 
         $countOrders = $this->userRepository->getCountOrders($id);
 
+        $arrmenu = Category::all();
+        $menu = $this->userRepository->buildMenu($arrmenu);
+
         $order = $this->userRepository->getUserOrder($id);
         if (!$order) {
-            return view('shop.user.index', compact('countOrders'));
+            return view('shop.user.index', ['menu' => $menu], compact('countOrders'));
         }
         $order_prod = $this->userRepository->getAllUserOrderProducts($order->id);
 
-        return view('shop.user.index', compact('order', 'order_prod', 'countOrders'));
+        return view('shop.user.index', ['menu' => $menu], compact('order', 'order_prod', 'countOrders'));
     }
+    public function orderHistory()
+    {
+        MetaTag::setTags(['title' => "My Orders History"]);
+        $order_prods = array();
 
+        $id = \Auth::user()->id;
+
+        $arrmenu = Category::all();
+        $menu = $this->userRepository->buildMenu($arrmenu);
+
+        $countOrders = $this->userRepository->getCountOrders($id);
+
+        $orders = $this->userRepository->getUserOrderHistory($id);
+        if (!$orders) {
+            return view('shop.user.order-history', ['menu' => $menu], compact('countOrders'));
+        }
+        foreach ($orders as $order){
+            array_push($order_prods, $this->userRepository->getAllUserOrderProducts($order->id));
+        }
+        return view('shop.user.order-history', ['menu' => $menu], compact('orders', 'order_prods', 'countOrders'));
+    }
     /**
      * Show the form for creating a new resource.
      *

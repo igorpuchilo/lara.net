@@ -13,7 +13,8 @@ Route::group(['middleware' => ['auth']], function () {
         'namespace' => 'Shop\User',
     ];
     Route::group($groupData, function () {
-        Route::get( '/cart', 'UserController@index')->name('cart');
+        Route::get( '/cart', 'UserController@index')->name('shop.cart');
+        Route::get( '/orderHistory', 'UserController@orderHistory')->name('shop.orderHistory');
         Route::get('/changePassword','UserController@showChangePasswordForm');
         Route::get('/cart/delete/{id}', 'UserController@destroy')->name('shop.user.delProd');
         Route::post('/cart','UserController@store')->name('shop.user.store');
@@ -67,6 +68,8 @@ Route::group(['middleware' => ['status', 'auth']], function () {
             ->name('shop.admin.products.gallery');
         Route::post('/products/delete-gallery','ProductController@deleteGallery')
             ->name('shop.admin.products.deletegallery');
+        Route::post('/products/delete-gallery-tmp','ProductController@deleteGalleryTmp')
+            ->name('shop.admin.products.deletegallerytmp');
         Route::get('/products/get-status/{id}', 'ProductController@getStatus')
             ->name('shop.admin.products.getstatus');
         Route::get('/products/get-status/{id}', 'ProductController@getStatus')

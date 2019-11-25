@@ -9,9 +9,11 @@ class UserRepository
     private $orderRepository;
     private $userRepository;
     private $productOrdersRepository;
+    private $categoryRepository;
 
     public function __construct()
     {
+        $this->categoryRepository = app(\App\Repositories\Admin\CategoryRepository::class);
         $this->orderRepository = app(\App\Repositories\Admin\OrderRepository::class);
         $this->userRepository = app(\App\Repositories\Admin\UserRepository::class);
         $this->productOrdersRepository = app(\App\Repositories\Admin\ProductOrdersRepository::class);
@@ -33,6 +35,9 @@ class UserRepository
         }
         return false;
     }
+    public function getUserOrderHistory($id){
+        return $this->orderRepository->getOrderHistoryByUserId($id);
+    }
     public function getAllUserOrderProducts($id){
         return  $this->orderRepository->getAllOrderProductsId($id);
     }
@@ -45,6 +50,9 @@ class UserRepository
     public function AddOrder($user_id,$cnt,$price,$product_id,$product_title){
         $order_id = $this->orderRepository->getOrderIdByUserID($user_id);
         return $this->productOrdersRepository->addOrder($cnt,$price,$product_id,$product_title,$order_id);
+    }
+    public function buildMenu($menu){
+        return $this->categoryRepository->buildMenu($menu);
     }
 
 }

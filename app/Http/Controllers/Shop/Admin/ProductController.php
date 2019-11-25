@@ -55,7 +55,7 @@ class ProductController extends AdminBaseController
         $parent_id = $request->parent_id;
         $categories = $this->categoryRepository->getSubCategories($parent_id);
         $filter = $this->filterAttrsRepository->getAllAttrsFilterByParentId($parent_id);
-        return view('shop.admin.product.createStep2', compact('data','categories','filter','parent_id'));
+        return view('shop.admin.product.createStep2', compact('data', 'categories', 'filter', 'parent_id'));
 
     }
 
@@ -109,7 +109,7 @@ class ProductController extends AdminBaseController
         $categories = $this->categoryRepository->getSubCategories($product->parent_id);
         $related = $this->productRepository->getRelatedProducts($id);
         $images = $this->productRepository->getGallery($id);
-        return view('shop.admin.product.edit', compact('product', 'filter', 'related', 'images', 'id','categories'));
+        return view('shop.admin.product.edit', compact('product', 'filter', 'related', 'images', 'id', 'categories'));
     }
 
     /**
@@ -250,7 +250,7 @@ class ProductController extends AdminBaseController
     public function deleteImage($filename)
     {
         $this->productRepository->delImgIfExist($filename);
-        Storage::disk('public')->delete('uploads/single/'.$filename);
+        Storage::disk('public')->delete('uploads/single/' . $filename);
     }
 
     // upload to gallery
@@ -285,9 +285,21 @@ class ProductController extends AdminBaseController
         }
         if (\DB::delete("DELETE FROM galleries WHERE product_id = ? AND img = ?", [$id, $src])) {
             Storage::disk('public')
-                ->delete(['uploads/gallery/'.$src,'uploads/gallery/thumb-'.$src,'uploads/gallery/preview-'.$src]);
+                ->delete(['uploads/gallery/' . $src, 'uploads/gallery/thumb-' . $src, 'uploads/gallery/preview-' . $src]);
             exit('1');
         }
+        return;
+    }
+
+    public function deleteGalleryTmp()
+    {
+        $src = isset($_POST['src']) ? $_POST['src'] : null;
+        if (!$src) {
+            return;
+        }
+        Storage::disk('public')
+            ->delete(['uploads/gallery/' . $src, 'uploads/gallery/thumb-' . $src, 'uploads/gallery/preview-' . $src]);
+
         return;
     }
 }

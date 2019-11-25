@@ -4,7 +4,7 @@
 
     <div class="product">
         <div class="container">
-            {{ Breadcrumbs::render('Product', $product) }}
+            {{ Breadcrumbs::render('Product', $product, $category) }}
             <div class="row">
                 <div class="col-md-5">
 

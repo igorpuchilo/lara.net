@@ -47,7 +47,8 @@
                 <ul class="navbar-nav mr-auto">
                     <form action="{{url('/search/result')}}" method="get" autocomplete="off" class="form-inline">
                         <div class="input-group">
-                            <input id="search" name="search" type="text" class="typeahead search" data-provide="typeahead"
+                            <input id="search" name="search" type="text" class="typeahead search"
+                                   data-provide="typeahead"
                                    placeholder="Live Search....">
                             <span class="input-group-btn">
                                  <button type="submit" class="btn btn-outline bg-transparent">
@@ -85,6 +86,9 @@
                                 <a class="dropdown-item" href="{{url('/changePassword') }}">
                                     {{ __('Change Password') }}
                                 </a>
+                                <a class="dropdown-item" href="{{url('/orderHistory') }}">
+                                    Order History
+                                </a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                              document.getElementById('logout-form').submit();">
@@ -99,7 +103,7 @@
                         </li>
                         <li class="nav-item">
                             <div class="p-1">
-                                <a class="btn btn-outline btn-sm ml-3" href="{{url('/cart')}}">
+                                <a class="btn btn-outline btn-sm ml-3" href="{{route('shop.cart')}}">
                                     <i class="fa fa-shopping-cart"></i> Cart
                                     <span class="badge badge-light">{{$countOrders}}</span>
                                 </a>
