@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Shop\User;
 
 use App\Models\User;
+use App\Repositories\Admin\OrderRepository;
+use App\Repositories\Admin\ProductOrdersRepository;
 use App\Repositories\User\UserRepository;
 use App\Models\Admin\Category;
 use Auth;
@@ -11,9 +13,13 @@ use MetaTag;
 
 class UserController extends UserBaseController
 {
+    private $productOrdersRepository;
+    private $orderRepository;
     public function __construct()
     {
         parent::__construct();
+        $this->productOrdersRepository = app(ProductOrdersRepository::class);
+        $this->orderRepository = app(OrderRepository::class);
         $this->userRepository = app(UserRepository::class);
     }
 
@@ -138,5 +144,13 @@ class UserController extends UserBaseController
         }
 
 
+    }
+    public function ajaxProdQtyChange(Request $request){
+        if($this->productOrdersRepository->changeProductQty($request->product_id,$request->qty)){
+            $prods = $this->productOrdersRepository->getProductsByOrderId($request->order_id);
+            if($prods){
+                return $this->orderRepository->updateSum($request->order_id,$prods);
+            }else return false;
+        }else return false;
     }
 }

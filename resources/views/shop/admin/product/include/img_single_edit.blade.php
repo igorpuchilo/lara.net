@@ -6,7 +6,7 @@
         @if ($product->img == null)
             <img width="50%" height="50%" src="{{asset("storage/images/no_image.jpg")}}" id="preview_image"/>
         @else
-            <img width="50%" height="50%" src="{{asset("storage/uploads/single/$product->img")}}" id="preview_image"/>
+            <img width="125px" height="200px" src="{{asset("storage/uploads/single/$product->img")}}" id="preview_image"/>
         @endif
         <i id="loading" class="fa fa-spinner fa-spin fa-3x fa-fw"
            style="position: absolute;left: 40%;top: 40%;display: none"></i>

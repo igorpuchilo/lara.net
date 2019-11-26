@@ -55,6 +55,7 @@ class ProductController extends AdminBaseController
         $parent_id = $request->parent_id;
         $categories = $this->categoryRepository->getSubCategories($parent_id);
         $filter = $this->filterAttrsRepository->getAllAttrsFilterByParentId($parent_id);
+        $data = $request->input();
         return view('shop.admin.product.createStep2', compact('data', 'categories', 'filter', 'parent_id'));
 
     }
@@ -295,11 +296,11 @@ class ProductController extends AdminBaseController
     {
         $src = isset($_POST['src']) ? $_POST['src'] : null;
         if (!$src) {
-            return;
+            return false;
         }
         Storage::disk('public')
             ->delete(['uploads/gallery/' . $src, 'uploads/gallery/thumb-' . $src, 'uploads/gallery/preview-' . $src]);
 
-        return;
+        return 1;
     }
 }

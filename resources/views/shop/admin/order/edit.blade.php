@@ -107,8 +107,8 @@
                 <h3>Order Details</h3>
                 <div class="box">
                     <div class="box-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover">
+                        <div class="resp-qnt table-responsive">
+                            <table class="table table-bordered table-hover" id="table">
                                 <thead>
                                 <tr>
                                     <th>ID</th>
@@ -126,7 +126,23 @@
                                                href="{{route('shop.admin.orders.delProd',$prod->id)}}"
                                                title="Delete This Product"><i
                                                         class="fa fa-fw fa-close text-danger"></i></a>{{$prod->title}}</td>
-                                        <td>{{$prod->qty , $qty+=$prod->qty}}</td>
+                                        <td>
+                                            <button class="btn links btn-number" id="minus-btn"
+                                                    @if($prod->qty == 1)disabled="disabled"@endif data-type="minus"
+                                                    data-field="quant[{{$prod->id}}]">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                            <input type="text" id="qty_input" name="quant[{{$prod->id}}]"
+                                                   class="input-number"
+                                                   value="{{$prod->qty , $qty+=$prod->qty}}" min="1" max="100">
+
+                                            <button class="btn links btn-number" id="plus-btn" data-type="plus"
+                                                    data-field="quant[{{$prod->id}}]">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                            <input id="order_id" value="{{$order->id}}" hidden>
+                                            <input id="prod_quant[{{$prod->id}}]" value="{{$prod->id}}" hidden>
+                                        </td>
                                         <td>{{$prod->price}}</td>
                                     </tr>
                                 @endforeach
@@ -136,6 +152,11 @@
                                     <td><b>{{$order->sum}} {{$order->currency}}</b></td>
                                 </tr>
                                 </tbody>
+                                <div class="box-body" id="image" style="text-align: center;position: relative;">
+                                    <img width="50%" height="50%" id="preview_image"/>
+                                    <i id="loading" class="fa fa-spinner fa-spin fa-3x fa-fw"
+                                       style="position: absolute;left: 40%;top: 40%;display: none"></i>
+                                </div>
                             </table>
                         </div>
                     </div>

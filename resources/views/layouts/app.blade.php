@@ -148,6 +148,7 @@
 <script src="{{asset('js/jquery.fancybox.min.js')}}"></script>
 <!-- App -->
 <script src="{{asset('js/app_main.js')}}"></script>
+<script src="{{asset('js/cart_change_qty.js')}}"></script>
 <script src="{{asset('js/ajaxupload.js')}}"></script>
 {{--Font Awesome--}}
 <script src="https://use.fontawesome.com/c11a257dfe.js"></script>

@@ -202,3 +202,12 @@ main h2 {
     color: black;
     background-color: transparent;
 }
+.input-number{
+    border: none;
+    width: 35px;
+    text-align: center;
+}.input-number-cart{
+    border: none;
+    width: 35px;
+    text-align: center;
+}

@@ -5,17 +5,20 @@ namespace App\Http\Controllers\Shop\Admin;
 use App\Models\Admin\Order;
 use App\Repositories\Admin\MainRepository;
 use App\Repositories\Admin\OrderRepository;
+use App\Repositories\Admin\ProductOrdersRepository;
 use Illuminate\Http\Request;
 use App\Http\Requests\AdminOrderSaveRequest;
 use DB;
 class OrderController extends AdminBaseController
 {
     private $orderRepository;
+    private $productOrdersRepository;
 
     public function __construct()
     {
         parent::__construct();
         $this->orderRepository = app(OrderRepository::class);
+        $this->productOrdersRepository = app(ProductOrdersRepository::class);
     }
 
     /**
@@ -170,5 +173,13 @@ class OrderController extends AdminBaseController
         } else {
             return back()->withErrors(['msg' => 'Error on delete!'])->withInput();
         }
+    }
+    public function ajaxProdQtyChange(Request $request){
+        if($this->productOrdersRepository->changeProductQty($request->product_id,$request->qty)){
+            $prods = $this->productOrdersRepository->getProductsByOrderId($request->order_id);
+            if($prods){
+                return $this->orderRepository->updateSum($request->order_id,$prods);
+            }else return false;
+        }else return false;
     }
 }

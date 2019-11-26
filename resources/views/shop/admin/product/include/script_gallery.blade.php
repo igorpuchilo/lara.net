@@ -29,7 +29,7 @@
                         response = JSON.parse(response);
                         $('.' + buttonMulti.data('name')).append('<img src="{{asset('storage/uploads/gallery/')}}/'
                             + response.file + '" style="max-height: 200px; cursor: pointer;" alt="Image not found"  ' +
-                            'data-src="response.file" class="del-items-tmp" ' +
+                            'data-src="'+response.file+'" class="del-items-tmp" ' +
                             'onerror="this.src = \'{{asset("storage/images/no_image.jpg")}}\';">');
                     }
                 });

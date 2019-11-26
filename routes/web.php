@@ -19,6 +19,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/cart/delete/{id}', 'UserController@destroy')->name('shop.user.delProd');
         Route::post('/cart','UserController@store')->name('shop.user.store');
         Route::post('/product', 'UserController@addOrder')->name('shop.user.addOrder');
+        Route::post('/cart/ajax-change-prod-qty', 'UserController@ajaxProdQtyChange');
     });
 });
 //Auth
@@ -48,6 +49,7 @@ Route::group(['middleware' => ['status', 'auth']], function () {
             ->name('shop.admin.orders.updatestatus');
         Route::get('/orders/remove-product/{id}','OrderController@deleteProduct')
             ->name('shop.admin.orders.delProd');
+        Route::post( '/orders/ajax-change-prod-qty','OrderController@ajaxProdQtyChange');
         ///CATEGORY////
         Route::resource('categories', 'CategoryController')
             ->names('shop.admin.categories');

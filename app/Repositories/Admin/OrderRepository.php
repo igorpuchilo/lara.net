@@ -42,7 +42,7 @@ class OrderRepository extends CoreRepository
             ->select('orders.*', 'users.name')
             ->where([['orders.user_id', '=', $id], ['status', '!=', '3'], ['status', '!=', '2'],])
             ->groupBy('orders.id')
-            ->orderBy('orders.created_at','Desc')
+            ->orderBy('orders.created_at', 'Desc')
             ->get();
 
 //        return $this->startConditions()->where([['orders.user_id','=',$id],['status','!=', '3'],['status','!=', '2'],])->first();
@@ -95,8 +95,7 @@ class OrderRepository extends CoreRepository
             ->join('users', 'orders.user_id', '=', 'users.id')
             ->join('order_products', 'order_products.order_id', '=', 'orders.id')
             ->select('orders.id', 'orders.user_id', 'orders.status', 'orders.created_at',
-                'orders.updated_at', 'orders.currency', 'users.name',
-                DB::raw('ROUND(SUM(order_products.price),2) AS sum'))
+                'orders.updated_at', 'orders.currency', 'users.name','orders.sum')
             ->groupBy('orders.id')
             ->sortable()
             ->toBase()
@@ -119,8 +118,7 @@ class OrderRepository extends CoreRepository
         $order = $this->startConditions()::withTrashed()
             ->join('users', 'orders.user_id', '=', 'users.id')
             ->join('order_products', 'order_products.order_id', '=', 'orders.id')
-            ->select('orders.*', 'users.name',
-                DB::raw('ROUND(SUM(order_products.price),2) AS sum'))
+            ->select('orders.*', 'users.name')
             ->where('orders.id', '=', $id)
             ->groupBy('orders.id')
             ->orderBy('orders.status')
@@ -179,6 +177,15 @@ class OrderRepository extends CoreRepository
         return $this->startConditions()::withTrashed()
             ->find($id)
             ->restore();
+    }
+
+    public function updateSum($id, $prods)
+    {
+        $sum = 0;
+        foreach ($prods as $prod) {
+            $sum += $prod->qty * $prod->price;
+        }
+    return $this->startConditions()->where('id',$id)->update(['sum' => $sum]);
     }
 
 }

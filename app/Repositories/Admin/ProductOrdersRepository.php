@@ -22,7 +22,9 @@ class ProductOrdersRepository extends CoreRepository
     {
         return ProductOrders::class;
     }
-
+    public function getProductsByOrderId($id){
+        return $this->startConditions()->where('order_id',$id)->select('price','qty')->get();
+    }
     public function addOrder($cnt, $price, $product_id, $product_title, $order_id)
     {
         $sum = $price * $cnt;
@@ -35,7 +37,11 @@ class ProductOrdersRepository extends CoreRepository
         $this->ordersRepository->updateSummary($order_id, $sum);
         return $new_order->save();
     }
-
+    public function changeProductQty($id,$qty){
+        $prod_order = $this->startConditions()->find($id);
+        $prod_order->qty = $qty;
+        return $prod_order->save();
+    }
     public function deleteProductFromOrder($id)
     {
         $order = $this->startConditions()
