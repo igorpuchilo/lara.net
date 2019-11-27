@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Shop\Admin;
 
 use App\Http\Requests\AdminProductsCreateRequest;
-use App\Models\Admin\Category;
+use DB;
 use App\Models\Admin\Product;
 use App\Repositories\Admin\CategoryRepository;
 use App\Repositories\Admin\FilterAttrsRepository;
@@ -124,6 +124,7 @@ class ProductController extends AdminBaseController
                 ->withErrors(['msg' => 'Product not found!'])
                 ->withInput();
         }
+
         $data = $request->all();
         $result = $product->update($data);
         $product->status = $request->status ? '1' : '0';
@@ -300,7 +301,6 @@ class ProductController extends AdminBaseController
         }
         Storage::disk('public')
             ->delete(['uploads/gallery/' . $src, 'uploads/gallery/thumb-' . $src, 'uploads/gallery/preview-' . $src]);
-
         return 1;
     }
 }

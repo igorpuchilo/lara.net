@@ -100,6 +100,10 @@ Route::group(['middleware' => ['status', 'auth']], function () {
         Route::match(['get','post'],'/currency/add', 'CurrencyController@add');
         Route::match(['get','post'],'/currency/edit/{id}', 'CurrencyController@edit');
         Route::get('/currency/delete/{id}','CurrencyController@delete');
+        /// TRASH
+        Route::get('/trash', 'TrashController@index');
+        Route::get('/trash/delete/{id}', 'TrashController@deleteFile')->name('shop.admin.trash.deletefile');
+        Route::get('/trash/tmpclear', 'TrashController@deleteAllFiles')->name('shop.admin.trash.deleteallfiles');
         /// SEARCH
         Route::get('/search/result', 'SearchController@index');
         Route::get('/autocomplete', 'SearchController@search');

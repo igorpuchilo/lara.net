@@ -32,7 +32,6 @@ class MainController extends AdminBaseController
 
         $last_orders = $this->orderRepository->getAllOrders($paginatepages+3);
         $last_products = $this->productRepository->getLastProducts($paginatepages);
-
         MetaTag::setTags(['title'=>'Admin Panel']);
         return view('shop.admin.main.index', compact('countUsers','countProducts',
             'countOrders','countCategories', 'last_products', 'last_orders'));

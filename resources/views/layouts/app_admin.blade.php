@@ -193,6 +193,9 @@
                         <li><a href="{{route('shop.admin.filter.attribute-filter')}}">Filter</a></li>
                     </ul>
                 </li>
+                <li>
+                    <a href="{{url('/admin/trash')}}"><i class="fa fa-trash"></i> <span>Temp Files</span></a>
+                </li>
             </ul>
 
 

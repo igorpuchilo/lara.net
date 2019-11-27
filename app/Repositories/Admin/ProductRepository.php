@@ -329,6 +329,7 @@ class ProductRepository extends CoreRepository
         Storage::put($uploadfile_thumb_preview, $image_thumb_preview->encode());
         $res = array("file" => $new_name);
         \Session::push('gallery', $new_name);
+
         echo json_encode($res);
     }
 
@@ -369,6 +370,7 @@ class ProductRepository extends CoreRepository
             if (!empty($singleImg)) {
                 Storage::disk('public')->delete('uploads/single/'.$singleImg[0]);
             }
+
         }
     }
     public function delImgIfExist($filename)
