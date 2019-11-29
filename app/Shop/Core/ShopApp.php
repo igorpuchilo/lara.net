@@ -3,6 +3,9 @@
 
 namespace App\Shop\Core;
 
+use App\Models\Admin\StoreSettings;
+use DB;
+
 class ShopApp
 {
     public static $app;
@@ -21,6 +24,13 @@ class ShopApp
                 self::$app->setProperty($param, $val);
             }
         }
+        $params = StoreSettings::all();
+        $params->each(function($post){
+            self::$app->setProperty($post->param_name, $post->value);
+        });
+        //orders count on admin panel
+        self::$app->setProperty('orders_count', DB::table('orders')->where('status','3')->count());
+
     }
 
 

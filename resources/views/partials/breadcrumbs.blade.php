@@ -15,6 +15,7 @@
                 <li class="breadcrumb-item active">
                     @if($breadcrumb->title == 'Home')<i class="fa fa-fw fa-home"></i>{{ $breadcrumb->title }}
                     @elseif($breadcrumb->title == 'Cart')<i class="fa fa-fw fa-shopping-cart"></i>{{ $breadcrumb->title }}
+                    @elseif($breadcrumb->title == 'Profile Edit')<i class="fa fa-fw fa-user-circle"></i>{{ $breadcrumb->title }}
                     @elseif(substr_count($breadcrumb->title, 'Search') > 0)<i class="fa fa-fw fa-search"></i>{{ $breadcrumb->title }}
                     @elseif($breadcrumb->title == 'Back')<i class="fa fa-fw  fa-caret-left"></i>{{ $breadcrumb->title }}
                     @elseif($breadcrumb->title == 'Order History')<i class="fa fa-fw  fa-history"></i>{{ $breadcrumb->title }}

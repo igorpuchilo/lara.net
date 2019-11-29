@@ -24,5 +24,8 @@
     @if (isset($currency))
         <li><a href="{{route('shop.admin.currency.index')}}"><i class="fa fa-usd"></i>{{$currency}}</a> </li>
     @endif
+    @if (isset($settings))
+        <li><a href="{{route('shop.admin.settings.index')}}"><i class="fa fa-cogs"></i>{{$settings}}</a> </li>
+    @endif
     <li><i class="active"></i>{{$active}}</li>
 </ol>

@@ -25,7 +25,6 @@ class UserRequest extends FormRequest
     public function rules()
     {
         $id = $_POST['id'];
-
         return [
             'email' => [
                 'required',

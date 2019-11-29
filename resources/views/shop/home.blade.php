@@ -3,10 +3,8 @@
 @section('content')
     <header>
         <div class="container">
-            <h1>Laravel Shop</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid architecto cum cumque dolor error,
-                eveniet facilis fugit iusto magnam nam officiis quaerat recusandae veniam. Dignissimos ipsa iusto nulla
-                quisquam tenetur?</p>
+            <h1>{!! \App\Shop\Core\ShopApp::get_Instance()->getProperty('store_name') !!}</h1>
+            <p>{!! \App\Shop\Core\ShopApp::get_Instance()->getProperty('store_description') !!}</p>
         </div>
     </header>
     <section class="content container mt-4">

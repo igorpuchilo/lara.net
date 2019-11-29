@@ -119,7 +119,8 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="{{asset('storage/adminlte/dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image"
+                    <img src="{{asset('storage/adminlte/dist/img/user2-160x160.jpg')}}" class="img-circle"
+                         alt="User Image"
                          onerror="this.src = '{{asset("storage/images/no_image.jpg")}}';">
                 </div>
                 <div class="pull-left info">
@@ -135,7 +136,13 @@
                 <li><a href="/"><i class="fa fa-home"></i> <span>To Store</span></a></li>
                 <li><a href="{{route('shop.admin.index.index')}}"><i class="fa fa-user"></i> <span>Main</span></a></li>
                 <li><a href="{{route('shop.admin.orders.index')}}"><i class="fa fa-shopping-cart"></i>
-                        <span>Orders</span></a></li>
+                        <span>Orders
+                            <span class="badge badge-light pull-right">
+                                {{\App\Shop\Core\ShopApp::get_Instance()->getProperty('orders_count')}}
+                            </span>
+                        </span>
+                    </a>
+                </li>
 
 
                 <li class="treeview">
@@ -194,6 +201,11 @@
                     </ul>
                 </li>
                 <li>
+                    <a href="{{route('shop.admin.settings.index')}}">
+                        <i class="fa fa-cogs"></i> <span>Store Settings</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{url('/admin/trash')}}"><i class="fa fa-trash"></i> <span>Temp Files</span></a>
                 </li>
             </ul>
@@ -223,7 +235,6 @@
     <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
-
 
 
 <script>

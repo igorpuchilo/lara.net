@@ -14,6 +14,10 @@ Breadcrumbs::for('Cart', function ($trail) {
     $trail->parent('Home');
     $trail->push('Cart', route('shop.cart'));
 });
+Breadcrumbs::for('Profile', function ($trail) {
+    $trail->parent('Home');
+    $trail->push('Profile Edit', route('shop.user.edit'));
+});
 // Home > Order History
 Breadcrumbs::for('Order', function ($trail) {
     $trail->parent('Home');

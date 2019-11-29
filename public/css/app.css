@@ -106,7 +106,6 @@
     width: -moz-max-content;
     width: max-content;
 }
-
 .dropdown-submenu>a:after {
     content: "\F0DA";
     float: right;
@@ -204,6 +203,15 @@ main h2 {
     text-decoration: none !important;
     color: black;
     background-color: transparent;
+}
+.input-number{
+    border: none;
+    width: 35px;
+    text-align: center;
+}.input-number-cart{
+    border: none;
+    width: 35px;
+    text-align: center;
 }.product {
   margin-top: 60px;
 }

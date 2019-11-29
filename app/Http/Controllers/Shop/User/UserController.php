@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Shop\User;
 
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Repositories\Admin\OrderRepository;
 use App\Repositories\Admin\ProductOrdersRepository;
@@ -106,11 +107,29 @@ class UserController extends UserBaseController
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, User $user)
+    public function edit()
     {
+        MetaTag::setTags(['title' => "My Orders History"]);
+        $item = Auth::user();
+        $arrmenu = Category::all();
+        $menu = $this->userRepository->buildMenu($arrmenu);
 
+        $countOrders = $this->userRepository->getCountOrders($item->id);
+
+        return view('shop.user.edit',['menu' => $menu], compact( 'item', 'countOrders'));
     }
-
+    public function update(UserRequest $request)
+    {
+        $user = Auth::user();
+        $user->email = $request['email'];
+        $request['password'] == null ?: $user->password = bcrypt($request['password']);
+        $res = $user->save();
+        if (!$res) {
+            return back()->withErrors(['msg' => 'Error on update!'])->withInput();
+        } else {
+            return redirect()->route('shop.user.edit')->with(['success' => 'Changes was Saved']);
+        }
+    }
     /**
      * Remove the specified resource from storage.
      *

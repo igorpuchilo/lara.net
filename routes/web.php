@@ -20,6 +20,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/cart','UserController@store')->name('shop.user.store');
         Route::post('/product', 'UserController@addOrder')->name('shop.user.addOrder');
         Route::post('/cart/ajax-change-prod-qty', 'UserController@ajaxProdQtyChange');
+        Route::get('/profile','UserController@edit')->name('shop.user.edit');
+        Route::post('/profile', 'UserController@update')->name('shop.user.update');
     });
 });
 //Auth
@@ -104,6 +106,10 @@ Route::group(['middleware' => ['status', 'auth']], function () {
         Route::get('/trash', 'TrashController@index');
         Route::get('/trash/delete/{id}', 'TrashController@deleteFile')->name('shop.admin.trash.deletefile');
         Route::get('/trash/tmpclear', 'TrashController@deleteAllFiles')->name('shop.admin.trash.deleteallfiles');
+        /// SETTINGS
+        Route::get('/settings','SettingsController@index')->name('shop.admin.settings.index');
+        Route::get('/settings/edit/{id}', 'SettingsController@edit')->name('shop.admin.settings.edit');
+        Route::post('/settings/edit/','SettingsController@save')->name('shop.admin.settings.save');
         /// SEARCH
         Route::get('/search/result', 'SearchController@index');
         Route::get('/autocomplete', 'SearchController@search');

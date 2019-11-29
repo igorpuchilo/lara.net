@@ -3,15 +3,17 @@
 namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\Admin\SettingsRepository;
 use App\Repositories\Main\MainRepository;
 use Auth;
+use View;
 use MetaTag;
 use App\Models\Admin\Category;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
-
+    private $mainRepository;
 
     public function __construct()
     {
@@ -21,7 +23,7 @@ class MainController extends Controller
 
     public function index()
     {
-        MetaTag::setTags(['title' => "My Store"]);
+        MetaTag::setTags(['title' => \App\Shop\Core\ShopApp::get_Instance()->getProperty('store_name_tab')]);
         $paginatepages = 12;
         $arrmenu = Category::all();
         $menu = $this->mainRepository->buildMenu($arrmenu);

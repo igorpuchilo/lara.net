@@ -28,7 +28,7 @@
 <div id="app">
     <nav class="navbar navbar-expand-lg navbar-light bg-black-active shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">Laravel 5.8.*</a>
+            <a class="navbar-brand" href="{{ url('/') }}">{!! \App\Shop\Core\ShopApp::get_Instance()->getProperty('store_name') !!}</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -78,17 +78,18 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{url('/orderHistory') }}">
+                                    Order History
+                                </a>
                                 @if(Auth::user()->isAdministrator())
                                     <a class="dropdown-item" href="{{url('/admin/index') }}">
                                         Admin Panel
                                     </a>
                                 @endif
-                                <a class="dropdown-item" href="{{url('/changePassword') }}">
-                                    {{ __('Change Password') }}
+                                <a class="dropdown-item" href="{{route('shop.user.edit')}}">
+                                    Profile Edit
                                 </a>
-                                <a class="dropdown-item" href="{{url('/orderHistory') }}">
-                                    Order History
-                                </a>
+
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                              document.getElementById('logout-form').submit();">
