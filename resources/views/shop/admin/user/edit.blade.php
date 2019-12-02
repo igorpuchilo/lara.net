@@ -94,7 +94,7 @@
                                 </table>
                             </div>
                         @else
-                            <p class="text">No Orders...</p>
+                            <br><p class="text">No Orders...</p>
                         @endif
                     </div>
                 </div>

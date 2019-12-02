@@ -34,7 +34,7 @@ class ProductController extends AdminBaseController
     public function index()
     {
         MetaTag::setTags(['title' => 'Product list']);
-        $paginate = 10;
+        $paginate = 15;
         $allProducts = $this->productRepository->getAllProducts($paginate);
         $countProducts = $this->productRepository->getCountProducts();
         return view('shop.admin.product.index', compact('allProducts', 'countProducts'));
@@ -49,7 +49,7 @@ class ProductController extends AdminBaseController
         return view('shop.admin.product.createStep1', compact('categories'));
     }
 
-    public function createStep2(Request $request)
+    public function create(Request $request)
     {
         MetaTag::setTags(['title' => 'Create New Product']);
         $parent_id = $request->parent_id;
@@ -78,8 +78,7 @@ class ProductController extends AdminBaseController
             $this->productRepository->editFilter($id, $data);
             $this->productRepository->editRelatedProduct($id, $data);
             $this->productRepository->saveGallery($id);
-            return redirect('/admin/products')
-                ->with(['success' => 'Saved']);
+            return back()->with(['success' => 'Saved'])->withInput();
         } else {
             return back()
                 ->withErrors(['msg' => 'Error on save!'])
@@ -299,6 +298,7 @@ class ProductController extends AdminBaseController
         if (!$src) {
             return false;
         }
+        \Session::pull('gallery', $src);
         Storage::disk('public')
             ->delete(['uploads/gallery/' . $src, 'uploads/gallery/thumb-' . $src, 'uploads/gallery/preview-' . $src]);
         return 1;

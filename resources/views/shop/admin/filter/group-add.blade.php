@@ -26,7 +26,7 @@
                                 <label for="sel1">Select Category:</label>
                                 <select class="form-control" id="category_id" name="category_id">
                                     @foreach($categories as $cat)
-                                        <option value="{{$cat->id}}">{{$cat->title}}</option>
+                                        <option value="{{$cat->id}}" {{(old('category_id')==$cat->id)? 'selected':''}}>{{$cat->title}}</option>
                                     @endforeach
                                 </select>
                             </div>

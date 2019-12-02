@@ -19,7 +19,7 @@ class CurrencyController extends AdminBaseController
     //show currency list
     public function index()
     {
-        $paginate = 10;
+        $paginate = 15;
         $curr = $this->currencyRepository->getAllCurrency($paginate);
 
         MetaTag::setTags(['title' => 'Currency']);

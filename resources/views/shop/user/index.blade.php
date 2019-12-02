@@ -13,7 +13,7 @@
                             @csrf
                             <div class="col-lg-12 resp-qnt">
                                 <h4>Order Details</h4>
-                                @if (isset($order_prod))
+                                @if (!$order_prod->isEmpty())
                                     <table id="table-cart" class="table-cart table table-bordered table-hover">
                                         <thead class="thead-dark">
                                         <tr>

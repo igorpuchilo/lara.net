@@ -17,30 +17,35 @@
                             <a href="{{url('/admin/filter/group-add')}}" class="btn btn-primary margin-bottom">
                                 <i class="fa fa-fw fa-plus"></i>Add Group
                             </a>
-                            <table class="table table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th>@sortablelink('categories', 'Category Name')</th>
-                                    <th>@sortablelink('title')</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach ($attrs_group as $attr)
+                            @if(!$attrs_group->isEmpty())
+                                <table class="table table-bordered table-hover">
+                                    <thead>
                                     <tr>
-                                        <td>{{$attr->category_title}}</td>
-                                        <td>{{$attr->title}}</td>
-                                        <td>
-                                            <a href="{{url('/admin/filter/group-edit', $attr->id)}}"><i
-                                                        class="fa fa-fw fa-pencil" title="Edit"></i></a>
-                                            <a href="{{url('/admin/filter/group-delete', $attr->id)}}"
-                                               class="delete text-danger"><i class="fa fa-fw fa-close text-danger"
-                                                                             title="Delete"></i></a>
-                                        </td>
+                                        <th>@sortablelink('categories', 'Category Name')</th>
+                                        <th>@sortablelink('title','Filter Group Name')</th>
+                                        <th>Action</th>
                                     </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                    @foreach ($attrs_group as $attr)
+                                        <tr>
+                                            <td>{{$attr->category_title}}</td>
+                                            <td>{{$attr->title}}</td>
+                                            <td>
+                                                <a href="{{url('/admin/filter/group-edit', $attr->id)}}"><i
+                                                            class="fa fa-fw fa-pencil" title="Edit"></i></a>
+                                                <a href="{{url('/admin/filter/group-delete', $attr->id)}}"
+                                                   class="delete text-danger"><i class="fa fa-fw fa-close text-danger"
+                                                                                 title="Delete"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            @else
+                                <br><span class="warning text-center"><i
+                                            class="fa fa-fw fa-warning"></i>No Data To View!</span>
+                            @endif
                         </div>
                         <div class="text-center">
                             {!! $attrs_group->appends(\Request::except('page'))->render() !!}

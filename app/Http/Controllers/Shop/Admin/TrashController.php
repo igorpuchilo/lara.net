@@ -19,7 +19,7 @@ class TrashController extends AdminBaseController
     public function index()
     {
         MetaTag::setTags(['title'=>'Trash']);
-        $paginate = 25;
+        $paginate = 15;
         $files = $this->trashRepository->getAllFiles($paginate);
         return view('shop.admin.trash',compact('files'));
     }

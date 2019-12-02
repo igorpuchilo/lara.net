@@ -12,8 +12,8 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="box">
-                        <form method="POST" action="{{route('shop.admin.products.createStep2')}}"
-                              data-toggle="validator" id="add">
+                        <form method="GET" action="{{route('shop.admin.products.create')}}"
+                              data-toggle="validator">
                             @csrf
                             <div class="box-body">
                                 <div class="form-group has-feedback">

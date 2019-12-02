@@ -13,8 +13,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="box">
-                    <form method="POST" action="{{route('shop.admin.products.store')}}"
-                          data-toggle="validator" id="add">
+                    <form data-toggle="validator" id="add" method="POST" action="{{route('shop.admin.products.store')}}">
                         @method('POST')
                         @csrf
                         <div class="box-body">
@@ -95,11 +94,10 @@
                         <input type="hidden" id="_token" value="{{ csrf_token() }}">
                         <input id="parent_id" name="parent_id" value="{{$data['parent_id']}}" hidden>
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-success">Save</button>
+                            <button type="submit" form="add" class="btn btn-success">Save</button>
                             <a class="btn btn-warning" href="{{route('shop.admin.products.createStep1')}}">Previous
                                 Step</a>
                         </div>
-
                     </form>
                 </div>
             </div>

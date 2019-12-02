@@ -11,32 +11,36 @@
                 </button>
             </div>
         </div>
-
-        <div class="box-body">
-            <ul class="products-list product-list-in-box">
-                @foreach($last_products as $product)
-                    <li class="item">
-                        <div class="product-img">
-                            @if(!empty($product->img))
-                                <img src="{{asset('storage/uploads/single/'.$product->img)}}" alt="Image not found"
-                                     onerror="this.src = '{{asset("storage/images/no_image.jpg")}}';">
-                            @else
-                                <img src="{{asset('storage/images/no_image.jpg')}}" alt="Image not found">
-                            @endif
-                        </div>
-                        <div class="product-info">
-                            <a href="{{route('shop.admin.products.edit', $product->id)}}" class="product-title">
-                                {{$product->title}}
-                                <span class="label label-warning pull-right">{{$product->price}}</span>
-                            </a>
-                        </div>
-                    </li>
-                @endforeach
-            </ul>
-        </div>
-
+        @if(!$last_products->isEmpty())
+            <div class="box-body">
+                <ul class="products-list product-list-in-box">
+                    @foreach($last_products as $product)
+                        <li class="item">
+                            <div class="product-img">
+                                @if(!empty($product->img))
+                                    <img src="{{asset('storage/uploads/single/'.$product->img)}}" alt="Image not found"
+                                         onerror="this.src = '{{asset("storage/images/no_image.jpg")}}';">
+                                @else
+                                    <img src="{{asset('storage/images/no_image.jpg')}}" alt="Image not found">
+                                @endif
+                            </div>
+                            <div class="product-info">
+                                <a href="{{route('shop.admin.products.edit', $product->id)}}" class="product-title">
+                                    {{$product->title}}
+                                    <span class="label label-warning pull-right">{{$product->price}}</span>
+                                </a>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        @else
+            <br> <span class="warning text-center"><i
+                        class="fa fa-fw fa-warning"></i>No Data To View!</span>
+        @endif
         <div class="box-footer clearfix">
-            <a href="{{route('shop.admin.products.index')}}" class="btn btn-sm btn-info btn-flat pull-left">All products</a>
+            <a href="{{route('shop.admin.products.index')}}" class="btn btn-sm btn-info btn-flat pull-left">All
+                products</a>
         </div>
 
     </div>

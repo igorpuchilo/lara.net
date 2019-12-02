@@ -8,6 +8,6 @@
             </ul>
         </li>
     @else
-        <li><a href="{{route('shop.getcategory',$item->data('alias'))}}" class="dropdown-item">{{$item->title}}</a></li>
+        <li><a href="{{route('shop.getcategory',$item->data('alias'))}}" class="dropdown-item btn btn-outline-dark btn-link" style="outline: none !important;">{{$item->title}}</a></li>
     @endif
 @endforeach

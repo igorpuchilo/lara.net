@@ -32,7 +32,8 @@ class FilterAttrsRepository extends CoreRepository
         return $this->startConditions()
             ->join('attribute_groups', 'attribute_groups.id', '=',
                 'attribute_values.attr_group_id')
-            ->select('attribute_values.*', 'attribute_groups.title as category_title')
+            ->join('categories', 'categories.id', '=', 'attribute_groups.category_id')
+            ->select('attribute_values.*', 'attribute_groups.title as group_title','categories.title as category_title')
             ->sortable()
             ->limit($paginate)
             ->paginate($paginate);
@@ -52,6 +53,8 @@ class FilterAttrsRepository extends CoreRepository
     {
         return $this->startConditions()
             ->wherein('attr_group_id', $groups)
+            ->join('attribute_products','attribute_values.id','=','attribute_products.attr_id')
+            ->groupBy('id')
             ->get();
     }
 

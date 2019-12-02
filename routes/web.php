@@ -64,8 +64,6 @@ Route::group(['middleware' => ['status', 'auth']], function () {
         Route::resource('products', 'ProductController')->names('shop.admin.products');
         Route::get('products/create/step-1', 'ProductController@createStep1')
             ->name('shop.admin.products.createStep1');
-        Route::post('products/create/step-2','ProductController@createStep2')
-            ->name('shop.admin.products.createStep2');
         Route::match(['get','post'], '/products/ajax-image-upload','ProductController@ajaxImage');
         Route::delete('/products/ajax-remove-image/{filename}','ProductController@deleteImage');
         Route::post('/products/gallery','ProductController@gallery')
@@ -115,5 +113,7 @@ Route::group(['middleware' => ['status', 'auth']], function () {
         Route::get('/autocomplete', 'SearchController@search');
     });
 });
-
+//Route::fallback(function(){
+//    return abort(404);
+//});
 

@@ -17,7 +17,7 @@ class SearchController extends AdminBaseController
     public function index(Request $request){
         MetaTag::setTags(['title' => 'Search Results']);
         $query = !empty(trim($request->search)) ? trim($request->search) : null;
-        $paginate = 10;
+        $paginate = 15;
         $products = $this->mainRepository->getSearchResult($query,$paginate);
         $curr = $this->mainRepository->getBaseCurr();
 

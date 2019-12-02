@@ -29,7 +29,7 @@ class FilterController extends AdminBaseController
     //show filter groups list
     public function attributeGroup()
     {
-        $paginate = 3;
+        $paginate = 15;
         $attrs_group = $this->filterGroupRepository->getAllGroupsFilterSort($paginate);
         MetaTag::setTags(['title' => 'Filter Groups']);
         return view('shop.admin.filter.attribute-group', compact('attrs_group'));
@@ -42,7 +42,7 @@ class FilterController extends AdminBaseController
             $group = (new AttributeGroup())->create($data);
             $group->save();
             if ($group) {
-                return redirect('/admin/filter/group-add')->with(['success' => 'New group has been Saved']);
+                return redirect('/admin/filter/group-add')->with(['success' => 'New group has been Saved'])->withInput();
             } else {
                 return back()
                     ->withErrors(['msg' => 'Error on create new group!'])->withInput();
@@ -92,7 +92,7 @@ class FilterController extends AdminBaseController
     //show groups attributes list
     public function attributeFilter()
     {
-        $paginate = 10;
+        $paginate = 15;
         MetaTag::setTags(['title' => 'Group Attributes']);
         $attrs = $this->filterAttrsRepository->getAllAttrsFilter($paginate);
         $count = $this->filterGroupRepository->getCountGroupFilter();
@@ -112,7 +112,7 @@ class FilterController extends AdminBaseController
             $attr->save();
 
             if ($attr) {
-                return redirect('/admin/filter/attr-add')->with(['success' => 'Attribute has been Created']);
+                return redirect('/admin/filter/attr-add')->with(['success' => 'Attribute has been Created'])->withInput();
             } else return back()->withErrors(['msg' => 'Error on create!'])->withInput();
 
         } else {

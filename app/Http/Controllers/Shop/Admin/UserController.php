@@ -27,7 +27,7 @@ class UserController extends AdminBaseController
     {
         MetaTag::setTags(['title' => 'User list']);
 
-        $paginatePages = 8;
+        $paginatePages = 15;
         $countUsers = MainRepository::getCountUsers();
         $users = $this->userRepository->getAllUsers($paginatePages);
         return view('shop.admin.user.index', compact('countUsers', 'users'));
@@ -85,7 +85,7 @@ class UserController extends AdminBaseController
     {
         MetaTag::setTags(['title' => 'User Edit']);
 
-        $paginatePages = 10;
+        $paginatePages = 15;
         $item = $this->userRepository->getId($id);
         if (empty($item)) abort(404);
         $orders = $this->userRepository->getUserOrders($id, $paginatePages);

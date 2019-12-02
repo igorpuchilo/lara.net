@@ -8,7 +8,7 @@
                         <div class="card h-100">
                             <a class="text-center product-link" href="{{route('shop.getproduct', $product->alias)}}">
                                 @if(!empty($product->img))
-                                    <img class="card-img-top" style="height: 220px;width: 150px;"
+                                    <img class="card-img-top" style="height: 180px;width: 150px;"
                                          src="{{asset('storage/uploads/single/'.$product->img)}}"
                                          alt="Image not found" onerror="this.src = '{{asset("storage/images/no_image.jpg")}}';">
                                 @else

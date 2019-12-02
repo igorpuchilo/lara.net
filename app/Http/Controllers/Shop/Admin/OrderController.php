@@ -26,7 +26,7 @@ class OrderController extends AdminBaseController
      */
     public function index()
     {
-        $paginatepages = 20;
+        $paginatepages = 15;
         $countOrders = MainRepository::getCountOrders();
         $orders = $this->orderRepository->getAllOrders($paginatepages);
         \MetaTag::setTags(['title'=>'Orders list']);

@@ -29,7 +29,7 @@ class ShopApp
             self::$app->setProperty($post->param_name, $post->value);
         });
         //orders count on admin panel
-        self::$app->setProperty('orders_count', DB::table('orders')->where('status','3')->count());
+        self::$app->setProperty('orders_count', DB::table('orders')->where('status','0')->count());
 
     }
 

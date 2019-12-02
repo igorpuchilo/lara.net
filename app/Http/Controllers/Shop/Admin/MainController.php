@@ -28,7 +28,7 @@ class MainController extends AdminBaseController
         $countProducts = MainRepository::getCountProducts();
         $countCategories = MainRepository::getCountCategories();
 
-        $paginatepages = 4;
+        $paginatepages = 15;
 
         $last_orders = $this->orderRepository->getAllOrders($paginatepages+3);
         $last_products = $this->productRepository->getLastProducts($paginatepages);

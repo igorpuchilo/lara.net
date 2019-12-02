@@ -18,7 +18,7 @@ class SettingsController extends AdminBaseController
     public function index()
     {
         MetaTag::setTags(['title'=>'Store Settings']);
-        $paginate = 25;
+        $paginate = 15;
         $settings = $this->settingsRepository->getAllSettings($paginate);
         return view('shop.admin.settings.index',compact('settings'));
     }
@@ -34,7 +34,7 @@ class SettingsController extends AdminBaseController
         $setting->param_description = $request->param_description;
         $setting->value = $request->value;
         if($setting->save()){
-            $paginate = 25;
+            $paginate = 15;
             $settings = $this->settingsRepository->getAllSettings($paginate);
             return view('shop.admin.settings.index',compact('settings'))->with(['success' => 'Saved!']);
         }else return back()->withInput()->withErrors(['msg' => 'Error on Save!']);

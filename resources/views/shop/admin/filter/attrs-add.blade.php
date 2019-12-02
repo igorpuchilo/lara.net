@@ -28,7 +28,9 @@
                                 <select name="attr_group_id" class="form-control" id="attr_group_id">
                                     <option>Choose Group</option>
                                     @foreach ($group as $item)
-                                        <option value="{{$item->id}}">{{$item->title}}</option>
+                                        <option value="{{$item->id}}" {{(old('attr_group_id')==$item->id)? 'selected':''}}>
+                                            {{$item->category_title}}  >>  {{$item->title}}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>

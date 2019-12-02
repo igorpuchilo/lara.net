@@ -14,11 +14,13 @@
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-body">
-                        <small><i class="fa fa-warning"></i> Click to edit</small>
                         @if($menu)
+                            <small><i class="fa fa-warning"></i> Click to edit</small>
                             <div class="list-group list-group-root">
                                 @include('shop.admin.category.menu.customMenuItems', ['items'=>$menu->roots()])
                             </div>
+                        @else
+                            <br> <span class="warning text-center"><i class="fa fa-fw fa-warning"></i>No Data To View!</span>
                         @endif
                     </div>
                 </div>

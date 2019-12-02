@@ -38,7 +38,7 @@ class UserController extends UserBaseController
 
         $order = $this->userRepository->getUserOrder($id);
         if (!$order) {
-            return view('shop.user.index', ['menu' => $menu], compact('countOrders'));
+            return view('shop.user.index', ['menu' => $menu], compact('countOrders','order'));
         }
         $order_prod = $this->userRepository->getAllUserOrderProducts($order->id);
 

@@ -52,7 +52,7 @@ class ProductRepository extends CoreRepository
     public function getAllProducts($paginate)
     {
         return $this->startConditions()
-            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->join('categories', 'products.parent_id', '=', 'categories.id')
             ->select('products.*', 'categories.title as category')
             //->orderBy('id', 'desc')
             ->sortable()

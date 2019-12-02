@@ -13,7 +13,7 @@
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h4>Total Orders: #{{$countOrders}}</h4>
+                        <h4>Total Orders: {{$countOrders}}</h4>
                         <p>New Orders</p>
                     </div>
                     <div class="icon">
@@ -26,7 +26,7 @@
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h4>Total Products: #{{$countProducts}}</h4>
+                        <h4>Total Products: {{$countProducts}}</h4>
                         <p>Products</p>
                     </div>
                     <div class="icon">
@@ -39,7 +39,7 @@
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h4>Total Users: #{{$countUsers}}</h4>
+                        <h4>Total Users: {{$countUsers}}</h4>
                         <p>User Registration</p>
                     </div>
                     <div class="icon">
@@ -52,7 +52,7 @@
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h4>Total Categories: #{{$countCategories}}</h4>
+                        <h4>Total Categories: {{$countCategories}}</h4>
                         <p>Categories</p>
                     </div>
                     <div class="icon">

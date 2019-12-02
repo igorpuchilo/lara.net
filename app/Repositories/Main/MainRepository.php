@@ -28,7 +28,10 @@ class MainRepository
         $this->productOrdersRepository = app(\App\Repositories\Admin\ProductOrdersRepository::class);
     }
     public function getUserCountOrders($id){
-       return $this->productOrdersRepository->getProductsCountByOrderId($this->orderRepository->getOrderIdByUserID($id));
+        $order_id = $this->orderRepository->getOrderIdByUserID($id);
+       if($order_id) {
+           return $this->productOrdersRepository->getProductsCountByOrderId($order_id);
+       }else return 0;
     }
     public function buildMenu($menu){
        return $this->categoryRepository->buildMenu($menu);
