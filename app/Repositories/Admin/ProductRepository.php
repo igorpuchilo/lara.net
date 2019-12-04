@@ -88,7 +88,6 @@ class ProductRepository extends CoreRepository
     }
 
 
-
     public function editFilter($id, $data)
     {
         $filter = DB::table('attribute_products')
@@ -185,6 +184,16 @@ class ProductRepository extends CoreRepository
         }
     }
 
+//    public function saveGalleryV2($gallery, $id)
+//    {
+//        $sql_part = '';
+//        foreach ($gallery as $val) {
+//            $sql_part .= "($id, '$val'),";
+//        }
+//        $sql_part = rtrim($sql_part, ',');
+//        DB::insert("insert into galleries (product_id, img) values $sql_part");
+//    }
+
     public function getInfoProduct($id)
     {
         return $this->startConditions()
@@ -194,7 +203,7 @@ class ProductRepository extends CoreRepository
     public function getProductByAlias($alias)
     {
         return $this->startConditions()
-            ->where('alias','=', $alias)
+            ->where('alias', '=', $alias)
             ->first();
     }
 
@@ -315,7 +324,7 @@ class ProductRepository extends CoreRepository
         $uploadfile = $uplad_dir . $new_name;
         $uploadfile_thumb = $uplad_dir . $new_name_thumb;
         $uploadfile_thumb_preview = $uplad_dir . $new_name_preview;
-        $image = Image::make($_FILES[$filename]['tmp_name'])->resize($wmax,  null, function ($constraint) {
+        $image = Image::make($_FILES[$filename]['tmp_name'])->resize($wmax, null, function ($constraint) {
             $constraint->aspectRatio();
         })->encode('jpg');
         $image_thumb = Image::make($_FILES[$filename]['tmp_name'])->resize($thumb_wmax, null, function ($constraint) {
@@ -347,6 +356,7 @@ class ProductRepository extends CoreRepository
         }
         return;
     }
+
     public function deleteImgGalleryFromPath($id)
     {
         if (isset($id)) {
@@ -362,17 +372,20 @@ class ProductRepository extends CoreRepository
                 ->all();
             if (!empty($gallery)) {
                 foreach ($gallery as $img) {
+                    if(DB::table('galleries')->where('img',$img)->count()<2)
                     Storage::disk('public')
-                        ->delete(['uploads/gallery/'.$img,'uploads/gallery/thumb-'.$img,'uploads/gallery/preview-'.$img]);
+                        ->delete(['uploads/gallery/' . $img, 'uploads/gallery/thumb-' . $img, 'uploads/gallery/preview-' . $img]);
 
                 }
             }
             if (!empty($singleImg)) {
-                Storage::disk('public')->delete('uploads/single/'.$singleImg[0]);
+                if(DB::table('products')->where('img',$singleImg)->count()<2)
+                Storage::disk('public')->delete('uploads/single/' . $singleImg[0]);
             }
 
         }
     }
+
     public function delImgIfExist($filename)
     {
         $this->startConditions()

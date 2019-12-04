@@ -100,10 +100,14 @@
                         </div>
 
                         <input type="hidden" id="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="img" value="{{$product->img}}">
+                        {{session(['gallery' => $images])}}
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-success">Save</button>
+                            <button type="submit" class="btn btn-success" name="action" value="save">Save</button>
+                            <button type="submit" class="btn btn-warning pull-right" name="action" value="create">Save
+                                as New Product
+                            </button>
                         </div>
-
                     </form>
                 </div>
             </div>

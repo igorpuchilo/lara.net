@@ -57,6 +57,6 @@ class FilterGroupRepository extends CoreRepository
             ->toArray();
     }
     public function getAllFilterGroupsByParentId($id){
-        return $this->startConditions()->where('category_id','=',$id)->get();
+        return $this->startConditions()->where('category_id','=',$id)->orderBy('title')->get();
     }
 }

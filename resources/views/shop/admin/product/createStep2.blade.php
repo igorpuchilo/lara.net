@@ -70,7 +70,7 @@
                                 <label><input type="checkbox" name="status" checked> Status</label>
                             </div>
                             <div class="form-group">
-                                <label><input type="checkbox" name="hit"> Hit</label>
+                                <label><input type="checkbox" name="hit" @if(old('hit')) checked @endif> Hit</label>
                             </div>
                             <div class="form-group has-feedback">
                                 <label for="related">Related Products</label>

@@ -18,7 +18,8 @@
                                 @endif
                                 {{-- Small image --}}
                                 <img src="{{asset("storage/uploads/gallery/preview-$images[0]")}}"
-                                     alt="Image not found" class="img-responsive" onerror="this.src = '{{asset("storage/images/no_image.jpg")}}';">
+                                     alt="Image not found" class="img-responsive"
+                                     onerror="this.src = '{{asset("storage/images/no_image.jpg")}}';">
                             </a>
                             <div class="product-gallery-items">
                                 @foreach($images as $image)
@@ -26,39 +27,35 @@
                                        href="{{asset("storage/uploads/gallery/$image")}}">
                                         {{-- Small image --}}
                                         <img src="{{asset("storage/uploads/gallery/thumb-$image")}}"
-                                             alt="Image not found" onerror="this.src = '{{asset("storage/images/no_image.jpg")}}';">
+                                             alt="Image not found"
+                                             onerror="this.src = '{{asset("storage/images/no_image.jpg")}}';">
                                     </a>
                                 @endforeach
                             </div>
                         @endif
                     </div>
-                </div>
-                <div class="col-md-7">
-                    <h1>{{$product->title}}</h1>
-                    {{-- Product desc--}}
-                    {!! $product->content !!}
                     @if(!$filters->isEmpty())
-                    <h4>Order Details</h4>
-                    <table class="table table-bordered table-hover mb-4">
-                        <thead>
-                        <tr>
-                            <td>Attribute</td>
-                            <td>Value</td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($filters as $filter)
+                        <h4>Order Details</h4>
+                        <table class="table table-bordered table-hover mb-4">
+                            <thead>
                             <tr>
-                                <td>
-                                    {{$filter->title}}
-                                </td>
-                                <td>
-                                    {{$filter->value}}
-                                </td>
+                                <td>Attribute</td>
+                                <td>Value</td>
                             </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            @foreach($filters as $filter)
+                                <tr>
+                                    <td>
+                                        {{$filter->title}}
+                                    </td>
+                                    <td>
+                                        {{$filter->value}}
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
                     @endif
                     <div class="row">
                         <div class="col-lg-8 col-md-12 col-sm-12">
@@ -97,7 +94,7 @@
                             </form>
                         </div>
                         <div class="col-lg-4 col-md-12 col-sm-12">
-                            <p class="product-price">
+                            <p class="product-price pull-left">
                                 @if (isset($product->old_price))
                                     <del class="old-price">{{$product->old_price}}</del>&nbsp;
                                 @endif
@@ -107,17 +104,26 @@
                             </p>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-7">
+                    <h1>{{$product->title}}</h1>
+                    {{-- Product desc--}}
+                    {!! $product->content !!}
+
+
                     @include('shop.admin.components.result_messages')
                 </div>
             </div>
         </div>
     </div>
-    <div class="product">
-        <div class="container">
-            <h2>Related Products</h2>
-            <div class="row">
-                @include('shop.components.product_card',['products'=>$related])
+    @if (!$related->isEmpty())
+        <div class="product">
+            <div class="container">
+                <h2>Related Products</h2>
+                <div class="row">
+                    @include('shop.components.product_card',['products'=>$related])
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 @endsection

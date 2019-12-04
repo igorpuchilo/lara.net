@@ -4,6 +4,8 @@
 namespace App\Repositories\User;
 
 
+use DB;
+
 class UserRepository
 {
     private $orderRepository;
@@ -49,6 +51,7 @@ class UserRepository
     }
     public function AddOrder($user_id,$cnt,$price,$product_id,$product_title){
         $order_id = $this->orderRepository->getOrderIdByUserID($user_id);
+        DB::table('orders')->where('id',$order_id)->update(['status' => '3']);
         return $this->productOrdersRepository->addOrder($cnt,$price,$product_id,$product_title,$order_id);
     }
     public function buildMenu($menu){

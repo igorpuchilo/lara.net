@@ -113,7 +113,7 @@ Route::group(['middleware' => ['status', 'auth']], function () {
         Route::get('/autocomplete', 'SearchController@search');
     });
 });
-//Route::fallback(function(){
-//    return abort(404);
-//});
+Route::fallback(function(){
+    return abort(404);
+});
 

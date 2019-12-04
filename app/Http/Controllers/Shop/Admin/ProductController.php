@@ -78,7 +78,7 @@ class ProductController extends AdminBaseController
             $this->productRepository->editFilter($id, $data);
             $this->productRepository->editRelatedProduct($id, $data);
             $this->productRepository->saveGallery($id);
-            return back()->with(['success' => 'Saved'])->withInput();
+            return redirect()->route('shop.admin.products.edit', $id)->with(['success' => 'Saved']);
         } else {
             return back()
                 ->withErrors(['msg' => 'Error on save!'])
@@ -117,32 +117,58 @@ class ProductController extends AdminBaseController
      */
     public function update(AdminProductsCreateRequest $request, $id)
     {
-        $product = $this->productRepository->getId($id);
-        if (empty($product)) {
-            return back()
-                ->withErrors(['msg' => 'Product not found!'])
-                ->withInput();
-        }
+        switch ($request->input('action')) {
+            case 'save':
+                $product = $this->productRepository->getId($id);
+                if (empty($product)) {
+                    return back()
+                        ->withErrors(['msg' => 'Product not found!'])
+                        ->withInput();
+                }
 
-        $data = $request->all();
-        $result = $product->update($data);
-        $product->status = $request->status ? '1' : '0';
-        $product->hit = $request->hit ? '1' : '0';
-        $product->category_id = $request->category_id;
-        $this->productRepository->getImg($product);
-        $save = $product->save();
-        if ($save && $result) {
-            $this->productRepository->editFilter($id, $data);
-            $this->productRepository->editRelatedProduct($id, $data);
-            $this->productRepository->saveGallery($id);
-            return redirect()
-                ->route('shop.admin.products.edit', [$id])
-                ->with(['success' => 'Saved']);
-        } else {
-            return back()
-                ->withErrors(['msg' => 'Error on save!'])
-                ->withInput();
+                $data = $request->all();
+                $result = $product->update($data);
+                $product->status = $request->status ? '1' : '0';
+                $product->hit = $request->hit ? '1' : '0';
+                $product->category_id = $request->category_id;
+                $this->productRepository->getImg($product);
+                $save = $product->save();
+                if ($save && $result) {
+                    $this->productRepository->editFilter($id, $data);
+                    $this->productRepository->editRelatedProduct($id, $data);
+                    $this->productRepository->saveGallery($id);
+                    return redirect()
+                        ->route('shop.admin.products.edit', [$id])
+                        ->with(['success' => 'Saved']);
+                } else {
+                    return back()
+                        ->withErrors(['msg' => 'Error on save!'])
+                        ->withInput();
+                }
+                break;
+            case 'create':
+                $data = $request->all();
+                $product = (new Product())->create($data);
+                $id = $product->id;
+                $product->status = $request->status ? '1' : '0';
+                $product->hit = $request->hit ? '1' : '0';
+                $product->category_id = $request->category_id ?? '0';
+                $product->parent_id = $request->parent_id;
+                $this->productRepository->getImg($product);
+                $save = $product->save();
+                if ($save) {
+                    $this->productRepository->editFilter($id, $data);
+                    $this->productRepository->editRelatedProduct($id, $data);
+                    $this->productRepository->saveGallery($id);
+                    return redirect()->route('shop.admin.products.edit', $id)->with(['success' => 'Saved']);
+                } else {
+                    return back()
+                        ->withErrors(['msg' => 'Error on save!'])
+                        ->withInput();
+                }
+                break;
         }
+        return back()->withErrors(['msg'=>'Error on save!']);
     }
 
     /**

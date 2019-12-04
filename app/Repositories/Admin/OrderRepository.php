@@ -55,7 +55,7 @@ class OrderRepository extends CoreRepository
     }
     public function getOrderIdByUserID($id)
     {
-        $order_id = $this->startConditions()->where([['orders.user_id', '=', $id], ['status', '=', '3'],])->first();
+        $order_id = $this->startConditions()->where([['orders.user_id', '=', $id], ['status', '!=', '2'], ['status', '!=', '1'],])->first();
         if ($order_id) {
             return $order_id->id;
         } else {
@@ -113,7 +113,7 @@ class OrderRepository extends CoreRepository
             ->join('users', 'orders.user_id', '=', 'users.id')
             ->join('order_products', 'order_products.order_id', '=', 'orders.id')
             ->select('orders.*', 'users.name')
-            ->where([['orders.id', '=', $id], ['status', '=', '3'],])
+            ->where([['orders.id', '=', $id], ['status', '!=', '2'], ['status', '!=', '1'],])
             ->groupBy('orders.id')
             ->first();
     }

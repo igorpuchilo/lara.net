@@ -80,6 +80,7 @@
                                 @endif
                             </div>
                             <form id="cart" action="{{route('shop.user.store')}}" method="post">
+                                @csrf
                                 <div class="col-lg-12 mt-3">
                                     <h4>Customer's Details</h4>
                                     <div class="form-group">
