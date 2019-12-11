@@ -10,7 +10,8 @@
                                 @if(!empty($product->img))
                                     <img class="card-img-top" style="height: 180px;width: 150px;"
                                          src="{{asset('storage/uploads/single/'.$product->img)}}"
-                                         alt="Image not found" onerror="this.src = '{{asset("storage/images/no_image.jpg")}}';">
+                                         alt="Image not found"
+                                         onerror="this.src = '{{asset("storage/images/no_image.jpg")}}';">
                                 @else
                                     <img class="card-img-top"
                                          src="{{asset('storage/images/no_image.jpg')}}" alt="Image not found">
@@ -59,7 +60,8 @@
                                     <div class="form-group mb-0">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <b>Total:
-                                            <span class="text-right" id="quant[{{$product->id}}]">{{$product->price}}</span>
+                                                <span class="text-right"
+                                                      id="quant[{{$product->id}}]">{{$product->price}}</span>
                                                 <span class="currency">{{$curr->symbol_right}}</span>
                                             </b>
                                             <input id="quant[{{$product->id}}]" value="{{$product->price}}" hidden>

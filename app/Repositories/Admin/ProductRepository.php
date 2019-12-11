@@ -4,6 +4,7 @@
 namespace App\Repositories\Admin;
 
 
+use App\Models\Admin\AttributeProducts;
 use App\Repositories\CoreRepository;
 use App\Models\Admin\Product;
 use DB;
@@ -68,11 +69,28 @@ class ProductRepository extends CoreRepository
 
     public function getProductsByAttrsAndCat($attrs, $paginate, $id)
     {
+        $prods = array();
+        $groups = DB::table('attribute_values')->orWhereIn('id',$attrs)->select('attr_group_id')->groupBy('attr_group_id')->get()->toArray();
+        $i = 0;
+        foreach ($groups as $group){
+            $prod = DB::table('attribute_products')
+                ->join('attribute_values','attribute_values.id','=','attribute_products.attr_id')
+                ->where('attribute_values.attr_group_id',$group->attr_group_id)
+                ->whereIn('attribute_products.attr_id', $attrs)
+                ->select('attribute_products.product_id')
+                ->get()
+                ->toArray();
+            if($i>0){
+                $prods = array_intersect($prods, array_column($prod,'product_id'));
+            }else{
+                $prods = array_column($prod,'product_id');
+            }
+            $i++;
+        }
         return $this->startConditions()
-            ->join('attribute_products', 'attribute_products.product_id', '=', 'products.id')
             ->select('products.*')
-            ->where('products.category_id', '=', $id)
-            ->wherein('attribute_products.attr_id', $attrs)
+            ->orWherein('id', $prods)
+            ->where('products.category_id', $id)
             ->sortable()
             ->limit($paginate)
             ->paginate($paginate);

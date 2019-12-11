@@ -36,16 +36,27 @@
                         </div>
                     </div>
                 </div>
-            @else
-                <div class="content text-center mt-5">
-                    <img src="{{asset('storage/images/category-empty-icon.png')}}" alt="Category is empty!"
-                         class="mb-3">
-                    <h3>Category is empty. Products Coming Soon...</h3>
-                </div>
+            @elseif($attrs&&$products->isEmpty())
+                <div class="row">
+                    @include('shop.components.category_filters')
+                    <div class="col-md-9">
+                        <h1>{{$category->title}}</h1>
+                        <div class="row align-content-stretch justify-content-center">
+                            <span><i class="fa fa-fw fa-warning"></i> No Results... Try another filters! Or
+                                <a href="{{route('shop.getcategory',$category->alias)}}" class="text-decoration-none">Reset Filters</a>
+                            </span>
+                        </div>
+                    </div>
+                    @else
+                        <div class="content text-center mt-5">
+                            <img src="{{asset('storage/images/category-empty-icon.png')}}" alt="Category is empty!"
+                                 class="mb-3">
+                            <h3>Category is empty. Products Coming Soon...</h3>
+                        </div>
 
-            @endif
+                    @endif
+                </div>
         </div>
-    </div>
 
 @endsection
 

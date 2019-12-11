@@ -84,10 +84,7 @@ class MainController extends Controller
             }
         }
         $attributes = $this->mainRepository->getAllAttributesByGroupsId($groups);
-        if(isset($request->sortBy)){
-            $sortBy = $request->sortBy;
-        }
-        if (isset($request->attrs)) {
+        if ($request->attrs) {
             $attrs = $request->attrs;
             $products = $this->mainRepository->getProductsByAttrsAndCat($attrs, $paginate, $category->id);
         } else {

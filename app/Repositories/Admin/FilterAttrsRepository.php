@@ -53,8 +53,8 @@ class FilterAttrsRepository extends CoreRepository
     {
         return $this->startConditions()
             ->wherein('attr_group_id', $groups)
-            ->join('attribute_products','attribute_values.id','=','attribute_products.attr_id')
-            ->groupBy('id')
+            ->join('attribute_products','attribute_products.attr_id','=','attribute_values.id')
+            ->groupBy('.id')
             ->get();
     }
 
