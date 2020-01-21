@@ -37,10 +37,6 @@
         }
 
         $('.multi').delegate('img', 'click', function () {
-            var res = confirm('Do u want delete this image?');
-            if (!res) {
-                return false;
-            }
             var $this = $(this);
             src = $this.data('src');
             $.ajax({

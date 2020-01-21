@@ -105,7 +105,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-7 overflow-hidden">
                     <h1>{{$product->title}}</h1>
                     {{-- Product desc--}}
                     {!! $product->content !!}

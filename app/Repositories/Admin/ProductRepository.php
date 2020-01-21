@@ -189,16 +189,33 @@ class ProductRepository extends CoreRepository
         }
     }
 
+//    public function saveGallery($id)
+//    {
+//        if (!empty(\Session::get('gallery'))) {
+//            DB::table('galleries')->where('product_id',$id)->delete();
+//            $sql_part = '';
+//            foreach (\Session::get('gallery') as $val) {
+//                $sql_part .= "($id, '$val'),";
+//            }
+//            $sql_part = rtrim($sql_part, ',');
+//            DB::insert("insert into galleries (product_id, img) values $sql_part");
+//            \Session::flash('gallery');
+//        }
+//    }
     public function saveGallery($id)
     {
         if (!empty(\Session::get('gallery'))) {
             $sql_part = '';
             foreach (\Session::get('gallery') as $val) {
-                $sql_part .= "($id, '$val'),";
+                if(!DB::table('galleries')->where('img',$val)->get()->toArray()){
+                    $sql_part .= "($id, '$val'),";
+                }
             }
-            $sql_part = rtrim($sql_part, ',');
-            DB::insert("insert into galleries (product_id, img) values $sql_part");
-            \Session::forget('gallery');
+            if(!empty($sql_part)){
+                $sql_part = rtrim($sql_part, ',');
+                DB::insert("insert into galleries (product_id, img) values $sql_part");
+                \Session::flash('gallery');
+            }
         }
     }
 
