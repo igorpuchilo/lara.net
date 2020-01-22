@@ -27,15 +27,30 @@ class ProductOrdersRepository extends CoreRepository
     }
     public function addOrder($cnt, $price, $product_id, $product_title, $order_id)
     {
-        $sum = $price * $cnt;
-        $new_order = new ProductOrders();
-        $new_order->order_id = $order_id;
-        $new_order->product_id = $product_id;
-        $new_order->qty = $cnt;
-        $new_order->title = $product_title;
-        $new_order->price = $price;
-        $this->ordersRepository->updateSummary($order_id, $sum);
-        return $new_order->save();
+        $exist = $this->startConditions()
+            ->where([['product_id',$product_id],['order_id',$order_id],])
+            ->select('qty')
+            ->get()
+            ->toArray();
+        if($exist){
+            $sum = $price * $cnt;
+            $this->ordersRepository->updateSummary($order_id, $sum);
+            $new_qty = $exist[0]['qty'] + $cnt;
+            return $this->startConditions()
+                ->where([['product_id',$product_id],['order_id',$order_id],])
+                ->update(['qty' => $new_qty]);
+        }else{
+            $sum = $price * $cnt;
+            $new_order = new ProductOrders();
+            $new_order->order_id = $order_id;
+            $new_order->product_id = $product_id;
+            $new_order->qty = $cnt;
+            $new_order->title = $product_title;
+            $new_order->price = $price;
+            $this->ordersRepository->updateSummary($order_id, $sum);
+            return $new_order->save();
+        }
+
     }
     public function changeProductQty($id,$qty){
         $prod_order = $this->startConditions()->find($id);

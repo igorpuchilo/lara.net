@@ -134,6 +134,7 @@ class ProductController extends AdminBaseController
                 $this->productRepository->getImg($product);
                 $save = $product->save();
                 if ($save && $result) {
+                    $this->productRepository->updatePrice($id,$data['price']);
                     $this->productRepository->editFilter($id, $data);
                     $this->productRepository->editRelatedProduct($id, $data);
                     $this->productRepository->saveGallery($id);

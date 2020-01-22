@@ -427,6 +427,28 @@ class ProductRepository extends CoreRepository
             ->where('img', $filename)
             ->update(['img' => '']);
     }
+    public function updatePrice ($id,$price){
+        $oldprice = DB::table('order_products')
+            ->where('product_id',$id)
+            ->select('qty','price','order_id')
+            ->get()
+            ->toArray();
 
+        if($oldprice){
+            DB::table('order_products')->where('product_id',$id)->update(['price' => $price]);
+            foreach ($oldprice as $old) {
+                $oldsum = DB::table('orders')
+                    ->where([['id',$old->order_id],['status','3'],])
+                    ->select('sum')
+                    ->get()
+                    ->toArray();
+                $newsum = ($oldsum[0]->sum - ($old->price*$old->qty)) + $price*$old->qty;
+                return DB::table('orders')
+                    ->where([['id',$old->order_id],['status','3'],])
+                    ->update(['sum' => $newsum]);
+            }
+        }
+        //$tmp = DB::table('order_products')->where('product_id',$id)->select('')
+    }
 
 }
