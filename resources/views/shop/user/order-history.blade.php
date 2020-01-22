@@ -10,7 +10,7 @@
                 <div class="row justify-content-center">
                     <h3>Orders History</h3>
                     @php $i=0;@endphp
-                    @if(isset($orders))
+                    @if($orders->isNotEmpty())
                         @foreach($orders as $order)
                                 <div class="col-lg-12">
                                     <h4>Order Number #{{$order->id}} At {{$order->updated_at}}</h4>
@@ -59,7 +59,7 @@
                                         </table>
                                     @else
                                         <h2 class="text-center">
-                                            <i class="fa fa-fw  fa-warning"></i>
+                                            <i class="fa fa-fw fa-warning"></i>
                                             Your Cart Is Empty
                                             <br>
                                             <br>
@@ -74,7 +74,7 @@
                         @endforeach
                     @else
                         <div class="col-lg-12 text-center">
-                            <img src="{{asset("storage/images/no_items_found.jpg")}}" alt="History is Empty">
+                            <img src="{{asset("storage/images/empty_history.jpg")}}" alt="History is Empty" height="260px" width="270px">
                             <br>
                             <a class="btn btn-outline-dark btn-lg mt-3" href="{{url('/home')}}">
                                 <i class="fa fa-shopping-cart"></i> Go To Store</a>

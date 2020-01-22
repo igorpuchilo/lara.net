@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\Admin\SettingsRepository;
 use App\Repositories\Main\MainRepository;
 use Auth;
-use View;
 use MetaTag;
 use App\Models\Admin\Category;
 use Illuminate\Http\Request;
@@ -14,10 +12,27 @@ use Illuminate\Http\Request;
 class MainController extends Controller
 {
     private $mainRepository;
+    private $orderRepository;
+    private $userRepository;
+    private $categoryRepository;
+    private $productRepository;
+    private $currencyRepository;
+    private $filterAttrsRepository;
+    private $filterGroupRepository;
+    private $productOrdersRepository;
+
 
     public function __construct()
     {
         $this->mainRepository = app(MainRepository::class);
+        $this->orderRepository = app(\App\Repositories\Admin\OrderRepository::class);
+        $this->userRepository = app(\App\Repositories\Admin\UserRepository::class);
+        $this->categoryRepository = app(\App\Repositories\Admin\CategoryRepository::class);
+        $this->productRepository = app(\App\Repositories\Admin\ProductRepository::class);
+        $this->currencyRepository = app(\App\Repositories\Admin\CurrencyRepository::class);
+        $this->filterAttrsRepository = app(\App\Repositories\Admin\FilterAttrsRepository::class);
+        $this->filterGroupRepository = app(\App\Repositories\Admin\FilterGroupRepository::class);
+        $this->productOrdersRepository = app(\App\Repositories\Admin\ProductOrdersRepository::class);
     }
 
 
@@ -26,9 +41,9 @@ class MainController extends Controller
         MetaTag::setTags(['title' => \App\Shop\Core\ShopApp::get_Instance()->getProperty('store_name_tab')]);
         $paginatepages = 12;
         $arrmenu = Category::all();
-        $menu = $this->mainRepository->buildMenu($arrmenu);
-        $products = $this->mainRepository->getLastProducts($paginatepages);
-        $curr = $this->mainRepository->getBaseCurr();
+        $menu = $this->categoryRepository->buildMenu($arrmenu);
+        $products = $this->productRepository->getLastProducts($paginatepages);
+        $curr = $this->currencyRepository->getBaseCurrency();
         if (Auth::check()) {
             $id = \Auth::user()->id;
             $countOrders = $this->mainRepository->getUserCountOrders($id);
@@ -39,21 +54,21 @@ class MainController extends Controller
 
     public function getProduct($alias)
     {
-        $product = $this->mainRepository->getProductByAlias($alias);
+        $product = $this->productRepository->getProductByAlias($alias);
         //$product = $this->mainRepository->getProductById(5);
         if (empty($product)||$product->status == 0) {
             abort(404);
         }
-        $category = $this->mainRepository->getCategoryById($product->category_id);
-        $curr = $this->mainRepository->getBaseCurr();
+        $category = $this->categoryRepository->getCategoryById($product->category_id);
+        $curr = $this->currencyRepository->getBaseCurr();
         MetaTag::setTags(['title' => $product->title]);
-        $attrs = $this->mainRepository->getAttributesProduct($product->id);
-        $filters = $this->mainRepository->getFiltersByAttrs($attrs);
+        $attrs = $this->productRepository->getAttributesProduct($product->id);
+        $filters = $this->filterGroupRepository->getFiltersByAttrs($attrs);
         $limit = 4;
-        $related = $this->mainRepository->getRelatedProducts($product->id, $limit);
-        $images = $this->mainRepository->getGallery($product->id);
+        $related = $this->productRepository->getRelatedProducts($product->id);
+        $images = $this->productRepository->getGallery($product->id);
         $arrmenu = Category::all();
-        $menu = $this->mainRepository->buildMenu($arrmenu);
+        $menu = $this->categoryRepository->buildMenu($arrmenu);
         if (Auth::check()) {
             $id = \Auth::user()->id;
             $countOrders = $this->mainRepository->getUserCountOrders($id);
@@ -66,29 +81,29 @@ class MainController extends Controller
 
     public function getCategory(Request $request, $alias)
     {
-        $curr = $this->mainRepository->getBaseCurr();
+        $curr = $this->currencyRepository->getBaseCurr();
         $paginate = 12;
         $groups = array();
         $arrmenu = Category::all();
-        $menu = $this->mainRepository->buildMenu($arrmenu);
+        $menu = $this->categoryRepository->buildMenu($arrmenu);
         $attrs = array();
-        $category = $this->mainRepository->getCategoryByAlias($alias);
+        $category = $this->categoryRepository->getCategoryByAlias($alias);
         if (empty($category)) {
             abort(404);
         }
         MetaTag::setTags(['title' => "$category->title"]);
-        $groupsfilter = $this->mainRepository->getAllFilterGroupsByParentId($category->parent_id);
+        $groupsfilter = $this->filterGroupRepository->getAllFilterGroupsByParentId($category->parent_id);
         if (!empty($groupsfilter)) {
             foreach ($groupsfilter as $group) {
                 array_push($groups, $group->id);
             }
         }
-        $attributes = $this->mainRepository->getAllAttributesByGroupsId($groups);
+        $attributes = $this->filterAttrsRepository->getAllAttributesByGroupsId($groups);
         if ($request->attrs) {
             $attrs = $request->attrs;
-            $products = $this->mainRepository->getProductsByAttrsAndCat($attrs, $paginate, $category->id);
+            $products = $this->productRepository->getProductsByAttrsAndCat($attrs, $paginate, $category->id);
         } else {
-            $products = $this->mainRepository->getProductsByCategoryId($category->id, $paginate);
+            $products = $this->productRepository->getProductsByCategoryId($category->id, $paginate);
         }
         if (Auth::check()) {
             $user_id = \Auth::user()->id;
