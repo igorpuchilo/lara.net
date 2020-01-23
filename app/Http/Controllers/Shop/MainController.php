@@ -42,7 +42,7 @@ class MainController extends Controller
         $paginatepages = 12;
         $arrmenu = Category::all();
         $menu = $this->categoryRepository->buildMenu($arrmenu);
-        $products = $this->productRepository->getLastProducts($paginatepages);
+        $products = $this->productRepository->getLastAvailableProducts($paginatepages);
         $curr = $this->currencyRepository->getBaseCurrency();
         if (Auth::check()) {
             $id = \Auth::user()->id;
@@ -55,17 +55,16 @@ class MainController extends Controller
     public function getProduct($alias)
     {
         $product = $this->productRepository->getProductByAlias($alias);
-        //$product = $this->mainRepository->getProductById(5);
         if (empty($product)||$product->status == 0) {
             abort(404);
         }
-        $category = $this->categoryRepository->getCategoryById($product->category_id);
-        $curr = $this->currencyRepository->getBaseCurr();
+        $category = $this->categoryRepository->getId($product->category_id);
+        $curr = $this->currencyRepository->getBaseCurrency();
         MetaTag::setTags(['title' => $product->title]);
-        $attrs = $this->productRepository->getAttributesProduct($product->id);
+        $attrs = $this->productRepository->getFiltersProduct($product->id);
         $filters = $this->filterGroupRepository->getFiltersByAttrs($attrs);
         $limit = 4;
-        $related = $this->productRepository->getRelatedProducts($product->id);
+        $related = $this->productRepository->getRelatedProductsList($product->id,$limit);
         $images = $this->productRepository->getGallery($product->id);
         $arrmenu = Category::all();
         $menu = $this->categoryRepository->buildMenu($arrmenu);
@@ -81,7 +80,7 @@ class MainController extends Controller
 
     public function getCategory(Request $request, $alias)
     {
-        $curr = $this->currencyRepository->getBaseCurr();
+        $curr = $this->currencyRepository->getBaseCurrency();
         $paginate = 12;
         $groups = array();
         $arrmenu = Category::all();
@@ -103,7 +102,7 @@ class MainController extends Controller
             $attrs = $request->attrs;
             $products = $this->productRepository->getProductsByAttrsAndCat($attrs, $paginate, $category->id);
         } else {
-            $products = $this->productRepository->getProductsByCategoryId($category->id, $paginate);
+            $products = $this->productRepository->getProductsByCatId($category->id, $paginate);
         }
         if (Auth::check()) {
             $user_id = \Auth::user()->id;

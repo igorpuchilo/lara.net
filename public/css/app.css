@@ -99,7 +99,12 @@
 * ==========================================
 *
 */
-
+.dropdown-menu>li>a{
+    color: #0a0a0a !important;
+}
+.skin-blue .sidebar-form input[type="text"]{
+    color: #4d55e2 !important;
+}
 .dropdown-submenu {
     position: relative;
     width: -webkit-max-content;
@@ -112,7 +117,9 @@
     border: none;
     font-family: 'FontAwesome';
 }
-
+.dropdown-menu{
+    color: #0a0a0a;
+}
 .dropdown-submenu>.dropdown-menu {
     top: 0;
     left: 100%;
@@ -212,6 +219,9 @@ main h2 {
     border: none;
     width: 35px;
     text-align: center;
+}
+.sidebar a {
+    color: #000;
 }.product {
   margin-top: 60px;
 }

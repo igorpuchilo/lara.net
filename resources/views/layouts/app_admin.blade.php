@@ -54,20 +54,6 @@
                     <span class="sr-only">Toggle navigation</span>
                 </a>
             </div>
-            <!-- search form -->
-            <div class="col-sm-5 col-md-5">
-                <form action="{{url('/admin/search/result')}}" method="get" autocomplete="off" class="navbar-form">
-                    <div class="input-group">
-                        <input id="search" name="search" type="text" class="form-control" placeholder="Live Search....">
-                        <span class="input-group-btn">
-                        <button type="submit" value="" class="btn btn-flat" style="background-color: #ebeff4;"><i
-                                    class="fa fa-search"></i></button>
-                    </span>
-                    </div>
-                </form>
-            </div>
-
-
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
 
@@ -128,6 +114,20 @@
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
             </div>
+            <form action="{{url('/admin/search/result')}}" method="get" autocomplete="off" class="sidebar-form"
+                  style="overflow: visible !important;">
+                <div class="input-group text-dark">
+                    <input id="search" name="search" type="text" class="form-control"
+                           data-provide="typeahead" placeholder="Search...">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-flat">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </form>
+
+            <!-- /.search form -->
 
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">

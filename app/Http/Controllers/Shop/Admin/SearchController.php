@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Shop\Admin;
+use App\Repositories\Admin\CurrencyRepository;
+use App\Repositories\Admin\ProductRepository;
 use App\Repositories\Main\MainRepository;
 use DB;
 use Illuminate\Http\Request;
@@ -12,14 +14,16 @@ class SearchController extends AdminBaseController
     {
         parent::__construct();
         $this->mainRepository = app(MainRepository::class);
+        $this->productRepository = app(ProductRepository::class);
+        $this->currencyRepository = app(CurrencyRepository::class);
     }
     //result page
     public function index(Request $request){
         MetaTag::setTags(['title' => 'Search Results']);
         $query = !empty(trim($request->search)) ? trim($request->search) : null;
         $paginate = 15;
-        $products = $this->mainRepository->getSearchResult($query,$paginate);
-        $curr = $this->mainRepository->getBaseCurr();
+        $products = $this->productRepository->getSearchResult($query,$paginate);
+        $curr = $this->currencyRepository->getBaseCurrency();
 
         return view('shop.admin.search.result',compact('query','products','curr'));
     }
@@ -27,7 +31,7 @@ class SearchController extends AdminBaseController
     public function search(Request $request)
     {
         $search = $request->get('term');
-        $res = $this->mainRepository->getAutocompleteByTerms($search);
+        $res = $this->productRepository->getAutocompleteByTerms($search);
         return response()->json($res);
     }
 }

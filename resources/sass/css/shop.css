@@ -110,7 +110,9 @@
     border: none;
     font-family: 'FontAwesome';
 }
-
+.dropdown-menu{
+    color: #0a0a0a;
+}
 .dropdown-submenu>.dropdown-menu {
     top: 0;
     left: 100%;
@@ -210,4 +212,7 @@ main h2 {
     border: none;
     width: 35px;
     text-align: center;
+}
+.sidebar a {
+    color: #000;
 }

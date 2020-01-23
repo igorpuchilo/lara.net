@@ -41,17 +41,17 @@
                                     </span>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <button class="btn btn-dark btn-sm btn-number" id="minus-btn"
+                                            <button class="btn btn-dark btn-sm btn-number" id="minus-btn[{{$product->id}}]"
                                                     disabled="disabled" data-type="minus"
                                                     data-field="quant[{{$product->id}}]">
                                                 <i class="fa fa-minus"></i>
                                             </button>
                                         </div>
-                                        <input type="text" id="qty_input" name="quant[{{$product->id}}]"
+                                        <input type="text" id="qty_input[{{$product->id}}]" name="quant[{{$product->id}}]"
                                                class="form-control form-control-sm text-center input-number"
                                                value="1" min="1" max="100">
                                         <div class="input-group-prepend">
-                                            <button class="btn btn-dark btn-sm btn-number" id="plus-btn"
+                                            <button class="btn btn-dark btn-sm btn-number" id="plus-btn[{{$product->id}}]"
                                                     data-type="plus" data-field="quant[{{$product->id}}]">
                                                 <i class="fa fa-plus"></i>
                                             </button>
@@ -77,7 +77,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <input name="price" id="price" value="{{$product->price}}" hidden>
+                                    <input name="price" id="price[{{$product->id}}]" value="{{$product->price}}" hidden>
                                     <input name="product_title" value="{{$product->title}}" hidden>
                                     <input name="product_id" value="{{$product->id}}" hidden>
                                 </form>

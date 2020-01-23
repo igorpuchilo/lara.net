@@ -7,7 +7,6 @@
             {{ Breadcrumbs::render('Product', $product, $category) }}
             <div class="row">
                 <div class="col-md-5">
-
                     <div class="product-gallery">
                         @if(!empty($images))
                             {{-- Big image --}}
@@ -22,14 +21,19 @@
                                      onerror="this.src = '{{asset("storage/images/no_image.jpg")}}';">
                             </a>
                             <div class="product-gallery-items">
+                                @php $skipFirstElement = true; @endphp
                                 @foreach($images as $image)
-                                    <a data-fancybox="gallery"
-                                       href="{{asset("storage/uploads/gallery/$image")}}">
-                                        {{-- Small image --}}
-                                        <img src="{{asset("storage/uploads/gallery/thumb-$image")}}"
-                                             alt="Image not found"
-                                             onerror="this.src = '{{asset("storage/images/no_image.jpg")}}';">
-                                    </a>
+                                    @if($skipFirstElement)
+                                        @php $skipFirstElement = false; @endphp
+                                    @else
+                                        <a data-fancybox="gallery"
+                                           href="{{asset("storage/uploads/gallery/$image")}}">
+                                            {{-- Small image --}}
+                                            <img src="{{asset("storage/uploads/gallery/thumb-$image")}}"
+                                                 alt="Image not found"
+                                                 onerror="this.src = '{{asset("storage/images/no_image.jpg")}}';">
+                                        </a>
+                                    @endif
                                 @endforeach
                             </div>
                         @endif
@@ -110,20 +114,21 @@
                     {{-- Product desc--}}
                     {!! $product->content !!}
 
-
                     @include('shop.admin.components.result_messages')
+
                 </div>
             </div>
+            @if (!$related->isEmpty())
+                <hr>
+                <div class="product">
+                    <div class="container">
+                        <h2>Related Products</h2>
+                        <div class="row">
+                            @include('shop.components.product_card',['products'=>$related])
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
-    @if (!$related->isEmpty())
-        <div class="product">
-            <div class="container">
-                <h2>Related Products</h2>
-                <div class="row">
-                    @include('shop.components.product_card',['products'=>$related])
-                </div>
-            </div>
-        </div>
-    @endif
 @endsection
