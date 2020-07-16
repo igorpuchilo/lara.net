@@ -17,6 +17,7 @@ class CreateAttributeGroupsTable extends Migration
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->string('title', 255);
+            $table->bigInteger('category_id');
 
         });
     }

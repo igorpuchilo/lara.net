@@ -1,8 +1,7 @@
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+//// Variables
+//@import 'variables';
 
-// Variables
-@import 'variables';
-
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import 'css/shop.css';
+@import 'css/product.scss';
+@import 'css/category.scss';
+@import 'css/cart.scss';

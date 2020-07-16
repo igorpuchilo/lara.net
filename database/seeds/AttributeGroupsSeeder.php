@@ -15,22 +15,27 @@ class AttributeGroupsSeeder extends Seeder
             [
                 'id' => '1',
                 'title' => 'Сезон',
+                'category_id' => '1',
             ],
             [
                 'id' => '2',
                 'title' => 'Назначение',
+                'category_id' => '1',
             ],
             [
                 'id' => '3',
                 'title' => 'Ширина профиля',
+                'category_id' => '1',
             ],
             [
                 'id' => '4',
                 'title' => 'Серия(высота профиля)',
+                'category_id' => '1',
             ],
             [
                 'id' => '5',
                 'title' => 'Посадочный диаметр',
+                'category_id' => '1',
             ],
 
         ];

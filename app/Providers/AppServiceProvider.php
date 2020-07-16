@@ -2,7 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Admin\Category;
+use App\Models\Admin\Product;
+use App\Observers\AdminCategoryObserver;
+use App\Observers\AdminProductObserver;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +28,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Schema::defaultStringLength(191);
+        date_default_timezone_set('Europe/Minsk');
+        Category::observe(AdminCategoryObserver::class);
+        Product::observe(AdminProductObserver::class);
     }
 }

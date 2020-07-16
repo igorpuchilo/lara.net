@@ -26,6 +26,7 @@ class ProductsSeeder extends Seeder
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique, diam in consequat iaculis, est purus iaculis mauris, imperdiet facilisis ante ligula at nulla.',
                 'img' => '1.png',
                 'hit' => '1',
+                'parent_id' => '1',
             ],
             [
                 'id' => '2',
@@ -41,6 +42,7 @@ class ProductsSeeder extends Seeder
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique, diam in consequat iaculis, est purus iaculis mauris, imperdiet facilisis ante ligula at nulla.',
                 'img' => '2.png',
                 'hit' => '1',
+                'parent_id' => '1',
             ],
             [
                 'id' => '3',
@@ -56,6 +58,7 @@ class ProductsSeeder extends Seeder
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique, diam in consequat iaculis, est purus iaculis mauris, imperdiet facilisis ante ligula at nulla.',
                 'img' => '3.png',
                 'hit' => '1',
+                'parent_id' => '1',
             ],
             [
                 'id' => '4',
@@ -71,6 +74,7 @@ class ProductsSeeder extends Seeder
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique, diam in consequat iaculis, est purus iaculis mauris, imperdiet facilisis ante ligula at nulla.',
                 'img' => '4.png',
                 'hit' => '1',
+                'parent_id' => '1',
             ],
 
 
@@ -88,6 +92,7 @@ class ProductsSeeder extends Seeder
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique, diam in consequat iaculis, est purus iaculis mauris, imperdiet facilisis ante ligula at nulla.',
                 'img' => '5.png',
                 'hit' => '1',
+                'parent_id' => '1',
             ],
             [
                 'id' => '6',
@@ -103,6 +108,7 @@ class ProductsSeeder extends Seeder
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique, diam in consequat iaculis, est purus iaculis mauris, imperdiet facilisis ante ligula at nulla.',
                 'img' => '6.png',
                 'hit' => '1',
+                'parent_id' => '1',
             ],
 
 
@@ -120,6 +126,7 @@ class ProductsSeeder extends Seeder
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique, diam in consequat iaculis, est purus iaculis mauris, imperdiet facilisis ante ligula at nulla.',
                 'img' => '7.png',
                 'hit' => '1',
+                'parent_id' => '1',
             ],
             [
                 'id' => '8',
@@ -135,6 +142,7 @@ class ProductsSeeder extends Seeder
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique, diam in consequat iaculis, est purus iaculis mauris, imperdiet facilisis ante ligula at nulla.',
                 'img' => '8.png',
                 'hit' => '1',
+                'parent_id' => '1',
             ],
             [
                 'id' => '9',
@@ -150,6 +158,7 @@ class ProductsSeeder extends Seeder
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique, diam in consequat iaculis, est purus iaculis mauris, imperdiet facilisis ante ligula at nulla.',
                 'img' => '9.png',
                 'hit' => '1',
+                'parent_id' => '1',
             ],
             [
                 'id' => '10',
@@ -165,6 +174,7 @@ class ProductsSeeder extends Seeder
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique, diam in consequat iaculis, est purus iaculis mauris, imperdiet facilisis ante ligula at nulla.',
                 'img' => '10.png',
                 'hit' => '1',
+                'parent_id' => '1',
             ],
 
 
@@ -182,6 +192,7 @@ class ProductsSeeder extends Seeder
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique, diam in consequat iaculis, est purus iaculis mauris, imperdiet facilisis ante ligula at nulla.',
                 'img' => '11.png',
                 'hit' => '0',
+                'parent_id' => '1',
             ],
             [
                 'id' => '12',
@@ -197,6 +208,7 @@ class ProductsSeeder extends Seeder
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique, diam in consequat iaculis, est purus iaculis mauris, imperdiet facilisis ante ligula at nulla.',
                 'img' => '12.png',
                 'hit' => '0',
+                'parent_id' => '1',
             ],
 
             [
@@ -213,6 +225,7 @@ class ProductsSeeder extends Seeder
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique, diam in consequat iaculis, est purus iaculis mauris, imperdiet facilisis ante ligula at nulla.',
                 'img' => '13.png',
                 'hit' => '0',
+                'parent_id' => '1',
             ],
 
             [
@@ -229,6 +242,7 @@ class ProductsSeeder extends Seeder
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique, diam in consequat iaculis, est purus iaculis mauris, imperdiet facilisis ante ligula at nulla.',
                 'img' => '14.png',
                 'hit' => '0',
+                'parent_id' => '1',
             ],
 
             [
@@ -245,6 +259,7 @@ class ProductsSeeder extends Seeder
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique, diam in consequat iaculis, est purus iaculis mauris, imperdiet facilisis ante ligula at nulla.',
                 'img' => '15.png',
                 'hit' => '0',
+                'parent_id' => '1',
             ],
 
             [
@@ -261,6 +276,7 @@ class ProductsSeeder extends Seeder
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique, diam in consequat iaculis, est purus iaculis mauris, imperdiet facilisis ante ligula at nulla.',
                 'img' => '16.png',
                 'hit' => '0',
+                'parent_id' => '1',
             ],
 
             [
@@ -277,6 +293,7 @@ class ProductsSeeder extends Seeder
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique, diam in consequat iaculis, est purus iaculis mauris, imperdiet facilisis ante ligula at nulla.',
                 'img' => '17.png',
                 'hit' => '0',
+                'parent_id' => '1',
             ],
 
         ];

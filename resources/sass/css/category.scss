@@ -1,0 +1,38 @@
+.category {
+  margin-top: 60px;
+
+  .categories-tree > .list-group {
+    border-bottom: 1px solid #e3e3e3;
+  }
+
+  .list-group {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+
+
+    &-item {
+      -webkit-border-radius: 0 !important;
+      -moz-border-radius: 0 !important;
+      border-radius: 0 !important;
+      border-bottom: none;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
+  .filter {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding-left: 0;
+    list-style: none;
+    margin-bottom: 0px;
+  }
+  .btn:focus,.btn:active {
+    outline-color: transparent !important;
+    box-shadow: none;
+  }
+}
